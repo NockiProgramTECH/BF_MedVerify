@@ -1,9 +1,19 @@
 """API FastAPI BF-MedVerify utilisant SQLAlchemy ORM et pilotee par APP_ENV."""
 from contextlib import asynccontextmanager
 import hmac
+import mimetypes
+from pathlib import Path
 import unicodedata
 
 from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi.openapi.docs import (
+    get_redoc_html,
+    get_swagger_ui_html,
+    get_swagger_ui_oauth2_redirect_html,
+)
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+import fastapi_offline
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -15,6 +25,10 @@ from init_db import initialiser_base
 from models import Produit
 from services import verifier_code
 
+# Corrige le type MIME sur Windows (ou .js est parfois associe a text/plain -> page blanche Swagger)
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("text/css", ".css")
+
 API_KEY = get_api_key()  # cle secrete de l'API (dans l'URL du webhook : ?cle=...)
 
 
@@ -25,7 +39,54 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="BF-MedVerify", lifespan=lifespan)
+app = FastAPI(
+    title="BF-MedVerify",
+    lifespan=lifespan,
+    docs_url=None,
+    redoc_url=None,
+)
+
+# Fichiers statiques Swagger UI & ReDoc embarques localement (aucune dependance a cdn.jsdelivr.net)
+_STATIC_DOCS_DIR = Path(fastapi_offline.__file__).parent / "static"
+app.mount(
+    "/static-offline-docs",
+    StaticFiles(directory=str(_STATIC_DOCS_DIR)),
+    name="static-offline-docs",
+)
+
+
+@app.get("/", include_in_schema=False)
+def accueil():
+    return RedirectResponse(url="docs")
+
+
+@app.get("/docs", include_in_schema=False)
+def swagger_ui_html() -> HTMLResponse:
+    return get_swagger_ui_html(
+        openapi_url="./openapi.json",
+        title=f"{app.title} - Swagger UI",
+        oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
+        swagger_js_url="./static-offline-docs/swagger-ui-bundle.js",
+        swagger_css_url="./static-offline-docs/swagger-ui.css",
+        swagger_favicon_url="./static-offline-docs/favicon.png",
+    )
+
+
+if app.swagger_ui_oauth2_redirect_url:
+    @app.get(app.swagger_ui_oauth2_redirect_url, include_in_schema=False)
+    def swagger_ui_redirect() -> HTMLResponse:
+        return get_swagger_ui_oauth2_redirect_html()
+
+
+@app.get("/redoc", include_in_schema=False)
+def redoc_html() -> HTMLResponse:
+    return get_redoc_html(
+        openapi_url="./openapi.json",
+        title=f"{app.title} - ReDoc",
+        redoc_js_url="./static-offline-docs/redoc.standalone.js",
+        redoc_favicon_url="./static-offline-docs/favicon.png",
+        with_google_fonts=False,
+    )
 
 
 def sans_accents(t: str) -> str:

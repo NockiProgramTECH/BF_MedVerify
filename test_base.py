@@ -251,4 +251,17 @@ with TestClient(M.app) as cl:
         sante.status_code == 200 and sante.json() == {"statut": "ok", "environnement": "local"},
     )
 
+    doc_html = cl.get("/docs")
+    doc_js = cl.get("/static-offline-docs/swagger-ui-bundle.js")
+    doc_css = cl.get("/static-offline-docs/swagger-ui.css")
+    verifie(
+        "16 Swagger UI embarque en local (sans CDN externe, JS/CSS servis en 200 OK)",
+        doc_html.status_code == 200
+        and "cdn.jsdelivr.net" not in doc_html.text
+        and doc_js.status_code == 200
+        and "javascript" in doc_js.headers.get("content-type", "")
+        and doc_css.status_code == 200
+        and "text/css" in doc_css.headers.get("content-type", ""),
+    )
+
 print("TOUS LES TESTS PASSENT")
