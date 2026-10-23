@@ -19,7 +19,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from bf_codes import bien_forme, empreinte, normaliser
-from config import get_api_key, get_app_env, get_auto_init_db, is_httpsms_enabled
+from config import diagnostic_httpsms, get_api_key, get_app_env, get_auto_init_db, is_httpsms_enabled
 from database import SessionLocal, get_db
 from init_db import initialiser_base
 from models import Produit
@@ -243,6 +243,7 @@ def health(db: Session = Depends(get_db)):
         "statut": "ok",
         "environnement": get_app_env(),
         "httpsms_actif": is_httpsms_enabled(),
+        "httpsms_diagnostic": diagnostic_httpsms(),
     }
 
 

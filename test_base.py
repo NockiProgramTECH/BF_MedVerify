@@ -249,7 +249,9 @@ with TestClient(M.app) as cl:
     verifie(
         "15 endpoint /health fonctionnel et indique l'environnement",
         sante.status_code == 200
-        and sante.json() == {"statut": "ok", "environnement": "local", "httpsms_actif": False},
+        and sante.json()["statut"] == "ok"
+        and sante.json()["environnement"] == "local"
+        and sante.json()["httpsms_actif"] is False,
     )
 
     doc_html = cl.get("/docs")
