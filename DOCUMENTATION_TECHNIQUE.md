@@ -227,8 +227,14 @@ Ce module centralise la lecture des variables d'environnement (et du fichier `.e
 #### `is_httpsms_enabled() -> bool`
 - **Paramètres** : Aucun.
 - **Type de retour** : `bool`.
-- **Ce qu'elle fait** : Si `HTTPSMS_ENABLED` est renseigné explicitement (`true` / `false`), retourne ce choix ; sinon retourne `True` uniquement lorsque `APP_ENV=online` et qu'une `HTTPSMS_API_KEY` est présente (et `False` en mode `local`).
+- **Ce qu'elle fait** : Si `HTTPSMS_ENABLED` est renseigné explicitement (`true` / `false`), retourne ce choix ; sinon retourne `True` uniquement lorsque `APP_ENV=online` et qu'une `HTTPSMS_API_KEY` réelle est présente (et `False` en mode `local`).
 - **Pourquoi elle existe** : Protège le développement local et la suite `test_base.py` contre tout envoi accidentel de vrais SMS payants, tout en activant le service automatiquement en production dès que la clé est fournie.
+
+#### `diagnostic_httpsms() -> str`
+- **Paramètres** : Aucun.
+- **Type de retour** : `str` (`"actif"` ou message explicatif de la cause exacte du mode simulation).
+- **Ce qu'elle fait** : Analyse `HTTPSMS_ENABLED`, `HTTPSMS_API_KEY` et `APP_ENV` pour expliquer précisément pourquoi l'envoi réel est actif ou en simulation.
+- **Pourquoi elle existe** : Affiché dans les logs serveur et dans `GET /health` (`httpsms_diagnostic`) sans exposer aucun secret, permettant de diagnostiquer instantanément un déploiement cloud où les SMS ne partent pas.
 
 ---
 
