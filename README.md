@@ -14,8 +14,9 @@ Une variable d'environnement unique (`APP_ENV`) pilote le fonctionnement du proj
 - `init_db.py` : creation automatique des tables et chargement optionnel des donnees de demonstration via l'ORM.
 - `generer_codes.py` : generation des codes et insertion directe de leurs empreintes en base via l'ORM.
 - `bf_codes.py` : generation, normalisation, caractere de controle et empreintes HMAC-SHA256.
-- `main.py` : API FastAPI (`/verifier`, `/sms-entrant`, `/health`).
+- `main.py` : API FastAPI (`/verifier`, `/sms-entrant`, `/health`, Swagger UI embarque hors-ligne).
 - `test_base.py` : suite de tests automatiques de recette (100 % SQLAlchemy ORM).
+- [`DOCUMENTATION_TECHNIQUE.md`](./DOCUMENTATION_TECHNIQUE.md) : documentation technique exhaustive fonction par fonction (signatures, types, retours, justifications metier et techniques).
 
 ## Demarrage en local (`APP_ENV=local`)
 1. Creer un utilisateur et une base sur votre serveur PostgreSQL local (ex. utilisateur `bfmv`, base `bfmv`).
