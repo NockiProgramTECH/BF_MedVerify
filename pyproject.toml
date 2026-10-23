@@ -1,8 +1,25 @@
 [project]
 name = "bf-medverify"
 version = "2.0.0"
-description = "API de verification d'authenticite des medicaments (FastAPI, SQLAlchemy ORM, PostgreSQL, httpSMS)"
-requires-python = ">=3.10"
+description = "API de verification d'authenticite des medicaments"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "fastapi[standard]",
+    "fastapi-offline",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "python-dotenv",
+    "httpx",
+    "httpx2",
+    "PyJWT",
+]
 
 [tool.fastapi]
 entrypoint = "main:app"
+
+[tool.uv]
+package = false
+
+[tool.setuptools]
+py-modules = ["bf_codes", "config", "database", "generer_codes", "init_db", "main", "models", "services", "sms_client"]
