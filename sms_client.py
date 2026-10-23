@@ -17,6 +17,7 @@ import httpx
 import jwt
 
 from config import (
+    diagnostic_httpsms,
     get_api_key,
     get_httpsms_alert_to,
     get_httpsms_api_key,
@@ -52,10 +53,15 @@ def envoyer_sms_httpsms(
         return {"envoye": False, "erreur": "destinataire manquant"}
 
     if not is_httpsms_enabled():
-        print(f"[HTTPSMS SIMULATION] {numero_from or 'PASSERELLE'} -> {numero_to} : {contenu}")
+        raison = diagnostic_httpsms()
+        print(
+            f"[HTTPSMS SIMULATION | {raison}] {numero_from or 'PASSERELLE'} -> {numero_to} : {contenu}",
+            flush=True,
+        )
         return {
             "envoye": False,
             "mode": "simulation",
+            "raison": raison,
             "from": numero_from,
             "to": numero_to,
             "content": contenu,
@@ -97,6 +103,10 @@ def envoyer_sms_httpsms(
         if 200 <= rep.status_code < 300:
             donnees = corps.get("data") if isinstance(corps, dict) else None
             id_msg = donnees.get("id") if isinstance(donnees, dict) else None
+            print(
+                f"[HTTPSMS ENVOI OK] {numero_from} -> {numero_to} (id={id_msg})",
+                flush=True,
+            )
             return {
                 "envoye": True,
                 "statut_http": rep.status_code,
@@ -105,7 +115,7 @@ def envoyer_sms_httpsms(
                 "to": numero_to,
             }
 
-        print(f"ERREUR HTTPSMS ({rep.status_code}) : {rep.text[:300]}")
+        print(f"ERREUR HTTPSMS ({rep.status_code}) : {rep.text[:300]}", flush=True)
         return {
             "envoye": False,
             "statut_http": rep.status_code,

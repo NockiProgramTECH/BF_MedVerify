@@ -123,7 +123,10 @@ def get_httpsms_api_key() -> str:
     Note : la 'Phone API Key' s'entre uniquement dans l'application Android httpSMS ;
     le serveur backend utilise la cle API du compte dans l'en-tete `x-api-key`.
     """
-    return os.getenv("HTTPSMS_API_KEY", "").strip()
+    cle = os.getenv("HTTPSMS_API_KEY", "").strip()
+    if cle == "votre-cle-compte-httpsms":
+        return ""
+    return cle
 
 
 def get_httpsms_from_number() -> str:
@@ -159,3 +162,15 @@ def is_httpsms_enabled() -> bool:
     if brut in VALEURS_FAUX:
         return False
     return is_online() and bool(get_httpsms_api_key())
+
+
+def diagnostic_httpsms() -> str:
+    """Retourne la raison exacte lorsque l'envoi httpSMS est en mode simulation."""
+    brut = os.getenv("HTTPSMS_ENABLED", "").strip().lower()
+    if brut in VALEURS_FAUX:
+        return "HTTPSMS_ENABLED=false (passez HTTPSMS_ENABLED=true ou supprimez-la en mode online)"
+    if not get_httpsms_api_key():
+        return "HTTPSMS_API_KEY absente ou non renseignee"
+    if not is_online() and brut not in VALEURS_VRAI:
+        return f"APP_ENV={get_app_env()} sans HTTPSMS_ENABLED=true (passez APP_ENV=online ou HTTPSMS_ENABLED=true)"
+    return "actif"
