@@ -13,6 +13,8 @@ load_dotenv()
 
 ALIASES_LOCAL = {"local", "dev", "development"}
 ALIASES_ONLINE = {"online", "prod", "production", "en_ligne"}
+VALEURS_VRAI = {"1", "true", "yes", "oui"}
+VALEURS_FAUX = {"0", "false", "no", "non"}
 
 
 def get_app_env() -> str:
@@ -90,11 +92,11 @@ def get_api_key() -> str:
 def get_sql_echo() -> bool:
     if is_online():
         return False
-    return os.getenv("SQL_ECHO", "false").strip().lower() in ("1", "true", "yes", "oui")
+    return os.getenv("SQL_ECHO", "false").strip().lower() in VALEURS_VRAI
 
 
 def get_auto_init_db() -> bool:
-    return os.getenv("AUTO_INIT_DB", "true").strip().lower() in ("1", "true", "yes", "oui")
+    return os.getenv("AUTO_INIT_DB", "true").strip().lower() in VALEURS_VRAI
 
 
 def get_pool_settings() -> dict:
@@ -103,3 +105,57 @@ def get_pool_settings() -> dict:
         "pool_size": int(os.getenv("DB_POOL_SIZE", "10")),
         "max_overflow": int(os.getenv("DB_MAX_OVERFLOW", "20")),
     }
+
+
+# --- Configuration passerelle httpSMS (https://docs.httpsms.com) ---
+
+def get_httpsms_api_url() -> str:
+    """URL de l'endpoint d'envoi httpSMS."""
+    return (
+        os.getenv("HTTPSMS_API_URL", "https://api.httpsms.com/v1/messages/send").strip()
+        or "https://api.httpsms.com/v1/messages/send"
+    )
+
+
+def get_httpsms_api_key() -> str:
+    """Cle API du compte httpSMS (depuis https://httpsms.com/settings).
+
+    Note : la 'Phone API Key' s'entre uniquement dans l'application Android httpSMS ;
+    le serveur backend utilise la cle API du compte dans l'en-tete `x-api-key`.
+    """
+    return os.getenv("HTTPSMS_API_KEY", "").strip()
+
+
+def get_httpsms_from_number() -> str:
+    """Numero E.164 par defaut du telephone Android passerelle (ex: +22670000000)."""
+    return os.getenv("HTTPSMS_FROM_NUMBER", "").strip()
+
+
+def get_httpsms_webhook_signing_key() -> str:
+    """Cle secrete de signature JWT (HS256) du webhook httpSMS."""
+    return os.getenv("HTTPSMS_WEBHOOK_SIGNING_KEY", "").strip()
+
+
+def get_httpsms_alert_to() -> str:
+    """Numero E.164 optionnel recevant les alertes sanitaires Faso FDA par SMS."""
+    return os.getenv("HTTPSMS_ALERT_TO", "").strip()
+
+
+def get_httpsms_timeout() -> float:
+    """Delai maximal (secondes) pour l'appel HTTP sortant vers api.httpsms.com."""
+    return float(os.getenv("HTTPSMS_TIMEOUT", "10.0"))
+
+
+def is_httpsms_enabled() -> bool:
+    """Indique si l'envoi reel de SMS via httpSMS est actif.
+
+    - Si `HTTPSMS_ENABLED` est defini explicitement (`true` / `false`), sa valeur prime.
+    - Sinon : actif automatiquement en mode `online` des que `HTTPSMS_API_KEY` est renseignee,
+      et inactif (mode simulation locale) en mode `local`.
+    """
+    brut = os.getenv("HTTPSMS_ENABLED", "").strip().lower()
+    if brut in VALEURS_VRAI:
+        return True
+    if brut in VALEURS_FAUX:
+        return False
+    return is_online() and bool(get_httpsms_api_key())

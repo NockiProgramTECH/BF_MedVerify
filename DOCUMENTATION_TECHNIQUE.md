@@ -15,8 +15,9 @@ Ce document décrit de façon exhaustive l'architecture et le code source du pro
 7. [Module `services.py` — Logique métier transactionnelle ORM](#7-module-servicespy--logique-métier-transactionnelle-orm)
 8. [Module `init_db.py` — Initialisation du schéma et données de démonstration](#8-module-init_dbpy--initialisation-du-schéma-et-données-de-démonstration)
 9. [Module `generer_codes.py` — Génération de lots de codes en ligne de commande](#9-module-generer_codespy--génération-de-lots-de-codes-en-ligne-de-commande)
-10. [Module `main.py` — API HTTP FastAPI, Messages SMS GSM-7 et Swagger embarqué](#10-module-mainpy--api-http-fastapi-messages-sms-gsm-7-et-swagger-embarqué)
-11. [Module `test_base.py` — Suite de tests automatisés de recette](#11-module-test_basepy--suite-de-tests-automatisés-de-recette)
+10. [Module `sms_client.py` — Passerelle d'envoi et d'authentification httpSMS](#10-module-sms_clientpy--passerelle-denvoi-et-dauthentification-httpsms)
+11. [Module `main.py` — API HTTP FastAPI, Messages SMS GSM-7 et Swagger embarqué](#11-module-mainpy--api-http-fastapi-messages-sms-gsm-7-et-swagger-embarqué)
+12. [Module `test_base.py` — Suite de tests automatisés de recette](#12-module-test_basepy--suite-de-tests-automatisés-de-recette)
 
 ---
 
@@ -79,6 +80,13 @@ Utilisateur / Passerelle SMS
 | `AUTO_INIT_DB` | Tous | `bool` | `True` | Non | Crée automatiquement les tables manquantes au démarrage de FastAPI. |
 | `DB_POOL_SIZE` | Tous | `int` | `10` | Non | Nombre de connexions permanentes maintenues dans le pool SQLAlchemy. |
 | `DB_MAX_OVERFLOW` | Tous | `int` | `20` | Non | Nombre maximal de connexions supplémentaires temporaires en cas de pic de charge. |
+| `HTTPSMS_ENABLED` | Tous | `bool` | `False` (`local`) / Auto (`online`) | Non | Active ou désactive l'envoi réel de SMS sortants via `api.httpsms.com`. |
+| `HTTPSMS_API_KEY` | Tous | `str` | `""` | **Oui (si SMS actif)** | Clé API principale du compte httpSMS (`https://httpsms.com/settings`), envoyée dans `x-api-key`. |
+| `HTTPSMS_FROM_NUMBER` | Tous | `str` | `""` | Recommandé | Numéro E.164 par défaut de la carte SIM du téléphone Android passerelle. |
+| `HTTPSMS_WEBHOOK_SIGNING_KEY` | Tous | `str` | `""` | Recommandé | Clé secrète ($\ge 32$ caractères) vérifiant le jeton JWT `HS256` envoyé par httpSMS à `/httpsms/webhook`. |
+| `HTTPSMS_ALERT_TO` | Tous | `str` | `""` | Non | Numéro E.164 optionnel auquel transmettre par SMS les alertes sanitaires Faso FDA. |
+| `HTTPSMS_API_URL` | Tous | `str` | `"https://api.httpsms.com/v1/messages/send"` | Non | URL de l'API d'envoi de messages httpSMS. |
+| `HTTPSMS_TIMEOUT` | Tous | `float` | `10.0` | Non | Délai d'expiration (en secondes) des requêtes HTTP sortantes vers `api.httpsms.com`. |
 
 ---
 
@@ -99,6 +107,12 @@ Ce module centralise la lecture des variables d'environnement (et du fichier `.e
 - **Valeur** : `{"online", "prod", "production", "en_ligne"}`
 - **Ce qu'elle fait** : Regroupe les valeurs textuelles reconnues comme environnement distant/en ligne.
 - **Pourquoi elle existe** : Évite les erreurs de déploiement lorsqu'un hébergeur ou un administrateur utilise `prod`, `production` ou `en_ligne` au lieu de `online`.
+
+#### `VALEURS_VRAI` et `VALEURS_FAUX`
+- **Type** : `set[str]`
+- **Valeurs** : `{"1", "true", "yes", "oui"}` et `{"0", "false", "no", "non"}`
+- **Ce qu'elles font** : Standardisent l'interprétation booléenne des variables d'environnement en français et en anglais.
+- **Pourquoi elles existent** : Évitent la duplication de code dans `get_sql_echo()`, `get_auto_init_db()` et `is_httpsms_enabled()`.
 
 ---
 
@@ -173,6 +187,48 @@ Ce module centralise la lecture des variables d'environnement (et du fichier `.e
 - **Pourquoi elle existe** :
   - `pool_pre_ping=True` vérifie qu'une connexion du pool est toujours vivante avant chaque requête, ce qui est indispensable avec les bases PostgreSQL cloud serverless (Neon, Render, Railway, Supabase) qui ferment les connexions inactives.
   - Un pool dimensionné à `10 + 20 = 30` connexions absorbe sans attente les pics de vérifications simultanées (testé à 20 téléphones concurrents).
+
+#### `get_httpsms_api_url() -> str`
+- **Paramètres** : Aucun.
+- **Type de retour** : `str` (défaut `"https://api.httpsms.com/v1/messages/send"`).
+- **Ce qu'elle fait** : Retourne l'URL de l'endpoint REST d'envoi de SMS de httpSMS.
+- **Pourquoi elle existe** : Permet d'adapter l'URL en cas d'instance httpSMS auto-hébergée (httpSMS étant open-source) sans modifier le code Python.
+
+#### `get_httpsms_api_key() -> str`
+- **Paramètres** : Aucun.
+- **Type de retour** : `str`.
+- **Ce qu'elle fait** : Lit `HTTPSMS_API_KEY` (clé API du compte récupérée sur `https://httpsms.com/settings`).
+- **Pourquoi elle existe** : Authentifie le serveur BF-MedVerify auprès de `api.httpsms.com` via l'en-tête `x-api-key` (à distinguer de la *Phone API Key* qui s'enregistre uniquement dans l'application mobile Android).
+
+#### `get_httpsms_from_number() -> str`
+- **Paramètres** : Aucun.
+- **Type de retour** : `str`.
+- **Ce qu'elle fait** : Retourne le numéro E.164 par défaut du téléphone Android expéditeur (`HTTPSMS_FROM_NUMBER`).
+- **Pourquoi elle existe** : Sert de numéro `from` de repli lorsque l'envoi est déclenché depuis `/verifier` ou `/sms-entrant` (tandis que `/httpsms/webhook` utilise prioritairement `data.owner`).
+
+#### `get_httpsms_webhook_signing_key() -> str`
+- **Paramètres** : Aucun.
+- **Type de retour** : `str`.
+- **Ce qu'elle fait** : Lit la clé secrète de signature `HTTPSMS_WEBHOOK_SIGNING_KEY`.
+- **Pourquoi elle existe** : Permet de vérifier cryptographiquement que les requêtes entrantes sur `/httpsms/webhook` proviennent bien de httpSMS (jeton JWT `HS256`).
+
+#### `get_httpsms_alert_to() -> str`
+- **Paramètres** : Aucun.
+- **Type de retour** : `str`.
+- **Ce qu'elle fait** : Lit le numéro E.164 optionnel destinataire des alertes sanitaires (`HTTPSMS_ALERT_TO`).
+- **Pourquoi elle existe** : Permet de notifier en temps réel par SMS un agent de la Faso FDA lorsqu'une suspicion de copie ou de faux codes survient.
+
+#### `get_httpsms_timeout() -> float`
+- **Paramètres** : Aucun.
+- **Type de retour** : `float` (défaut `10.0`).
+- **Ce qu'elle fait** : Convertit `HTTPSMS_TIMEOUT` en nombre flottant (secondes).
+- **Pourquoi elle existe** : Empêche qu'un ralentissement réseau vers `api.httpsms.com` ne bloque indéfiniment une tâche d'arrière-plan.
+
+#### `is_httpsms_enabled() -> bool`
+- **Paramètres** : Aucun.
+- **Type de retour** : `bool`.
+- **Ce qu'elle fait** : Si `HTTPSMS_ENABLED` est renseigné explicitement (`true` / `false`), retourne ce choix ; sinon retourne `True` uniquement lorsque `APP_ENV=online` et qu'une `HTTPSMS_API_KEY` est présente (et `False` en mode `local`).
+- **Pourquoi elle existe** : Protège le développement local et la suite `test_base.py` contre tout envoi accidentel de vrais SMS payants, tout en activant le service automatiquement en production dès que la clé est fournie.
 
 ---
 
@@ -508,7 +564,64 @@ Ce script industriel/démo génère des codes uniques, stocke **uniquement leurs
 
 ---
 
-## 10. Module `main.py` — API HTTP FastAPI, Messages SMS GSM-7 et Swagger embarqué
+## 10. Module `sms_client.py` — Passerelle d'envoi et d'authentification httpSMS
+
+Ce module gère toute la communication avec le service **httpSMS** (`https://docs.httpsms.com`), qui transforme un ou plusieurs téléphones Android munis d'une carte SIM locale en passerelle SMS bidirectionnelle.
+
+> **Distinction fondamentale des clés httpSMS :**
+> - **Phone API Key** (`https://httpsms.com/phone-api-keys`) : clé propre à chaque appareil Android, scannée par QR code **uniquement dans l'application Android httpSMS** pour relier le téléphone au compte.
+> - **Account API Key** (`HTTPSMS_API_KEY` depuis `https://httpsms.com/settings`) : clé utilisée côté serveur dans `sms_client.py` (en-tête `x-api-key`) pour commander l'envoi des SMS de réponse aux citoyens.
+
+### Fonctions du module `sms_client.py`
+
+#### `normaliser_numero(telephone: str) -> str`
+- **Paramètres** :
+  - `telephone` (`str`) : Chaîne contenant un numéro de téléphone brut (pouvant inclure espaces, tirets, parenthèses).
+- **Type de retour** : `str` (numéro épuré ne conservant que `+` et les chiffres `0-9`, ex. `"+22670112233"`).
+- **Ce qu'elle fait** : Filtre caractère par caractère `telephone`.
+- **Pourquoi elle existe** : Garantit un format E.164 propre à la fois pour le calcul d'empreinte `empreinte("phone", tel)` et pour les champs `from` / `to` exigés par l'API `api.httpsms.com`.
+
+#### `envoyer_sms_httpsms(destinataire: str, contenu: str, expediteur: str | None = None, request_id: str | None = None, transport: httpx.BaseTransport | None = None) -> dict[str, Any]`
+- **Paramètres** :
+  - `destinataire` (`str`) : Numéro de téléphone du citoyen devant recevoir la réponse (`to`).
+  - `contenu` (`str`) : Texte du SMS de réponse formaté par `fabriquer_message()` ($\le 160$ caractères ASCII).
+  - `expediteur` (`str | None`, optionnel) : Numéro du téléphone Android passerelle (`from`). S'il vaut `None`, utilise `get_httpsms_from_number()`.
+  - `request_id` (`str | None`, optionnel) : Identifiant de corrélation (typiquement `data.message_id` du SMS entrant) transmis à httpSMS.
+  - `transport` (`httpx.BaseTransport | None`, optionnel) : Transport HTTP injectable (utilisé par `test_base.py` avec `httpx.MockTransport` pour tester sans accès réseau externe).
+- **Type de retour** : `dict[str, Any]` décrivant l'issue de l'envoi :
+  - En simulation : `{"envoye": False, "mode": "simulation", "from": ..., "to": ..., "content": ...}`
+  - En succès réel : `{"envoye": True, "statut_http": 200, "id_message": ..., "from": ..., "to": ...}`
+  - En échec : `{"envoye": False, "erreur": ...}`
+- **Ce qu'elle fait** :
+  1. Nettoie `destinataire` et résout `expediteur`.
+  2. Si `is_httpsms_enabled()` vaut `False`, journalise le message en console (`[HTTPSMS SIMULATION]`) sans émettre de requête HTTP.
+  3. Sinon, envoie une requête `POST https://api.httpsms.com/v1/messages/send` avec l'en-tête `x-api-key: <HTTPSMS_API_KEY>` et le JSON `{"from": ..., "to": ..., "content": ..., "encrypted": False}`.
+  4. Intercepte proprement toute exception `httpx.HTTPError` afin de ne jamais faire échouer une tâche d'arrière-plan FastAPI.
+- **Pourquoi elle existe** : Permet de renvoyer automatiquement au citoyen le verdict d'authenticité sur son téléphone portable, et gère nativement les flottes de **plusieurs téléphones Android** (en répondant depuis `expediteur = data.owner`, c'est-à-dire la carte SIM exacte que le citoyen a contactée).
+
+#### `envoyer_alerte_fda_sms(texte_alerte: str, expediteur: str | None = None, transport: httpx.BaseTransport | None = None) -> dict[str, Any] | None`
+- **Paramètres** :
+  - `texte_alerte` (`str`) : Détail synthétique de l'alerte (`"3 telephones differents"` ou `"3 codes inconnus en 24 h"`).
+  - `expediteur` (`str | None`, optionnel) : Numéro passerelle émetteur.
+  - `transport` (`httpx.BaseTransport | None`, optionnel) : Transport HTTP de test.
+- **Type de retour** : `dict[str, Any] | None` (`None` si `HTTPSMS_ALERT_TO` n'est pas configuré, sinon le résultat de `envoyer_sms_httpsms()`).
+- **Ce qu'elle fait** : Vérifie si `HTTPSMS_ALERT_TO` est renseigné ; si oui, tronque à 160 caractères le message `"BF-MedVerify ALERTE FDA: ..."` et déclenche son envoi par SMS.
+- **Pourquoi elle existe** : Concrétise la notification temps réel par SMS vers l'autorité de régulation pharmaceutique sans bloquer le traitement principal si aucun numéro d'alerte n'est défini.
+
+#### `verifier_authentification_httpsms(authorization: str | None, cle_query: str | None = None) -> dict[str, Any]`
+- **Paramètres** :
+  - `authorization` (`str | None`) : Valeur de l'en-tête HTTP `Authorization` reçu sur `/httpsms/webhook` (`"Bearer <JWT>"`).
+  - `cle_query` (`str | None`, optionnel) : Paramètre d'URL `?cle=...` éventuel en secours.
+- **Type de retour** : `dict[str, Any]` (claims décodés du jeton JWT ou `{"auth": "api_key"}`).
+- **Exceptions levées** : `fastapi.HTTPException(status_code=401)` si l'authentification est absente ou invalide.
+- **Ce qu'elle fait** :
+  - Si `HTTPSMS_WEBHOOK_SIGNING_KEY` est définie, extrait le jeton Bearer et vérifie sa signature cryptographique `HS256` avec `jwt.decode(..., algorithms=["HS256"], options={"verify_aud": False})`.
+  - Sinon, autorise en secours la validation par `?cle=<API_KEY>` via `hmac.compare_digest`.
+- **Pourquoi elle existe** : Empêche tout tiers malveillant d'appeler `/httpsms/webhook` avec de faux événements SMS (ce qui pourrait consommer le forfait SMS du téléphone Android ou fausser les statistiques). L'option `verify_aud=False` assure la compatibilité avec le claim `aud` dynamique inclus par httpSMS dans ses jetons CloudEvents.
+
+---
+
+## 11. Module `main.py` — API HTTP FastAPI, Messages SMS GSM-7 et Swagger embarqué
 
 Ce module expose l'API web, formate les réponses SMS selon les contraintes télécoms et sert localement l'interface Swagger UI / ReDoc.
 
@@ -525,15 +638,25 @@ Ce module expose l'API web, formate les réponses SMS selon les contraintes tél
 ### Modèles de données HTTP (Pydantic `BaseModel`)
 
 #### Classe `Demande(BaseModel)`
- Corps JSON attendu par l'endpoint de test/intégration `POST /verifier`.
+Corps JSON attendu par l'endpoint de test/intégration `POST /verifier`.
 - `code` (`str`, obligatoire) : Code saisi (ex. `"BF22DR5TSNX"` ou `"VERIF BF22DR5TSNX"`).
 - `telephone` (`str`, défaut `"+22600000000"`) : Numéro de téléphone de l'appelant.
 - `canal` (`str`, défaut `"SMS"`) : Canal d'origine (`"SMS"`, `"WEB"`, `"USSD"`).
+- `envoyer_sms` (`bool`, défaut `False`) : Si `True`, expédie également le message de réponse par SMS au `telephone` indiqué via httpSMS.
 
 #### Classe `SmsEntrant(BaseModel)`
-Corps JSON attendu par le webhook de la passerelle SMS `POST /sms-entrant`.
+Corps JSON attendu par le webhook générique `POST /sms-entrant`.
 - `expediteur` (`str`, obligatoire) : Numéro de téléphone de l'usager ayant envoyé le SMS.
 - `texte` (`str`, obligatoire) : Contenu brut du SMS reçu par la passerelle.
+
+#### Classes `HttpSmsDonnees(BaseModel)` et `HttpSmsEvenement(BaseModel)`
+Modélisent l'enveloppe **CloudEvents 1.0** envoyée par `httpsms.com` sur `POST /httpsms/webhook` :
+- `HttpSmsEvenement.type` (`str`) : Nom de l'événement (ex. `"message.phone.received"`, `"message.phone.sent"`, `"phone.heartbeat.online"`).
+- `HttpSmsDonnees.owner` (`str | None`) : Numéro E.164 du téléphone Android passerelle ayant capté le SMS.
+- `HttpSmsDonnees.contact` (`str | None`) : Numéro E.164 du citoyen expéditeur (et destinataire de la réponse).
+- `HttpSmsDonnees.content` (`str | None`) : Texte brut du SMS envoyé par le citoyen.
+- `HttpSmsDonnees.message_id` (`str | None`) : Identifiant unique httpSMS du message entrant (réutilisé comme `request_id` lors de la réponse).
+- **Pourquoi tous les sous-champs de `HttpSmsDonnees` sont optionnels** : httpSMS peut émettre sur le même webhook des événements système (ex. `phone.heartbeat.offline`) dépourvus de `contact` ou `content` ; les rendre optionnels évite une erreur `422` et permet de les ignorer proprement en `200 OK`.
 
 ---
 
@@ -591,21 +714,25 @@ Corps JSON attendu par le webhook de la passerelle SMS `POST /sms-entrant`.
 - **Ce qu'elle fait** : Construit le message destiné à l'usager selon les 7 verdicts possibles (`VRAI`, `DEJA_UTILISE`, `EXPIRE`, `REVOQUE`, `LIMITE`, `MAL_ECRIT`, `INCONNU`) et applique `sans_accents(m)`.
 - **Pourquoi elle existe** : Sépare la logique de décision sanitaire (`services.py`) de la rédaction humaine des consignes de santé publique (comparer avec la boîte, rapporter à la pharmacie, consulter si la maladie continue).
 
-#### `traiter(code: str, telephone: str, canal: str, db: Session | None = None) -> dict`
+#### `traiter(code: str, telephone: str, canal: str, db: Session | None = None, background_tasks: BackgroundTasks | None = None, expediteur_passerelle: str | None = None, envoyer_reponse_sms: bool = False, request_id: str | None = None) -> dict`
 - **Paramètres** :
   - `code` (`str`) : Texte brut contenant le code à vérifier.
   - `telephone` (`str`) : Numéro de téléphone brut de l'appelant.
   - `canal` (`str`) : Canal de vérification (`"SMS"`, etc.).
-  - `db` (`Session | None`, optionnel, défaut `None`) : Session ORM fournie par FastAPI ; si `None`, ouvre automatiquement une session locale temporaire via `SessionLocal()`.
+  - `db` (`Session | None`, optionnel) : Session ORM fournie par FastAPI ; si `None`, ouvre une session locale temporaire via `SessionLocal()`.
+  - `background_tasks` (`BackgroundTasks | None`, optionnel) : File de tâches asynchrones post-réponse de FastAPI permettant d'expédier les SMS sans ralentir la réponse HTTP du webhook.
+  - `expediteur_passerelle` (`str | None`, optionnel) : Numéro E.164 du téléphone Android ayant reçu le SMS (`owner`), utilisé comme `from` pour la réponse.
+  - `envoyer_reponse_sms` (`bool`, défaut `False`) : Active l'envoi effectif du SMS de réponse au client via `envoyer_sms_httpsms()`.
+  - `request_id` (`str | None`, optionnel) : Identifiant de traçabilité transmis à httpSMS.
 - **Type de retour** : `dict[str, str]` de la forme `{"resultat": str, "message": str}`.
 - **Ce qu'elle fait** :
-  1. Normalise le code et vérifie `bien_forme(c)` ; en cas d'échec, retourne immédiatement `MAL_ECRIT` sans interroger PostgreSQL.
-  2. Nettoie le numéro de téléphone (ne conserve que les chiffres et `+`).
-  3. Calcule les deux empreintes HMAC-SHA256 (`empreinte("code", c)` et `empreinte("phone", tel)`).
-  4. Appelle `verifier_code(...)` via l'ORM.
-  5. Si une alerte réglementaire a été générée (`r.get("alerte")`), la journalise sur la sortie serveur pour transmission à la Faso FDA.
-  6. Retourne le code de résultat et le texte SMS formaté.
-- **Pourquoi elle existe** : Orchestre de bout en bout le pipeline de vérification et garantit que ni `code` ni `telephone` en clair ne franchissent jamais la frontière vers `services.py` et PostgreSQL.
+  1. Nettoie le numéro de téléphone (`normaliser_numero`) et normalise le code (`normaliser`).
+  2. Vérifie `bien_forme(c)` : en cas de faute de frappe, produit le verdict `MAL_ECRIT` sans interroger PostgreSQL (mais **envoie tout de même le SMS d'aide au client** si `envoyer_reponse_sms=True`).
+  3. Sinon, calcule les empreintes HMAC-SHA256 et appelle `verifier_code(...)` via l'ORM.
+  4. Si une alerte réglementaire est levée (`r.get("alerte")`), l'affiche côté serveur et planifie `envoyer_alerte_fda_sms(...)`.
+  5. Si `envoyer_reponse_sms` vaut `True`, planifie (via `background_tasks`) ou exécute `envoyer_sms_httpsms(...)` vers le téléphone du client.
+  6. Retourne `{"resultat": ..., "message": ...}`.
+- **Pourquoi elle existe** : Orchestre l'ensemble du cycle (validation syntaxique, hachage HMAC, vérification ORM, alerte FDA et réponse SMS client) tout en respectant le délai maximal de **5 secondes** imposé par les webhooks httpSMS grâce à `BackgroundTasks`.
 
 #### `verifier_cle(cle: str) -> None`
 - **Paramètres** :
@@ -617,31 +744,50 @@ Corps JSON attendu par le webhook de la passerelle SMS `POST /sms-entrant`.
 
 #### `health(db: Session = Depends(get_db)) -> dict` — Route `GET /health`
 - **Paramètres** : `db` (`Session`, injectée automatiquement par FastAPI).
-- **Type de retour** : `dict[str, str]` : `{"statut": "ok", "environnement": "local" | "online"}`.
-- **Ce qu'elle fait** : Exécute une requête ORM légère (`select(Produit.id_produit).limit(1)`) pour attester que PostgreSQL répond bien, et retourne l'état et l'environnement actif.
-- **Pourquoi elle existe** : Utilisé par les sondes de supervision (*healthchecks*) des hébergeurs cloud (Render, Railway, Koyeb, Docker, Kubernetes) pour vérifier que l'API **et** sa liaison PostgreSQL sont opérationnelles.
+- **Type de retour** : `dict[str, str | bool]` : `{"statut": "ok", "environnement": "local" | "online", "httpsms_actif": bool}`.
+- **Ce qu'elle fait** : Exécute une requête ORM légère (`select(Produit.id_produit).limit(1)`) pour attester que PostgreSQL répond bien, et retourne l'état, l'environnement actif ainsi que l'état d'activation de l'envoi httpSMS.
+- **Pourquoi elle existe** : Utilisé par les sondes de supervision (*healthchecks*) des hébergeurs cloud pour vérifier d'un coup d'œil l'état de la base et de la passerelle SMS.
 
-#### `verifier(d: Demande, cle: str = Query(...), db: Session = Depends(get_db)) -> dict` — Route `POST /verifier`
+#### `verifier(d: Demande, background_tasks: BackgroundTasks, cle: str = Query(...), db: Session = Depends(get_db)) -> dict` — Route `POST /verifier`
 - **Paramètres** :
-  - `d` (`Demande`) : Corps JSON validé par Pydantic.
+  - `d` (`Demande`) : Corps JSON validé par Pydantic (incluant l'option `envoyer_sms: bool = False`).
+  - `background_tasks` (`BackgroundTasks`) : Gestionnaire de tâches d'arrière-plan FastAPI.
   - `cle` (`str`) : Paramètre d'URL obligatoire `?cle=...`.
   - `db` (`Session`) : Session ORM injectée.
 - **Type de retour** : `dict[str, str]` (`{"resultat": ..., "message": ...}`).
-- **Ce qu'elle fait** : Contrôle la clé API puis délègue à `traiter(d.code, d.telephone, d.canal, db)`.
-- **Pourquoi elle existe** : Point d'entrée structuré destiné aux tests interactifs dans Swagger UI (`/docs`) ainsi qu'aux éventuelles applications web/mobiles partenaires.
+- **Ce qu'elle fait** : Contrôle la clé API puis délègue à `traiter(..., envoyer_reponse_sms=d.envoyer_sms)`.
+- **Pourquoi elle existe** : Permet de tester la vérification depuis Swagger UI (`/docs`) avec ou sans envoi réel d'un SMS au numéro indiqué.
 
-#### `sms_entrant(sms: SmsEntrant, cle: str = Query(...), db: Session = Depends(get_db)) -> dict` — Route `POST /sms-entrant`
+#### `sms_entrant(sms: SmsEntrant, background_tasks: BackgroundTasks, cle: str = Query(...), db: Session = Depends(get_db)) -> dict` — Route `POST /sms-entrant`
 - **Paramètres** :
-  - `sms` (`SmsEntrant`) : Corps JSON envoyé par l'agrégateur/passerelle SMS (`expediteur`, `texte`).
+  - `sms` (`SmsEntrant`) : Corps JSON envoyé par une passerelle SMS générique (`expediteur`, `texte`).
+  - `background_tasks` (`BackgroundTasks`) : Tâches d'arrière-plan FastAPI.
   - `cle` (`str`) : Paramètre d'URL obligatoire `?cle=...`.
   - `db` (`Session`) : Session ORM injectée.
 - **Type de retour** : `dict[str, str]` (`{"resultat": ..., "message": ...}`).
-- **Ce qu'elle fait** : Contrôle la clé API puis délègue à `traiter(sms.texte, sms.expediteur, "SMS", db)`.
-- **Pourquoi elle existe** : Point d'entrée webhook appelé automatiquement à chaque SMS reçu par la passerelle télécom.
+- **Ce qu'elle fait** : Contrôle la clé API puis appelle `traiter(..., envoyer_reponse_sms=is_httpsms_enabled())`.
+- **Pourquoi elle existe** : Conserve un format webhook générique simple tout en bénéficiant de la réponse SMS via httpSMS lorsque celui-ci est activé.
+
+#### `httpsms_webhook(evenement: HttpSmsEvenement, background_tasks: BackgroundTasks, authorization: str | None = Header(default=None), x_event_type: str | None = Header(default=None), cle: str | None = Query(default=None), db: Session = Depends(get_db)) -> dict` — Route `POST /httpsms/webhook`
+- **Paramètres** :
+  - `evenement` (`HttpSmsEvenement`) : Charge utile CloudEvent JSON envoyée par `httpsms.com`.
+  - `background_tasks` (`BackgroundTasks`) : Planificateur d'envoi du SMS de réponse après acquittement HTTP `200`.
+  - `authorization` (`str | None`) : En-tête `Authorization: Bearer <JWT>` signé en `HS256` avec `HTTPSMS_WEBHOOK_SIGNING_KEY`.
+  - `x_event_type` (`str | None`) : En-tête `X-Event-Type` de httpSMS (ex. `message.phone.received`).
+  - `cle` (`str | None`) : Clé API optionnelle en paramètre d'URL (secours si aucune Signing Key JWT n'est définie).
+  - `db` (`Session`) : Session ORM injectée.
+- **Type de retour** : `dict[str, Any]` (`{"statut": "traite", "destinataire": ..., "expediteur": ..., "resultat": ..., "message": ...}` ou `{"statut": "ignore", ...}`).
+- **Exceptions levées** : `401` si le JWT est invalide/absent, `400` si `data.contact` est vide.
+- **Ce qu'elle fait** :
+  1. Vérifie l'authenticité du webhook via `verifier_authentification_httpsms()`.
+  2. Ignore proprement (`200 OK`) tout événement autre que `message.phone.received` (ex. `message.phone.sent`, `delivered`, `heartbeat`).
+  3. Bloque les auto-messages (`contact == owner`) pour empêcher toute boucle infinie de SMS.
+  4. Vérifie le code en base et déclenche l'envoi du SMS de réponse vers `data.contact` depuis le téléphone `data.owner`.
+- **Pourquoi elle existe** : Intègre nativement le protocole officiel CloudEvents + JWT de **httpSMS**, y compris avec plusieurs téléphones Android connectés chacun par leur propre *Phone API Key*.
 
 ---
 
-## 11. Module `test_base.py` — Suite de tests automatisés de recette
+## 12. Module `test_base.py` — Suite de tests automatisés de recette
 
 Ce script valide de bout en bout l'application réelle (FastAPI + SQLAlchemy ORM + serveur PostgreSQL local) sans aucun mock de base de données et sans SQL brut.
 
@@ -683,7 +829,7 @@ if os.environ.get("APP_ENV", "local").strip().lower() in ("online", "prod", "pro
 
 ---
 
-### Récapitulatif des 19 scénarios vérifiés par `test_base.py`
+### Récapitulatif des 22 scénarios vérifiés par `test_base.py`
 
 | N° | Scénario testé | Objectif technique / métier validé |
 | :--- | :--- | :--- |
@@ -704,5 +850,8 @@ if os.environ.get("APP_ENV", "local").strip().lower() in ("online", "prod", "pro
 | **12** | Audit des colonnes `tel_hash` et `code_hash` | Preuve qu'aucun numéro (`+%`) ni aucun code (`BF%`) n'est stocké en clair en base. |
 | **13** | Longueur et encodage des 7 gabarits SMS | Tous les messages font $\le 160$ caractères et sont 100 % ASCII (1 seul SMS GSM-7). |
 | **14** | Produit accentué `"Paracétamol"` | Suppression effective des accents (`"Paracetamol"`) par `sans_accents()`. |
-| **15** | Appel `GET /health` | Vérifie la sonde de santé ORM et le retour `{"statut": "ok", "environnement": "local"}`. |
+| **15** | Appel `GET /health` | Vérifie la sonde de santé ORM et le retour `{"statut": "ok", "environnement": "local", "httpsms_actif": False}`. |
 | **16** | Appel `GET /docs` et fichiers statiques | Vérifie que Swagger UI est servi localement (`200 OK`, MIME JS/CSS corrects, zéro `cdn.jsdelivr.net`). |
+| **17** | Webhook `POST /httpsms/webhook` + JWT `HS256` | Vérifie la validation JWT, le traitement ORM et l'appel sortant `POST https://api.httpsms.com/v1/messages/send` (`x-api-key`, `from`, `to`, `content`, `request_id`). |
+| **18** | Webhook `POST /httpsms/webhook` mauvais JWT | Vérifie le rejet `401 Unauthorized` si la signature JWT est invalide. |
+| **19** | Événement `message.phone.sent` & auto-SMS | Vérifie l'ignorance des événements non-entrants et la protection anti-boucle infinie (`contact == owner`). |

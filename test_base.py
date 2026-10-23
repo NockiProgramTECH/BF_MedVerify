@@ -248,7 +248,8 @@ with TestClient(M.app) as cl:
     sante = cl.get("/health")
     verifie(
         "15 endpoint /health fonctionnel et indique l'environnement",
-        sante.status_code == 200 and sante.json() == {"statut": "ok", "environnement": "local"},
+        sante.status_code == 200
+        and sante.json() == {"statut": "ok", "environnement": "local", "httpsms_actif": False},
     )
 
     doc_html = cl.get("/docs")
@@ -263,5 +264,150 @@ with TestClient(M.app) as cl:
         and doc_css.status_code == 200
         and "text/css" in doc_css.headers.get("content-type", ""),
     )
+
+    # --- Tests d'integration complets de la passerelle httpSMS ---
+    import json
+    import httpx
+    import jwt
+    import sms_client as SC
+
+    appels_httpsms: list[dict] = []
+
+    def faux_handler_httpsms(request: httpx.Request) -> httpx.Response:
+        appels_httpsms.append(
+            {
+                "url": str(request.url),
+                "api_key": request.headers.get("x-api-key"),
+                "body": json.loads(request.content.decode("utf-8")),
+            }
+        )
+        return httpx.Response(
+            200,
+            json={"status": "success", "data": {"id": "msg-httpsms-001"}},
+        )
+
+    transport_test = httpx.MockTransport(faux_handler_httpsms)
+    envoi_original = SC.envoyer_sms_httpsms
+
+    def envoi_intercepte(
+        destinataire: str,
+        contenu: str,
+        expediteur: str | None = None,
+        request_id: str | None = None,
+    ) -> dict:
+        return envoi_original(
+            destinataire=destinataire,
+            contenu=contenu,
+            expediteur=expediteur,
+            request_id=request_id,
+            transport=transport_test,
+        )
+
+    M.envoyer_sms_httpsms = envoi_intercepte
+    SC.envoyer_sms_httpsms = envoi_intercepte
+
+    sauv_httpsms = {
+        k: os.environ.get(k)
+        for k in (
+            "HTTPSMS_ENABLED",
+            "HTTPSMS_API_KEY",
+            "HTTPSMS_FROM_NUMBER",
+            "HTTPSMS_WEBHOOK_SIGNING_KEY",
+            "HTTPSMS_ALERT_TO",
+        )
+    }
+    try:
+        cle_jwt_test = "secret-signature-jwt-httpsms-au-moins-32-octets!"
+        os.environ["HTTPSMS_ENABLED"] = "true"
+        os.environ["HTTPSMS_API_KEY"] = "cle-compte-httpsms-test"
+        os.environ["HTTPSMS_FROM_NUMBER"] = "+22670000099"
+        os.environ["HTTPSMS_WEBHOOK_SIGNING_KEY"] = cle_jwt_test
+        os.environ.pop("HTTPSMS_ALERT_TO", None)
+
+        jeton_valide = jwt.encode(
+            {"aud": "https://api.bfmedverify.bf/httpsms/webhook", "sub": "user-1"},
+            cle_jwt_test,
+            algorithm="HS256",
+        )
+        code_frais = lot13[20]
+        evenement_recu = {
+            "id": "evt-001",
+            "type": "message.phone.received",
+            "specversion": "1.0",
+            "data": {
+                "message_id": "msg-in-42",
+                "owner": "+22670000000",
+                "contact": "+22676543210",
+                "content": f"VERIF {code_frais}",
+                "sim": "SIM1",
+            },
+        }
+        rep_wh = cl.post(
+            "/httpsms/webhook",
+            headers={
+                "Authorization": f"Bearer {jeton_valide}",
+                "X-Event-Type": "message.phone.received",
+            },
+            json=evenement_recu,
+        )
+        verifie(
+            "17 webhook httpSMS JWT HS256 -> verifie le code et envoie le SMS de reponse au client",
+            rep_wh.status_code == 200
+            and rep_wh.json()["resultat"] == "VRAI"
+            and len(appels_httpsms) == 1
+            and appels_httpsms[0]["url"] == "https://api.httpsms.com/v1/messages/send"
+            and appels_httpsms[0]["api_key"] == "cle-compte-httpsms-test"
+            and appels_httpsms[0]["body"]["from"] == "+22670000000"
+            and appels_httpsms[0]["body"]["to"] == "+22676543210"
+            and appels_httpsms[0]["body"]["request_id"] == "msg-in-42"
+            and "AUTHENTIQUE" in appels_httpsms[0]["body"]["content"],
+        )
+
+        rep_bad_jwt = cl.post(
+            "/httpsms/webhook",
+            headers={"Authorization": "Bearer faux.jeton.jwt"},
+            json=evenement_recu,
+        )
+        verifie(
+            "18 webhook httpSMS rejette un mauvais jeton JWT (401)",
+            rep_bad_jwt.status_code == 401,
+        )
+
+        nb_avant = len(appels_httpsms)
+        rep_sent = cl.post(
+            "/httpsms/webhook",
+            headers={
+                "Authorization": f"Bearer {jeton_valide}",
+                "X-Event-Type": "message.phone.sent",
+            },
+            json={"type": "message.phone.sent", "data": {"owner": "+22670000000", "contact": "+22676543210"}},
+        )
+        rep_loop = cl.post(
+            "/httpsms/webhook",
+            headers={
+                "Authorization": f"Bearer {jeton_valide}",
+                "X-Event-Type": "message.phone.received",
+            },
+            json={
+                "type": "message.phone.received",
+                "data": {"owner": "+22670000000", "contact": "+22670000000", "content": code_frais},
+            },
+        )
+        verifie(
+            "19 webhook httpSMS ignore les evenements non-entrants et bloque les auto-SMS (anti-boucle)",
+            rep_sent.status_code == 200
+            and rep_sent.json()["statut"] == "ignore"
+            and rep_loop.status_code == 200
+            and rep_loop.json()["statut"] == "ignore"
+            and len(appels_httpsms) == nb_avant,
+        )
+    finally:
+        M.envoyer_sms_httpsms = envoi_original
+        SC.envoyer_sms_httpsms = envoi_original
+        for k, v in sauv_httpsms.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
 
 print("TOUS LES TESTS PASSENT")
