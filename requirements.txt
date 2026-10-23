@@ -1,4 +1,9 @@
-fastapi
+fastapi[standard]
+fastapi-offline
 uvicorn
-supabase
+sqlalchemy
+psycopg2-binary
 python-dotenv
+httpx
+httpx2
+PyJWT
