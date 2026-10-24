@@ -18,6 +18,7 @@ Une variable d'environnement unique (`APP_ENV`) pilote le fonctionnement du proj
 - `main.py` : API FastAPI (`/verifier`, `/sms-entrant`, `/httpsms/webhook`, `/health`, Swagger UI embarque hors-ligne).
 - `test_base.py` : suite de tests automatiques de recette (SQLAlchemy ORM + webhook/envoi httpSMS).
 - [`DOCUMENTATION_TECHNIQUE.md`](./DOCUMENTATION_TECHNIQUE.md) : documentation technique exhaustive fonction par fonction (signatures, types, retours, justifications metier et techniques).
+- [`GOUVERNANCE.md`](./GOUVERNANCE.md) : qui fait quoi — rôles, droits, interdits, qui crée les codes, qui valide, qui suspend, et les huit décisions à arbitrer.
 
 ## Maquette de pilotage (`maquette/`)
 
