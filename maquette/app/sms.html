@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Passerelle SMS — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Supervision du canal SMS BF-MedVerify : passerelle httpSMS, téléphone Android, file d'envoi, webhook signé et secrets.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="sms" data-crumb="Passerelle SMS">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Infrastructure · httpSMS</p>
+        <h1 class="page-title">Passerelle SMS</h1>
+        <p class="page-sub">Le canal qui rend le dispositif accessible sans internet. Un téléphone Android, une SIM locale, un webhook signé.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>En ligne · dernier message il y a 12 s</span>
+          <span class="dot-sep"></span>
+          <span>APP_ENV : online</span>
+          <span class="dot-sep"></span>
+          <span>Dernière vérification de signature : OK</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn--ghost" type="button" data-demo-action="Test de connexion httpSMS simulé (démonstration)."><span data-icon="refresh"></span>Tester la connexion</button>
+        <button class="btn btn--primary" type="button" data-drawer="drawer-sms-secrets"><span data-icon="key"></span>Clés &amp; webhook</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Messages traités · 24 h</span><span class="kpi-icon"><span data-icon="message"></span></span></div>
+        <div class="kpi-value"><span data-count="12192">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta"><span data-icon="trend-up"></span>+5,8 %</span><span>dont 38 bloqués</span></div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Taux de délivrance</span><span class="kpi-icon"><span data-icon="check-circle"></span></span></div>
+        <div class="kpi-value"><span data-count="98.4" data-decimals="1">0</span><small>%</small></div>
+        <div class="kpi-foot"><span>1,6 % en échec</span><span>195 messages</span></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top"><span class="kpi-label">Latence médiane</span><span class="kpi-icon"><span data-icon="clock"></span></span></div>
+        <div class="kpi-value"><span data-count="8.2" data-decimals="1">0</span><small>s</small></div>
+        <div class="kpi-foot"><span class="kpi-delta kpi-delta--down"><span data-icon="trend-up"></span>+41 s à Bobo</span><span>p95 · 21 s</span></div>
+      </article>
+      <article class="kpi kpi--ink">
+        <div class="kpi-top"><span class="kpi-label">File d'attente</span><span class="kpi-icon"><span data-icon="layers"></span></span></div>
+        <div class="kpi-value"><span data-count="3">0</span><small>messages</small></div>
+        <div class="kpi-foot"><span>0 échec définitif</span><span>reprise auto</span></div>
+      </article>
+    </div>
+
+    <div class="callout callout--gold" style="margin-bottom:.8rem">
+      <span data-icon="alert-triangle"></span>
+      <div>
+        <strong>Dégradation en cours · Bobo-Dioulasso</strong>
+        <p>La SIM passerelle de secours a pris le relais à 09:22. La latence reste supérieure au seuil de 45 s sur 11 % des messages. Une alerte technique est ouverte.</p>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <section class="panel span-8">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="chart"></span>Trafic SMS</div>
+            <p class="panel-sub">24 heures · entrées et sorties</p>
+          </div>
+          <div class="chart-legend">
+            <span><i></i>Messages reçus</span>
+            <span><i class="is-gold is-line"></i>Réponses envoyées</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="chart-box" data-line-chart data-height="216"
+               data-labels="00h,03h,06h,09h,12h,15h,18h,21h,23h"
+               data-values="190,210,420,980,1240,1120,880,560,300"
+               data-values-2="180,205,405,940,1195,1082,850,540,290"
+               data-label="Trafic SMS entrant et sortant sur 24 heures"></div>
+        </div>
+        <div class="panel-foot">
+          <span>90 % des messages entrants reçoivent une réponse en moins de 30 s.</span>
+          <a class="panel-link" href="verifications.html">Voir les vérifications <span data-icon="arrow-right"></span></a>
+        </div>
+      </section>
+
+      <section class="panel span-4">
+        <div class="panel-head">
+          <div><div class="panel-title"><span data-icon="smartphone"></span>Téléphone passerelle</div><p class="panel-sub">Appareil Android · SIM locale</p></div>
+        </div>
+        <div class="panel-body">
+          <div style="display:flex;gap:.8rem;align-items:center">
+            <div class="phone-mock" style="width:120px;padding:5px;border-radius:18px">
+              <div style="border-radius:14px;overflow:hidden;background:#f1ece0;height:190px;display:flex;flex-direction:column">
+                <div style="padding:6px 8px;background:#fcfaf5;font-size:7px;color:#5b6a5f;display:flex;justify-content:space-between"><span>22:14</span><span>82 %</span></div>
+                <div style="flex:1;padding:6px;display:grid;gap:4px;align-content:start">
+                  <div style="height:18px;border-radius:5px;background:#fcfaf5;border:1px solid #ded6c6"></div>
+                  <div style="height:18px;border-radius:5px;background:#e2eee5;border:1px solid #c8ddcd"></div>
+                  <div style="height:18px;border-radius:5px;background:#fcfaf5;border:1px solid #ded6c6"></div>
+                  <div style="height:18px;border-radius:5px;background:#e2eee5;border:1px solid #c8ddcd"></div>
+                  <div style="height:18px;border-radius:5px;background:#fcfaf5;border:1px solid #ded6c6"></div>
+                  <div style="height:18px;border-radius:5px;background:#e2eee5;border:1px solid #c8ddcd"></div>
+                </div>
+                <div style="padding:5px 8px;background:#0e5535;color:#fcfaf5;font-size:6px;text-align:center">httpSMS actif</div>
+              </div>
+            </div>
+            <dl class="kv" style="flex:1;grid-template-columns:1fr">
+              <dt>Numéro</dt><dd class="mono">+226 70 00 00 00</dd>
+              <dt>Opérateur</dt><dd>Orange BF</dd>
+              <dt>Batterie</dt><dd>82 %</dd>
+              <dt>Réseau</dt><dd>4G · −78 dBm</dd>
+              <dt>Dernier ping</dt><dd>il y a 12 s</dd>
+              <dt>Crédit SMS</dt><dd>72 %</dd>
+            </dl>
+          </div>
+          <div class="meter-row" style="margin-top:.8rem"><span>Crédit opérateur</span><strong>72 %</strong><span class="progress"><span style="width:72%"></span></span></div>
+        </div>
+        <div class="panel-foot"><span>SIM de secours disponible</span><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Bascule sur la SIM de secours simulée (démonstration).">Basculer</button></div>
+      </section>
+    </div>
+
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-7">
+        <div class="panel-head">
+          <div><div class="panel-title"><span data-icon="activity"></span>Journal de la passerelle</div><p class="panel-sub">50 derniers événements</p></div>
+          <span class="badge badge--ok"><span class="dot"></span>Webhook signé</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Heure</th><th>Événement</th><th>Contact</th><th>Statut</th><th class="num">Latence</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">10:48:12</td><td><span class="cell-main">message.phone.received</span><span class="cell-sub">Webhook · message_id 8f2a…</span></td><td class="mono">+226 7• •• •• 42</td><td><span class="badge badge--ok">Traité</span></td><td class="num">6,1 s</td></tr>
+              <tr><td class="mono">10:48:09</td><td><span class="cell-main">message.send.success</span><span class="cell-sub">Réponse SMS envoyée</span></td><td class="mono">+226 7• •• •• 42</td><td><span class="badge badge--ok">Envoyé</span></td><td class="num">5,8 s</td></tr>
+              <tr><td class="mono">10:47:54</td><td><span class="cell-main">message.phone.received</span><span class="cell-sub">Webhook · signature vérifiée</span></td><td class="mono">+226 6• •• •• 08</td><td><span class="badge badge--ok">Traité</span></td><td class="num">7,4 s</td></tr>
+              <tr><td class="mono">10:47:51</td><td><span class="cell-main">message.send.retry</span><span class="cell-sub">Tentative 2 · opérateur lent</span></td><td class="mono">+226 5• •• •• 77</td><td><span class="badge badge--warn">Rejoué</span></td><td class="num">42,0 s</td></tr>
+              <tr><td class="mono">10:47:20</td><td><span class="cell-main">message.phone.received</span><span class="cell-sub">Anti-spam : 6e requête en 60 s</span></td><td class="mono">+226 7• •• •• 19</td><td><span class="badge badge--danger">Bloqué</span></td><td class="num">0,2 s</td></tr>
+              <tr><td class="mono">10:46:38</td><td><span class="cell-main">message.phone.received</span><span class="cell-sub">Webhook · message_id 3c71…</span></td><td class="mono">+226 7• •• •• 63</td><td><span class="badge badge--ok">Traité</span></td><td class="num">8,8 s</td></tr>
+              <tr><td class="mono">10:46:35</td><td><span class="cell-main">message.send.failed</span><span class="cell-sub">Numéro invalide ou hors réseau</span></td><td class="mono">+226 7• •• •• 00</td><td><span class="badge badge--danger">Échec</span></td><td class="num">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-foot">
+          <span>Les numéros sont tronqués à l'affichage.</span>
+          <button class="btn btn--ghost btn--sm" type="button" data-demo-action="Journal de la passerelle exporté (démonstration).">Exporter</button>
+        </div>
+      </section>
+
+      <div class="span-5" style="display:grid;gap:.8rem">
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="settings"></span>Configuration active</div><p class="panel-sub">Variables d'environnement</p></div></div>
+          <div class="panel-body" style="display:grid;gap:.4rem">
+            <div class="meter-row" style="grid-template-columns:1fr auto;align-items:center">
+              <span class="mono" style="font-size:.68rem">HTTPSMS_ENABLED</span><span class="badge badge--ok">true</span>
+            </div>
+            <div class="meter-row" style="grid-template-columns:1fr auto;align-items:center">
+              <span class="mono" style="font-size:.68rem">HTTPSMS_FROM_NUMBER</span><span class="badge badge--neutral">+226 70…</span>
+            </div>
+            <div class="meter-row" style="grid-template-columns:1fr auto;align-items:center">
+              <span class="mono" style="font-size:.68rem">WEBHOOK_SIGNING_KEY</span><span class="badge badge--ok">définie</span>
+            </div>
+            <div class="meter-row" style="grid-template-columns:1fr auto;align-items:center">
+              <span class="mono" style="font-size:.68rem">HTTPSMS_TIMEOUT</span><span class="badge badge--neutral">10 s</span>
+            </div>
+            <div class="meter-row" style="grid-template-columns:1fr auto;align-items:center">
+              <span class="mono" style="font-size:.68rem">HTTPSMS_ALERT_TO</span><span class="badge badge--warn">non défini</span>
+            </div>
+            <div class="meter-row" style="grid-template-columns:1fr auto;align-items:center">
+              <span class="mono" style="font-size:.68rem">AUTO_INIT_DB</span><span class="badge badge--ok">true</span>
+            </div>
+          </div>
+          <div class="panel-foot"><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-sms-secrets">Gérer les clés</button><a class="panel-link" href="parametres.html">Paramètres</a></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="shield"></span>Disponibilité</div><p class="panel-sub">30 derniers jours</p></div></div>
+          <div class="panel-body">
+            <div class="stat-row">
+              <div class="stat"><strong>99,8 %</strong><span>uptime passerelle</span></div>
+              <div class="stat"><strong>99,2 %</strong><span>webhooks acceptés</span></div>
+            </div>
+            <div style="display:flex;gap:3px;margin-top:.8rem" aria-label="Disponibilité quotidienne sur 30 jours">
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#e6b41c"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#bf2b32"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#e6b41c"></span>
+              <span style="flex:1;height:22px;border-radius:2px;background:#146b44"></span>
+            </div>
+            <p class="proof-note">Vert : normale · or : dégradée · rouge : interruption.</p>
+          </div>
+          <div class="panel-foot"><span>Incident du 12/10 · SIM sans réseau 42 min</span></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <aside class="drawer" id="drawer-sms-secrets" inert aria-labelledby="titre-secrets">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-secrets">Clés &amp; webhook</h2>
+        <p>Valeurs masquées · affichage réservé aux administrateurs</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Webhook httpSMS</h3>
+        <dl class="kv">
+          <dt>URL</dt><dd class="mono" style="font-size:.66rem">https://api.bf-medverify.bf/httpsms/webhook</dd>
+          <dt>Événement</dt><dd>message.phone.received</dd>
+          <dt>Signature</dt><dd>JWT HS256 vérifiée</dd>
+          <dt>Dernier appel</dt><dd>il y a 12 s</dd>
+        </dl>
+        <div class="callout" style="margin-top:.55rem">
+          <span data-icon="lock"></span>
+          <div><strong>Secret de signature</strong><p>Au moins 32 caractères, stocké hors dépôt. Une signature invalide renvoie 401 sans traitement.</p></div>
+        </div>
+      </div>
+      <div class="drawer-section">
+        <h3>Clé API</h3>
+        <div style="display:flex;gap:.4rem;align-items:center">
+          <span class="cell-code" id="secret-api">••••••••••••••••••••</span>
+          <button class="btn btn--ghost btn--sm" type="button" data-reveal-secret="secret-api" data-secret-value="bfmv-demo-api-key-not-real">Révéler</button>
+          <button class="btn btn--ghost btn--sm" type="button" data-copy="#secret-api"><span data-icon="copy"></span></button>
+        </div>
+        <p class="hint" style="margin-top:.35rem">Clé de démonstration. Aucune valeur réelle n'est présente dans la maquette.</p>
+      </div>
+      <div class="drawer-section">
+        <h3>Poivre cryptographique</h3>
+        <div style="display:flex;gap:.4rem;align-items:center">
+          <span class="cell-code" id="secret-pepper">••••••••••••••••••••</span>
+          <button class="btn btn--ghost btn--sm" type="button" data-reveal-secret="secret-pepper" data-secret-value="bfmv-demo-pepper-manquant">Révéler</button>
+        </div>
+        <div class="callout callout--danger" style="margin-top:.55rem">
+          <span data-icon="alert-triangle"></span>
+          <div><strong>Ne jamais perdre BFMV_PEPPER</strong><p>Sans ce secret, aucune empreinte ne peut être recalculée : tous les codes deviennent inexploitables.</p></div>
+        </div>
+      </div>
+      <div class="drawer-section">
+        <h3>Rotation</h3>
+        <dl class="kv">
+          <dt>Dernière rotation API</dt><dd>02/09/2026</dd>
+          <dt>Prochaine rotation</dt><dd>02/03/2027</dd>
+          <dt>Secret webhook</dt><dd>96 jours</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Rotation planifiée (démonstration) — aucune clé modifiée.">Planifier une rotation</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Fermer</button>
+    </div>
+  </aside>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

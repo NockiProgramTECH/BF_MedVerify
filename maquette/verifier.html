@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vérifier un code — BF-MedVerify</title>
+  <meta name="description" content="Simulateur du parcours de vérification BF-MedVerify : code à 11 caractères, empreinte HMAC, réponse SMS et conduite à tenir.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body class="site-page" data-layout="public" data-page="verifier">
+  <main id="main">
+
+    <section class="page-hero page-hero--sand">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="index.html">Accueil</a><span data-icon="chevron-right"></span><span>Vérifier un code</span>
+        </nav>
+        <div class="page-hero-row">
+          <div>
+            <p class="eyebrow">Le vérificateur</p>
+            <h1>Vérifier une boîte, comme au comptoir.</h1>
+            <p class="page-hero-sub">Entrez un code à 11 caractères ou choisissez un scénario. Le simulateur rejoue le parcours complet : normalisation, empreinte, recherche du lot et réponse SMS.</p>
+          </div>
+          <div class="page-hero-side">
+            <strong>Simulation locale.</strong> Aucun SMS n'est envoyé, aucune donnée ne quitte votre navigateur. Les produits, lots et dates sont fictifs.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight section--sand">
+      <div class="container">
+        <div class="verif-layout">
+
+          <!-- Formulaire -->
+          <form class="verif-card" data-verif-form novalidate>
+            <div class="verif-head">
+              <h2><span data-icon="scan"></span>Nouvelle vérification</h2>
+              <div class="stepper" aria-hidden="true">
+                <span class="is-active" data-stepper><b>1</b>Code</span><i class="sep"></i>
+                <span data-stepper><b>2</b>Vérif.</span><i class="sep"></i>
+                <span data-stepper><b>3</b>Réponse</span>
+              </div>
+            </div>
+            <div class="verif-body">
+              <p class="verif-lead">Le code se trouve sous la couche grattable de la boîte. Il commence toujours par <strong>BF</strong> et ne contient ni 0, ni O, ni 1, ni I, ni L.</p>
+
+              <div class="field code-field">
+                <label for="code">Code de sécurité</label>
+                <input class="input-code" id="code" name="code" type="text" inputmode="text" autocomplete="off"
+                       spellcheck="false" maxlength="16" placeholder="BF7K2M9Q4XZ" data-code-input
+                       aria-describedby="codeHelp">
+                <div class="code-meta" id="codeHelp">
+                  <span><span data-icon="key"></span>11 caractères · commence par BF</span>
+                  <span>Le code n'est jamais conservé en clair.</span>
+                </div>
+              </div>
+
+              <div class="samples">
+                <p>Scénarios de démonstration</p>
+                <div class="sample-list">
+                  <button class="sample-code" type="button" data-fill="BF7K2M9Q4XZ" data-scenario="authentique" title="Produit authentique">BF7K2M9Q4XZ</button>
+                  <button class="sample-code" type="button" data-fill="BF3T8N5R2W5" data-scenario="deja" title="Code déjà vérifié">BF3T8N5R2W5</button>
+                  <button class="sample-code" type="button" data-fill="BFH4P7V2KDG" data-scenario="expire" title="Médicament expiré">BFH4P7V2KDG</button>
+                  <button class="sample-code" type="button" data-fill="BF9C6B3Z8M4" data-scenario="rappel" title="Lot rappelé">BF9C6B3Z8M4</button>
+                  <button class="sample-code" type="button" data-fill="BF5J7Y2N4T8" data-scenario="inconnu" title="Code absent de la base">BF5J7Y2N4T8</button>
+                  <button class="sample-code" type="button" data-fill="BF7K2M9Q4X1" data-scenario="malecrit" title="Erreur de saisie">BF7K2M9Q4X1</button>
+                </div>
+              </div>
+
+              <div class="verif-form-row">
+                <div class="field">
+                  <label for="phone">Téléphone du patient</label>
+                  <input class="input" id="phone" type="tel" value="+226 70 00 00 00" data-phone-input>
+                </div>
+                <div class="field">
+                  <label for="canal">Canal</label>
+                  <select class="select" id="canal" data-canal-input>
+                    <option value="SMS" selected>SMS entrant</option>
+                    <option value="API">API / portail</option>
+                    <option value="PHARMACIE">Pharmacie partenaire</option>
+                  </select>
+                </div>
+              </div>
+
+              <label class="checkline" style="margin-top:.9rem">
+                <input type="checkbox" checked>
+                <span>Je comprends que cette page est une simulation : les codes et les produits sont fictifs.</span>
+              </label>
+
+              <div class="verif-actions">
+                <button class="btn btn--primary" type="submit" data-verif-submit><span data-icon="scan"></span>Vérifier le code</button>
+                <button class="btn btn--ghost" type="button" data-reset-form data-toast="Formulaire réinitialisé."><span data-icon="refresh"></span>Réinitialiser</button>
+              </div>
+
+              <p class="verif-disclaimer"><span data-icon="lock"></span>En production, le code est normalisé, haché avec <code>BFMV_PEPPER</code>, puis comparé à la base. Le numéro de téléphone ne quitte jamais le serveur en clair.</p>
+            </div>
+          </form>
+
+          <!-- Résultat -->
+          <aside class="verif-card verif-result" aria-live="polite">
+            <div class="verif-head">
+              <h2><span data-icon="message"></span>Réponse du dispositif</h2>
+              <span class="badge badge--neutral">SMS · GSM-7</span>
+            </div>
+            <div data-result-panel>
+              <div class="result-empty">
+                <svg class="empty-art" viewBox="0 0 160 130" aria-hidden="true">
+                  <circle cx="80" cy="62" r="46" fill="#e2eee5"/>
+                  <rect x="52" y="38" width="56" height="48" rx="7" fill="#fcfaf5" stroke="#c9bfac" stroke-width="1.5"/>
+                  <path d="M52 47h56" stroke="#0e5535" stroke-width="7"/>
+                  <path d="M62 58h22M62 65h30M62 72h16" stroke="#c9bfac" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="108" cy="82" r="14" fill="#0e5535"/>
+                  <path d="m102 82 4 4 8-9" stroke="#fcfaf5" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M30 96c12 8 28 12 50 12s38-4 50-12" stroke="#d2e0d2" stroke-width="2" fill="none"/>
+                </svg>
+                <h3>La réponse s'affichera ici</h3>
+                <p>Entrez un code de démonstration ou choisissez un scénario pour voir le parcours complet.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="callout callout--gold" style="margin-top:1rem">
+          <span data-icon="spark"></span>
+          <div>
+            <strong>Comment lire les scénarios ?</strong>
+            <p>Vert : produit authentique. Or : vigilance ou erreur de saisie. Rouge : produit expiré, lot rappelé ou code inconnu. Chaque réponse propose une action concrète.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fil SMS -->
+    <section class="section section--paper">
+      <div class="container split">
+        <div class="verif-phone-wrap">
+          <div class="phone-mock" aria-label="Fil de discussion SMS de démonstration">
+            <div class="phone-screen">
+              <div class="phone-status"><span>12:42</span><span>Réseau · 82 %</span></div>
+              <div class="phone-contact">
+                <span class="avatar">BF</span>
+                <div><strong>BF-MedVerify</strong><small>Numéro court · 8000</small></div>
+              </div>
+              <div class="phone-thread" data-verif-thread>
+                <div class="bubble bubble--out">Bonjour, je voudrais vérifier un médicament.<time>12:40</time></div>
+                <div class="bubble">Envoyez le code gratté, précédé de VERIF. Exemple : VERIF BF7K2M9Q4XZ<time>12:40</time></div>
+              </div>
+              <div class="phone-input"><span>Écrire un message…</span><b>›</b></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Le fil du patient</p>
+          <h2>Un aller-retour, pas un formulaire.</h2>
+          <p class="lead" style="margin-top:.8rem">Le patient écrit, le dispositif répond. Le fil ci-contre se met à jour à chaque simulation, avec le message réellement produit par le code Python — en ASCII, sans accents, pour tenir dans 160 caractères.</p>
+          <div class="callout" style="margin-top:1.2rem">
+            <span data-icon="message"></span>
+            <div>
+              <strong>Règle des 160 caractères</strong>
+              <p>Un accent force l'encodage Unicode et divise la longueur utile par deux. Les messages sont donc désaccentués côté serveur, jamais côté patient.</p>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:.7rem">
+            <span data-icon="shield"></span>
+            <div>
+              <strong>Priorité des verdicts</strong>
+              <p>Rappel ou révocation &gt; expiration &gt; première vérification &gt; même téléphone &gt; autre téléphone. Un lot rappelé reste « rappelé », même si le code est inédit.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flux technique -->
+    <section class="section section--sand">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Sous le capot</p>
+          <h2>Ce qui se passe vraiment, en quatre étapes.</h2>
+          <p>La maquette reproduit le comportement de l'API FastAPI documentée dans le dépôt. Rien n'est envoyé : tout est simulé dans le navigateur.</p>
+        </div>
+        <div class="tech-flow">
+          <article class="tech-step reveal">
+            <span class="num">01 · NORMALISER</span>
+            <h3>Nettoyer la saisie</h3>
+            <p>Majuscules, suppression des espaces, tirets et du préfixe <code>VERIF</code>. Une faute de frappe n'est pas une contrefaçon.</p>
+          </article>
+          <article class="tech-step reveal" style="--d:80ms">
+            <span class="num">02 · HACHER</span>
+            <h3>Calculer l'empreinte</h3>
+            <p><code>HMAC-SHA256("code:" + code)</code> et <code>HMAC-SHA256("phone:" + numéro)</code> avec le secret serveur.</p>
+          </article>
+          <article class="tech-step reveal" style="--d:160ms">
+            <span class="num">03 · VÉRIFIER</span>
+            <h3>Verrouiller et décider</h3>
+            <p>Anti-spam (5/min), verrou de ligne <code>FOR UPDATE</code>, puis priorité rappel, expiration, première vérification.</p>
+          </article>
+          <article class="tech-step reveal" style="--d:240ms">
+            <span class="num">04 · RÉPONDRE</span>
+            <h3>Répondre et alerter</h3>
+            <p>Message GSM-7 de 160 caractères. Trois téléphones différents sur un même code déclenchent une alerte.</p>
+          </article>
+        </div>
+        <p style="margin-top:1.6rem"><a class="link-arrow" href="app/verifications.html">Voir le journal de vérifications dans le pilotage <span data-icon="arrow-right"></span></a></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

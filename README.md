@@ -19,6 +19,12 @@ Une variable d'environnement unique (`APP_ENV`) pilote le fonctionnement du proj
 - `test_base.py` : suite de tests automatiques de recette (SQLAlchemy ORM + webhook/envoi httpSMS).
 - [`DOCUMENTATION_TECHNIQUE.md`](./DOCUMENTATION_TECHNIQUE.md) : documentation technique exhaustive fonction par fonction (signatures, types, retours, justifications metier et techniques).
 
+## Maquette de pilotage (`maquette/`)
+
+Le dossier [`maquette/`](./maquette/README.md) contient une maquette **HTML/CSS/JS autonome** (aucune dependance, aucun appel reseau) de l'ecosysteme complet : site public de presentation, back-office Faso FDA (11 pages), portails pharmacie et laboratoire. Elle sert de reference visuelle et fonctionnelle pour le developpement front-end ; les donnees y sont fictives.
+
+Ouvrir directement `maquette/index.html`, ou servir le dossier avec `python3 -m http.server 8000`. Les details (pages, palette, interactions, outils de controle) sont dans [`maquette/README.md`](./maquette/README.md).
+
 ## Demarrage en local (`APP_ENV=local`)
 1. Creer un utilisateur et une base sur votre serveur PostgreSQL local (ex. utilisateur `bfmv`, base `bfmv`).
 2. Creer l'environnement virtuel et installer les dependances :

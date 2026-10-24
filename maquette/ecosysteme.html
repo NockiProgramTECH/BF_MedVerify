@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Écosystème &amp; gouvernance — BF-MedVerify</title>
+  <meta name="description" content="Acteurs, flux de données, gouvernance, feuille de route et risques du dispositif BF-MedVerify : Faso FDA, laboratoires, grossistes, pharmacies, citoyens, opérateurs.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body class="site-page" data-layout="public" data-page="ecosysteme">
+  <main id="main">
+
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="index.html">Accueil</a><span data-icon="chevron-right"></span><span>Écosystème</span>
+        </nav>
+        <div class="page-hero-row">
+          <div>
+            <p class="eyebrow">Écosystème &amp; gouvernance</p>
+            <h1>Un dispositif, des acteurs, une même chaîne de confiance.</h1>
+            <p class="page-hero-sub">Vérifier un médicament ne se limite pas à un code. C'est un contrat entre un régulateur, des industriels, des distributeurs, des officines et des citoyens — avec des données qui circulent sans exposer les personnes.</p>
+          </div>
+          <div class="page-hero-side">
+            <strong>Maquette de travail.</strong> Les rôles, seuils et dates présentés ici sont des propositions à valider avec la Faso FDA et les partenaires du pilote.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carte des acteurs -->
+    <section class="section section--paper" id="acteurs">
+      <div class="container">
+        <div class="split" style="align-items:center">
+          <div class="hub-figure" aria-hidden="true">
+            <svg class="hub" viewBox="0 0 560 460">
+              <g class="hub-dash" stroke="#c8ddcd" stroke-width="1.4" fill="none">
+                <path d="M280 158 280 94"/>
+                <path d="M334 174 442 145"/>
+                <path d="M338 252 444 294"/>
+                <path d="M280 286 280 340"/>
+                <path d="M222 252 116 294"/>
+                <path d="M226 174 118 145"/>
+              </g>
+
+              <circle class="hub-core-ring" cx="280" cy="222" r="88" fill="none" stroke="#c8ddcd" stroke-dasharray="4 7"/>
+              <circle cx="280" cy="222" r="64" fill="#0e5535"/>
+              <path d="m254 219 17 17 35-38" stroke="#fcfaf5" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="280" y="251" text-anchor="middle" font-size="9" letter-spacing="2" font-weight="700" fill="#dce9dc">BF-MEDVERIFY</text>
+
+              <!-- Faso FDA -->
+              <g class="hub-node">
+                <circle cx="280" cy="58" r="36" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.5"/>
+                <g transform="translate(268 46)" stroke="#0e5535" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 20V6l8-3 8 3v14"/><path d="M9 20v-4h6v4"/><path d="M8 8h.01M12 8h.01M16 8h.01M8 11h.01M12 11h.01M16 11h.01"/>
+                </g>
+                <text x="280" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="#14241b">Faso FDA</text>
+                <text x="280" y="123" text-anchor="middle" font-size="8.5" fill="#5b6a5f">Régulateur</text>
+              </g>
+
+              <!-- Laboratoires -->
+              <g class="hub-node" style="animation-delay:.7s">
+                <circle cx="476" cy="140" r="36" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.5"/>
+                <g transform="translate(464 128)" stroke="#0e5535" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 3h6M10 3v6l-5 8a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-8V3"/><path d="M7 15h10"/>
+                </g>
+                <text x="476" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#14241b">Laboratoires</text>
+                <text x="476" y="205" text-anchor="middle" font-size="8.5" fill="#5b6a5f">Titulaires d'AMM</text>
+              </g>
+
+              <!-- Grossistes -->
+              <g class="hub-node" style="animation-delay:1.4s">
+                <circle cx="476" cy="304" r="36" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.5"/>
+                <g transform="translate(464 292)" stroke="#0e5535" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>
+                </g>
+                <text x="476" y="356" text-anchor="middle" font-size="11" font-weight="600" fill="#14241b">Grossistes</text>
+                <text x="476" y="369" text-anchor="middle" font-size="8.5" fill="#5b6a5f">Import &amp; distribution</text>
+              </g>
+
+              <!-- Pharmacies -->
+              <g class="hub-node" style="animation-delay:2.1s">
+                <circle cx="280" cy="376" r="36" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.5"/>
+                <g transform="translate(268 364)" stroke="#0e5535" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/>
+                </g>
+                <text x="280" y="428" text-anchor="middle" font-size="11" font-weight="600" fill="#14241b">Pharmacies</text>
+                <text x="280" y="441" text-anchor="middle" font-size="8.5" fill="#5b6a5f">Délivrance &amp; signal</text>
+              </g>
+
+              <!-- Citoyens -->
+              <g class="hub-node" style="animation-delay:2.8s">
+                <circle cx="84" cy="304" r="36" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.5"/>
+                <g transform="translate(72 292)" stroke="#0e5535" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="3.4"/><path d="M5 20v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1"/>
+                </g>
+                <text x="84" y="356" text-anchor="middle" font-size="11" font-weight="600" fill="#14241b">Citoyens</text>
+                <text x="84" y="369" text-anchor="middle" font-size="8.5" fill="#5b6a5f">SMS &amp; signalement</text>
+              </g>
+
+              <!-- httpSMS -->
+              <g class="hub-node" style="animation-delay:3.5s">
+                <circle cx="84" cy="140" r="36" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.5"/>
+                <g transform="translate(72 128)" stroke="#0e5535" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 15a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3Z"/><path d="M8.5 9h7M8.5 12.5h4"/>
+                </g>
+                <text x="84" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#14241b">httpSMS</text>
+                <text x="84" y="205" text-anchor="middle" font-size="8.5" fill="#5b6a5f">Passerelle &amp; opérateurs</text>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <p class="eyebrow">La carte</p>
+            <h2>Le signal tourne en boucle.</h2>
+            <p class="lead" style="margin-top:.8rem">Un laboratoire déclare un lot. Le dispositif génère des codes uniques. Une pharmacie vérifie, un patient envoie un SMS, la Faso FDA reçoit l'alerte. Chaque acteur alimente la confiance des autres.</p>
+            <div class="sms-stats" style="grid-template-columns:1fr 1fr">
+              <div><strong>7</strong><span>types d'acteurs impliqués</span></div>
+              <div><strong>4</strong><span>flux de données principaux</span></div>
+            </div>
+            <p class="proof-note">Schéma de principe — les liens contractuels restent à formaliser.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acteurs détaillés -->
+    <section class="section section--sand">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Les rôles</p>
+          <h2>Qui fait quoi, avec quelles données.</h2>
+          <p>Chaque acteur dispose d'un accès limité à ce qui le concerne. La maquette de pilotage sépare les espaces régulateur, pharmacie et laboratoire.</p>
+        </div>
+        <div class="actor-grid actor-grid--3">
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="shield"></span></span>
+            <h3>Faso FDA</h3>
+            <p>Autorité de régulation. Elle valide les lots, surveille les signalements et peut suspendre un lot national.</p>
+            <ul class="actor-list">
+              <li><span data-icon="check"></span>Pilotage des alertes et des rappels</li>
+              <li><span data-icon="check"></span>Exports et rapports de surveillance</li>
+            </ul>
+            <span class="tag">Régulation</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="building"></span></span>
+            <h3>Laboratoires titulaires d'AMM</h3>
+            <p>Ils connaissent le lot mieux que personne : quantités, dates, marchés destinataires, codes imprimés.</p>
+            <ul class="actor-list">
+              <li><span data-icon="check"></span>Déclaration des lots et des codes</li>
+              <li><span data-icon="check"></span>Notification en cas de rappel</li>
+            </ul>
+            <span class="tag">Déclaration</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="truck"></span></span>
+            <h3>Importateurs &amp; grossistes</h3>
+            <p>Ils assurent la continuité entre l'usine et l'officine. Leur chaîne logistique est le point de rupture le plus fréquent.</p>
+            <ul class="actor-list">
+              <li><span data-icon="check"></span>Réception et transfert de lot</li>
+              <li><span data-icon="check"></span>Traçabilité des quantités</li>
+            </ul>
+            <span class="tag">Logistique</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="store"></span></span>
+            <h3>Pharmacies &amp; dépôts</h3>
+            <p>Premier point de contact avec le patient. Elles vérifient avant de délivrer et remontent les boîtes suspectes.</p>
+            <ul class="actor-list">
+              <li><span data-icon="check"></span>Vérification au comptoir</li>
+              <li><span data-icon="check"></span>Signalement et retrait du rayon</li>
+            </ul>
+            <span class="tag">Terrain</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="user-check"></span></span>
+            <h3>Citoyens &amp; patients</h3>
+            <p>Ils n'ont besoin ni d'application ni de données mobiles. Leur participation transforme chaque achat en point de contrôle.</p>
+            <ul class="actor-list">
+              <li><span data-icon="check"></span>Envoi du code par SMS</li>
+              <li><span data-icon="check"></span>Alerte en cas de doute</li>
+            </ul>
+            <span class="tag">Confiance</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="message"></span></span>
+            <h3>Opérateurs &amp; httpSMS</h3>
+            <p>Le canal SMS est l'infrastructure critique. Une passerelle Android et un numéro court suffisent pour démarrer le pilote.</p>
+            <ul class="actor-list">
+              <li><span data-icon="check"></span>Numéro court et routage</li>
+              <li><span data-icon="check"></span>Accusés de livraison</li>
+            </ul>
+            <span class="tag">Canal</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="lock"></span></span>
+            <h3>Hébergeur &amp; équipe technique</h3>
+            <p>La base PostgreSQL, les sauvegardes et les secrets applicatifs sont hébergés hors du poste client, avec accès restreint.</p>
+            <ul class="actor-list">
+              <li><span data-icon="check"></span>Supervision et sauvegardes</li>
+              <li><span data-icon="check"></span>Rotation des clés et journal d'audit</li>
+            </ul>
+            <span class="tag">Sécurité</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="globe"></span></span>
+            <h3>Partenaires techniques &amp; financiers</h3>
+            <p>Le financement du canal SMS, des formations et de l'audit conditionne la pérennité du dispositif au-delà du pilote.</p>
+            <ul class="actor-list">
+              <li><span data-icon="check"></span>Financement du numéro court</li>
+              <li><span data-icon="check"></span>Évaluation indépendante</li>
+            </ul>
+            <span class="tag">Pérennité</span>
+          </article>
+        </div>
+
+        <div class="quote-band">
+          <div class="quote-art" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="54" fill="#e2eee5"/>
+              <circle cx="60" cy="48" r="30" fill="#14241b"/>
+              <circle cx="60" cy="52" r="23" fill="#6e4423"/>
+              <path d="M41 46c3-15 10-23 19-23s16 8 19 23c-6-5-12-7-19-7s-13 2-19 7Z" fill="#14241b"/>
+              <circle cx="52" cy="52" r="1.8" fill="#14241b"/><circle cx="68" cy="52" r="1.8" fill="#14241b"/>
+              <path d="M55 61c3 3 7 3 10 0" stroke="#14241b" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <path d="M26 120c0-26 15-42 34-42s34 16 34 42Z" fill="#fcfaf5" stroke="#d8cfbd" stroke-width="1.5"/>
+              <path d="M46 88l14 12 14-12" fill="#0a4229"/>
+            </svg>
+          </div>
+          <blockquote>« Avant, je regardais la boîte. Maintenant, je regarde le code. Et quand un patient me montre un SMS rouge, je retire le lot du rayon. »</blockquote>
+          <cite>Pharmacienne, officine partenaire — témoignage fictif pour la maquette</cite>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flux -->
+    <section class="section section--paper">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Les flux</p>
+          <h2>De la déclaration du lot au signal citoyen.</h2>
+          <p>Quatre flux, quatre moments où la donnée change de propriétaire. Chacun a une règle d'accès et une trace d'audit.</p>
+        </div>
+        <div class="flow-grid">
+          <div class="flow-step">
+            <span class="num">1</span>
+            <span data-icon="building" class="icon"></span>
+            <h3>Déclarer</h3>
+            <p>Le laboratoire enregistre le produit, le numéro de lot, la quantité et la date d'expiration.</p>
+            <small>Laboratoire → Faso FDA</small>
+          </div>
+          <div class="flow-step">
+            <span class="num">2</span>
+            <span data-icon="key" class="icon"></span>
+            <h3>Générer &amp; poser</h3>
+            <p>Les codes sont générés hors ligne, imprimés sous couche grattable. Seules leurs empreintes entrent en base.</p>
+            <small>Dispositif → Laboratoire</small>
+          </div>
+          <div class="flow-step">
+            <span class="num">3</span>
+            <span data-icon="scan" class="icon"></span>
+            <h3>Vérifier</h3>
+            <p>Pharmacie ou citoyen interroge un code. Le dispositif répond et enregistre le verdict, jamais l'identité.</p>
+            <small>Pharmacie / Citoyen → Dispositif</small>
+          </div>
+          <div class="flow-step">
+            <span class="num">4</span>
+            <span data-icon="bell" class="icon"></span>
+            <h3>Alerter &amp; décider</h3>
+            <p>Au-delà des seuils, une alerte est créée, qualifiée par la Faso FDA, puis le lot peut être suspendu.</p>
+            <small>Dispositif → Faso FDA</small>
+          </div>
+        </div>
+        <p class="proof-note" style="margin-top:1rem">Seuils indicatifs de la maquette : trois codes inconnus en 24 h, ou un même code vérifié par trois téléphones différents.</p>
+      </div>
+    </section>
+
+    <!-- Gouvernance -->
+    <section class="section section--sand" id="gouvernance">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Gouvernance</p>
+          <h2>Une responsabilité par activité.</h2>
+          <p>Matrice de responsabilités proposée. <strong>R</strong> réalise, <strong>A</strong> approuve, <strong>C</strong> consulté, <strong>I</strong> informé.</p>
+        </div>
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="data-table gov-table">
+              <thead>
+                <tr>
+                  <th>Activité</th>
+                  <th>Faso FDA</th>
+                  <th>Laboratoire</th>
+                  <th>Grossiste</th>
+                  <th>Pharmacie</th>
+                  <th>Citoyen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="cell-main">Déclarer un lot</span><span class="cell-sub">Produit, quantité, expiration</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter">R</span></td>
+                  <td><span class="gov-letter gov-letter--c">C</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">—</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-main">Générer les codes sécurisés</span><span class="cell-sub">Empreintes seulement</span></td>
+                  <td><span class="gov-letter gov-letter--a">A</span></td>
+                  <td><span class="gov-letter">R</span></td>
+                  <td><span class="gov-letter gov-letter--i">—</span></td>
+                  <td><span class="gov-letter gov-letter--i">—</span></td>
+                  <td><span class="gov-letter gov-letter--i">—</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-main">Vérifier une boîte</span><span class="cell-sub">SMS, API ou portail</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">—</span></td>
+                  <td><span class="gov-letter">R</span></td>
+                  <td><span class="gov-letter gov-letter--a">A</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-main">Qualifier une alerte</span><span class="cell-sub">Sous 48 h ouvrées</span></td>
+                  <td><span class="gov-letter">R</span></td>
+                  <td><span class="gov-letter gov-letter--c">C</span></td>
+                  <td><span class="gov-letter gov-letter--c">C</span></td>
+                  <td><span class="gov-letter gov-letter--c">C</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-main">Suspendre un lot</span><span class="cell-sub">Retrait et communication</span></td>
+                  <td><span class="gov-letter">R</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-main">Publier un rapport mensuel</span><span class="cell-sub">Volumes, verdicts, couverture</span></td>
+                  <td><span class="gov-letter">R</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                  <td><span class="gov-letter gov-letter--i">I</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="legend-line">
+          <span><span class="gov-letter">R</span> Réalise</span>
+          <span><span class="gov-letter gov-letter--a">A</span> Approuve</span>
+          <span><span class="gov-letter gov-letter--c">C</span> Consulté</span>
+          <span><span class="gov-letter gov-letter--i">I</span> Informé</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feuille de route -->
+    <section class="section section--paper" id="feuille-de-route">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Feuille de route</p>
+          <h2>Du pilote à la généralisation.</h2>
+          <p>Scénario de déploiement en quatre phases. Les durées et les périmètres sont des hypothèses de travail à ajuster avec les partenaires.</p>
+        </div>
+        <div class="roadmap">
+          <div class="roadmap-item is-now">
+            <div class="roadmap-date">T1 2026</div>
+            <div class="roadmap-marker"><i></i></div>
+            <div class="roadmap-content">
+              <h3>Cadrage &amp; maquette <span class="badge badge--warn">En cours</span></h3>
+              <p>Périmètre fonctionnel, parcours SMS, maquette de pilotage, design system et documentation technique. Validation des rôles avec la Faso FDA.</p>
+              <ul><li>Parcours patient</li><li>Écrans de pilotage</li><li>Cadre de données</li></ul>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-date">T2 — T3 2026</div>
+            <div class="roadmap-marker"><i></i></div>
+            <div class="roadmap-content">
+              <h3>Pilote Ouagadougou &amp; Bobo-Dioulasso <span class="badge badge--neutral">Planifié</span></h3>
+              <p>Quarante officines, deux laboratoires volontaires, un numéro court et une passerelle SMS supervisée. Mesure du temps de réponse et du taux de participation.</p>
+              <ul><li>Numéro court</li><li>Formation des officines</li><li>Tableau de bord pilote</li></ul>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-date">T4 2026</div>
+            <div class="roadmap-marker"><i></i></div>
+            <div class="roadmap-content">
+              <h3>Extension à six régions <span class="badge badge--neutral">Planifié</span></h3>
+              <p>Ouverture du portail pharmacies, des exports pour la tutelle et de la couverture territoriale. Consolidation des alertes et des rappels.</p>
+              <ul><li>Portail pharmacie</li><li>Exports mensuels</li><li>Couverture cartographique</li></ul>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-date">2027</div>
+            <div class="roadmap-marker"><i></i></div>
+            <div class="roadmap-content">
+              <h3>Généralisation nationale <span class="badge badge--neutral">Vision</span></h3>
+              <p>Intégration aux procédures d'AMM, audit indépendant, interconnexion avec les systèmes de pharmacovigilance et financement pérenne du canal SMS.</p>
+              <ul><li>Audit indépendant</li><li>Interopérabilité</li><li>Financement pérenne</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Risques -->
+    <section class="section section--sand">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Risques &amp; garde-fous</p>
+          <h2>Ce qui peut échouer, et ce qui le limite.</h2>
+          <p>Un dispositif de confiance doit exposer ses fragilités. Voici les quatre risques principaux et les réponses prévues dans la conception.</p>
+        </div>
+        <div class="risk-grid">
+          <article class="risk-card">
+            <div class="risk-head"><h3>Contrefaçon des codes</h3><span class="badge badge--danger">Élevé</span></div>
+            <p>Un fraudeur peut copier un code valide sur plusieurs boîtes et le revendre.</p>
+            <div class="risk-fix"><span data-icon="shield"></span><span>Première vérification liée à l'empreinte du téléphone, alerte à trois téléphones différents, quotas anti-spam.</span></div>
+          </article>
+          <article class="risk-card">
+            <div class="risk-head"><h3>Exclusion numérique</h3><span class="badge badge--warn">Moyen</span></div>
+            <p>Certains patients ne savent pas écrire un SMS ou n'ont pas de crédit.</p>
+            <div class="risk-fix"><span data-icon="message"></span><span>Numéro court affiché en officine, vérification par le pharmacien, notice illustrée et formation des agents.</span></div>
+          </article>
+          <article class="risk-card">
+            <div class="risk-head"><h3>Coût du canal SMS</h3><span class="badge badge--warn">Moyen</span></div>
+            <p>Chaque réponse a un coût variable selon l'opérateur et le volume.</p>
+            <div class="risk-fix"><span data-icon="chart"></span><span>Messages uniques de 160 caractères, mutualisation du numéro court, négociation tarifaire avec les opérateurs.</span></div>
+          </article>
+          <article class="risk-card">
+            <div class="risk-head"><h3>Gouvernance des données</h3><span class="badge badge--warn">Sensible</span></div>
+            <p>La tentation d'identifier les patients peut transformer l'outil en fichier de surveillance.</p>
+            <div class="risk-fix"><span data-icon="lock"></span><span>Minimisation à la source, HMAC avec secret serveur, séparation des rôles, journal d'audit et revue indépendante.</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section section--paper" id="contact">
+      <div class="container split" style="align-items:start">
+        <div class="contact-card">
+          <p class="eyebrow">Rejoindre le pilote</p>
+          <h2>Parlons de votre rôle dans le dispositif.</h2>
+          <p>Laboratoire, officine, autorité sanitaire, partenaire technique ou bailleur : dites-nous comment vous souhaitez contribuer au pilote.</p>
+          <form class="contact-form" data-demo-form="Message enregistré (démonstration). Aucun envoi réel n'a été effectué.">
+            <div class="form-row">
+              <div class="field">
+                <label for="nom">Nom et prénom</label>
+                <input class="input" id="nom" type="text" placeholder="Aminata Ouédraogo" required>
+              </div>
+              <div class="field">
+                <label for="organisation">Organisation</label>
+                <input class="input" id="organisation" type="text" placeholder="Officine du Marché" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="email">Adresse e-mail</label>
+                <input class="input" id="email" type="email" placeholder="nom@organisation.bf" required>
+              </div>
+              <div class="field">
+                <label for="profil">Profil</label>
+                <select class="select" id="profil">
+                  <option>Pharmacie / dépôt</option>
+                  <option>Laboratoire</option>
+                  <option>Autorité sanitaire</option>
+                  <option>Partenaire technique</option>
+                  <option>Bailleur / PTF</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea class="textarea" id="message" placeholder="Décrivez votre contexte, votre région et ce que vous attendez du dispositif."></textarea>
+            </div>
+            <label class="checkline">
+              <input type="checkbox" required>
+              <span>J'accepte d'être recontacté dans le cadre de la maquette et du futur pilote.</span>
+            </label>
+            <div>
+              <button class="btn btn--primary" type="submit"><span data-icon="send"></span>Envoyer le message</button>
+            </div>
+            <p class="proof-note">Formulaire de démonstration : aucune donnée n'est transmise ni conservée.</p>
+          </form>
+        </div>
+        <div class="contact-side">
+          <div class="contact-detail">
+            <span data-icon="shield"></span>
+            <div><strong>Tutelle sanitaire</strong><span>Faso FDA — Direction des médicaments<br>Ouagadougou, Burkina Faso</span></div>
+          </div>
+          <div class="contact-detail">
+            <span data-icon="message"></span>
+            <div><strong>Canal pilote</strong><span>Numéro court 8000<br>SMS uniquement, sans données mobiles</span></div>
+          </div>
+          <div class="contact-detail">
+            <span data-icon="globe"></span>
+            <div><strong>Territoire</strong><span>13 régions à terme<br>Pilote : Ouagadougou &amp; Bobo-Dioulasso</span></div>
+          </div>
+          <div class="callout callout--gold">
+            <span data-icon="alert-triangle"></span>
+            <div>
+              <strong>Ceci reste une maquette</strong>
+              <p>Aucune affiliation officielle à la Faso FDA n'est revendiquée. Les noms, chiffres et témoignages sont fictifs et servent à valider le parcours et le pilotage.</p>
+            </div>
+          </div>
+          <div class="callout">
+            <span data-icon="file"></span>
+            <div>
+              <strong>Documents de référence</strong>
+              <p><a href="design-system.html" style="text-decoration:underline">Design system</a> · <a href="../DOCUMENTATION_TECHNIQUE.md" style="text-decoration:underline">Documentation technique</a> · <a href="index.html#sms" style="text-decoration:underline">Fonctionnement du SMS</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

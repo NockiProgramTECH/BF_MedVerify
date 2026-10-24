@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vérifications — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Journal des vérifications BF-MedVerify : volumes horaires, canaux, verdicts, temps de réponse et traçabilité des empreintes.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="verifications" data-crumb="Vérifications">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Traçabilité · Faso FDA</p>
+        <h1 class="page-title">Journal des vérifications</h1>
+        <p class="page-sub">Chaque requête est enregistrée sans le code ni le numéro en clair : seules les empreintes HMAC et le verdict sont conservés.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>Flux actif</span>
+          <span class="dot-sep"></span>
+          <span>Fuseau GMT · journal en UTC</span>
+          <span class="dot-sep"></span>
+          <span>Rétention 24 mois</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <div class="segmented" data-segmented>
+          <button type="button">1 h</button>
+          <button type="button" class="is-active">24 h</button>
+          <button type="button">7 j</button>
+        </div>
+        <button class="btn btn--ghost" type="button" data-demo-action="Export CSV des vérifications préparé (démonstration)."><span data-icon="download"></span>Export CSV</button>
+        <a class="btn btn--primary" href="../verifier.html" target="_blank" rel="noopener"><span data-icon="scan"></span>Simuler</a>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Vérifications · 24 h</span><span class="kpi-icon"><span data-icon="activity"></span></span></div>
+        <div class="kpi-value"><span data-count="15052">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta"><span data-icon="trend-up"></span>+5,8 %</span><span>vs veille</span></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top"><span class="kpi-label">Déjà utilisés</span><span class="kpi-icon"><span data-icon="copy"></span></span></div>
+        <div class="kpi-value"><span data-count="542">0</span></div>
+        <div class="kpi-foot"><span>3,6 % du volume</span><span>18 alertes liées</span></div>
+      </article>
+      <article class="kpi kpi--red">
+        <div class="kpi-top"><span class="kpi-label">Codes inconnus</span><span class="kpi-icon"><span data-icon="alert-circle"></span></span></div>
+        <div class="kpi-value"><span data-count="74">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta kpi-delta--down"><span data-icon="trend-up"></span>+12</span><span>dont 18 sector 30</span></div>
+      </article>
+      <article class="kpi kpi--ink">
+        <div class="kpi-top"><span class="kpi-label">Latence médiane</span><span class="kpi-icon"><span data-icon="clock"></span></span></div>
+        <div class="kpi-value"><span data-count="8.2" data-decimals="1">0</span><small>s</small></div>
+        <div class="kpi-foot"><span>API 0,4 s · SMS 8,6 s</span><span>p95 · 21 s</span></div>
+      </article>
+    </div>
+
+    <div class="dash-grid">
+      <section class="panel span-8">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="chart"></span>Volume horaire</div>
+            <p class="panel-sub">24 dernières heures · pic à 11 h</p>
+          </div>
+          <div class="chart-legend">
+            <span><i></i>Vérifications</span>
+            <span><i class="is-red"></i>Codes inconnus</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="chart-box" data-line-chart data-height="228"
+               data-labels="00h,01h,02h,03h,04h,05h,06h,07h,08h,09h,10h,11h,12h,13h,14h,15h,16h,17h,18h,19h,20h,21h,22h,23h"
+               data-values="210,148,96,74,82,160,420,780,1040,1180,1260,1340,1180,980,1020,1080,1140,1060,980,860,720,560,410,320"
+               data-values-2="2,1,0,0,1,2,4,6,8,9,11,12,10,8,7,8,6,5,4,3,2,2,1,1"
+               data-label="Vérifications par heure sur 24 heures"></div>
+        </div>
+        <div class="panel-foot">
+          <span>Heures creuses : 02 h — 05 h. Le pic suit l'ouverture des officines.</span>
+          <a class="panel-link" href="territoire.html">Voir par région <span data-icon="arrow-right"></span></a>
+        </div>
+      </section>
+
+      <section class="panel span-4">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="layers"></span>Canaux</div>
+            <p class="panel-sub">Répartition des requêtes</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div style="max-width:200px;margin-inline:auto" data-donut-chart data-values="12192,2140,720"
+               data-colors="#0e5535,#e6b41c,#2a8058" data-center="81 %" data-center-label="SMS"
+               data-label="Répartition des canaux de vérification"></div>
+          <div style="display:grid;gap:.5rem;margin-top:.9rem">
+            <div class="meter-row"><span>SMS entrant</span><strong>12 192</strong><span class="progress progress--thin"><span style="width:81%"></span></span></div>
+            <div class="meter-row"><span>Pharmacie</span><strong>2 140</strong><span class="progress progress--thin progress--gold"><span style="width:14%"></span></span></div>
+            <div class="meter-row"><span>API</span><strong>720</strong><span class="progress progress--thin"><span style="width:5%;background:#2a8058"></span></span></div>
+          </div>
+          <div class="callout" style="margin-top:.8rem">
+            <span data-icon="shield"></span>
+            <div><strong>Anti-spam actif</strong><p>5 demandes/minute par empreinte de téléphone. 38 requêtes bloquées en 24 h.</p></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel" style="margin-top:.8rem">
+      <div class="toolbar">
+        <div class="search-field"><span data-icon="search"></span><input class="input" type="search" placeholder="Rechercher une empreinte, un lot, une région…" aria-label="Rechercher une vérification" data-search-target="#table-verifs" data-table-search></div>
+        <div style="display:flex;gap:.3rem;flex-wrap:wrap" data-filter-group data-filter-target="#table-verifs">
+          <button class="filter-chip is-active" type="button" data-filter="all">Tous <span class="badge badge--neutral">12</span></button>
+          <button class="filter-chip" type="button" data-filter="vrai">Authentique</button>
+          <button class="filter-chip" type="button" data-filter="utilise">Déjà utilisé</button>
+          <button class="filter-chip" type="button" data-filter="risque">Expiré / rappelé</button>
+          <button class="filter-chip" type="button" data-filter="inconnu">Inconnu</button>
+        </div>
+        <span class="spacer"></span>
+        <span class="badge badge--neutral"><strong data-visible-count="table-verifs">12</strong> lignes</span>
+        <button class="filter-chip" type="button" data-filter-reset><span data-icon="refresh"></span>Réinitialiser</button>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="table-verifs">
+          <thead>
+            <tr>
+              <th>Horodatage (UTC)</th>
+              <th>Empreinte code</th>
+              <th>Verdict</th>
+              <th>Produit / lot</th>
+              <th>Canal</th>
+              <th>Région</th>
+              <th class="num">Latence</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-click" tabindex="0" data-tags="vrai" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:48:12</td>
+              <td><span class="cell-code">a91c4e7b…c07f</span></td>
+              <td><span class="badge badge--ok"><span class="dot"></span>VRAI</span></td>
+              <td><span class="cell-main">Paracétamol 500 mg</span><span class="cell-sub">BF-2291</span></td>
+              <td>SMS</td>
+              <td>Centre</td>
+              <td class="num">6,1 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="utilise" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:47:54</td>
+              <td><span class="cell-code">4d2f9a10…8b31</span></td>
+              <td><span class="badge badge--warn"><span class="dot"></span>DEJA_UTILISE</span></td>
+              <td><span class="cell-main">Amoxicilline 500 mg</span><span class="cell-sub">AMX-1180</span></td>
+              <td>SMS</td>
+              <td>Centre</td>
+              <td class="num">7,4 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="risque" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:46:38</td>
+              <td><span class="cell-code">77be0d52…19ac</span></td>
+              <td><span class="badge badge--danger"><span class="dot"></span>EXPIRE</span></td>
+              <td><span class="cell-main">Artéméther-Luméfantrine</span><span class="cell-sub">AL-0921</span></td>
+              <td>Pharmacie</td>
+              <td>Hauts-Bassins</td>
+              <td class="num">2,3 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="risque" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:45:02</td>
+              <td><span class="cell-code">b301ff44…a7e2</span></td>
+              <td><span class="badge badge--danger"><span class="dot"></span>REVOQUE</span></td>
+              <td><span class="cell-main">Ceftriaxone 1 g</span><span class="cell-sub">CF-8812</span></td>
+              <td>SMS</td>
+              <td>Centre</td>
+              <td class="num">8,8 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="inconnu" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:44:41</td>
+              <td><span class="cell-code">ee92c7a1…0d55</span></td>
+              <td><span class="badge badge--danger"><span class="dot"></span>INCONNU</span></td>
+              <td><span class="cell-main">Non identifié</span><span class="cell-sub">—</span></td>
+              <td>SMS</td>
+              <td>Centre</td>
+              <td class="num">5,0 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="vrai" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:43:19</td>
+              <td><span class="cell-code">a91c4e7b…c07f</span></td>
+              <td><span class="badge badge--ok"><span class="dot"></span>VRAI</span></td>
+              <td><span class="cell-main">Paracétamol 500 mg</span><span class="cell-sub">BF-2291</span></td>
+              <td>API</td>
+              <td>Centre</td>
+              <td class="num">0,4 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="vrai" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:41:58</td>
+              <td><span class="cell-code">1c55a8e3…44f0</span></td>
+              <td><span class="badge badge--ok"><span class="dot"></span>VRAI</span></td>
+              <td><span class="cell-main">Paracétamol 500 mg</span><span class="cell-sub">BF-2291</span></td>
+              <td>SMS</td>
+              <td>Centre-Ouest</td>
+              <td class="num">9,2 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="utilise" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:39:12</td>
+              <td><span class="cell-code">9f73b6c2…2e18</span></td>
+              <td><span class="badge badge--warn"><span class="dot"></span>DEJA_UTILISE</span></td>
+              <td><span class="cell-main">Ibuprofène 400 mg</span><span class="cell-sub">IB-4410</span></td>
+              <td>SMS</td>
+              <td>Hauts-Bassins</td>
+              <td class="num">6,7 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="vrai" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:37:44</td>
+              <td><span class="cell-code">2ab0d941…7c63</span></td>
+              <td><span class="badge badge--ok"><span class="dot"></span>VRAI</span></td>
+              <td><span class="cell-main">Amoxicilline 500 mg</span><span class="cell-sub">AMX-1180</span></td>
+              <td>Pharmacie</td>
+              <td>Est</td>
+              <td class="num">1,9 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="inconnu" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:35:20</td>
+              <td><span class="cell-code">c8d5f210…9a04</span></td>
+              <td><span class="badge badge--danger"><span class="dot"></span>INCONNU</span></td>
+              <td><span class="cell-main">Non identifié</span><span class="cell-sub">—</span></td>
+              <td>SMS</td>
+              <td>Centre</td>
+              <td class="num">5,4 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="vrai" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:33:07</td>
+              <td><span class="cell-code">58e1aa77…b032</span></td>
+              <td><span class="badge badge--ok"><span class="dot"></span>VRAI</span></td>
+              <td><span class="cell-main">Artéméther-Luméfantrine</span><span class="cell-sub">AL-0922</span></td>
+              <td>SMS</td>
+              <td>Cascades</td>
+              <td class="num">8,1 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="risque" data-drawer-target="drawer-verif">
+              <td class="mono">2026-10-24 10:31:55</td>
+              <td><span class="cell-code">0b6f4e28…5c19</span></td>
+              <td><span class="badge badge--danger"><span class="dot"></span>EXPIRE</span></td>
+              <td><span class="cell-main">Artéméther-Luméfantrine</span><span class="cell-sub">AL-0921</span></td>
+              <td>SMS</td>
+              <td>Hauts-Bassins</td>
+              <td class="num">7,2 s</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-verif">Détail</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="table-empty" data-table-empty hidden>Aucune vérification ne correspond à ce filtre.</p>
+      </div>
+      <div class="panel-foot">
+        <span>12 lignes sur 15 052 · échantillon de la dernière heure</span>
+        <div class="pagination">
+          <span class="page-info">Page 1</span>
+          <button type="button" data-page="1" class="is-active">1</button>
+          <button type="button" data-page="2">2</button>
+          <button type="button" data-page="3">3</button>
+          <button type="button" data-page="2" aria-label="Page suivante"><span data-icon="chevron-right"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-4">
+        <div class="panel-head">
+          <div class="panel-title"><span data-icon="key"></span>Ce qui est stocké</div>
+        </div>
+        <div class="panel-body">
+          <dl class="kv">
+            <dt>code_hash</dt><dd class="mono">char(64)</dd>
+            <dt>tel_hash</dt><dd class="mono">char(64)</dd>
+            <dt>canal</dt><dd>SMS · API · PHARMACIE</dd>
+            <dt>resultat</dt><dd>5 verdicts</dd>
+            <dt>date_heure</dt><dd>timestamptz</dd>
+            <dt>id_code</dt><dd>fk · nullable</dd>
+          </dl>
+          <div class="callout" style="margin-top:.75rem">
+            <span data-icon="lock"></span>
+            <div><strong>Aucune donnée directe</strong><p>Ni code, ni numéro, ni nom de patient. L'empreinte ne peut pas être inversée sans le secret serveur.</p></div>
+          </div>
+        </div>
+        <div class="panel-foot"><a class="panel-link" href="../../DOCUMENTATION_TECHNIQUE.md">Modèle de données <span data-icon="external"></span></a></div>
+      </section>
+
+      <section class="panel span-4">
+        <div class="panel-head">
+          <div class="panel-title"><span data-icon="shield"></span>Sécurité du journal</div>
+        </div>
+        <div class="panel-body" style="display:grid;gap:.6rem">
+          <div class="mini-card"><span data-icon="check-circle"></span><strong>Journalisation en écriture seule</strong><small>L'application ajoute des lignes, jamais de mise à jour du verdict.</small></div>
+          <div class="mini-card"><span data-icon="check-circle"></span><strong>Accès par rôle</strong><small>Le laboratoire ne voit que ses lots, la pharmacie que son officine.</small></div>
+          <div class="mini-card"><span data-icon="check-circle"></span><strong>Purge planifiée</strong><small>Suppression à 24 mois, export anonymisé avant purge.</small></div>
+        </div>
+      </section>
+
+      <section class="panel span-4">
+        <div class="panel-head">
+          <div class="panel-title"><span data-icon="help"></span>Interpréter un verdict</div>
+        </div>
+        <div class="panel-body">
+          <div class="timeline">
+            <div class="timeline-item"><strong>VRAI</strong><small>Lot actif, non expiré, première vérification ou même téléphone.</small></div>
+            <div class="timeline-item timeline-item--gold"><strong>DEJA_UTILISE</strong><small>Code déjà vérifié par un autre téléphone.</small></div>
+            <div class="timeline-item timeline-item--red"><strong>EXPIRE / REVOQUE</strong><small>Date dépassée ou lot rappelé — priorité au rappel.</small></div>
+            <div class="timeline-item timeline-item--red"><strong>INCONNU</strong><small>Forme valide, empreinte absente de la base.</small></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <aside class="drawer" id="drawer-verif" inert aria-labelledby="titre-verif">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-verif">Détail d'une vérification</h2>
+        <p>2026-10-24 10:48:12 UTC · SMS entrant</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Requête</h3>
+        <dl class="kv">
+          <dt>Empreinte code</dt><dd class="mono">a91c4e7b…c07f3e1d</dd>
+          <dt>Empreinte téléphone</dt><dd class="mono">f40c…91ba</dd>
+          <dt>Canal</dt><dd>SMS entrant</dd>
+          <dt>Passerelle</dt><dd>+226 70 00 00 00</dd>
+          <dt>Latence totale</dt><dd>6,1 s</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Verdict</h3>
+        <div class="callout">
+          <span data-icon="check-circle"></span>
+          <div><strong>VRAI · Paracétamol 500 mg</strong><p>Lot BF-2291 · expiration 08/2028 · première vérification pour cette empreinte de téléphone.</p></div>
+        </div>
+      </div>
+      <div class="drawer-section">
+        <h3>Réponse envoyée</h3>
+        <div class="sms-preview">
+          <div class="bubble bubble--out" style="max-width:100%">BF-MedVerify: AUTHENTIQUE. Paracetamol 500 mg, lot BF-2291, exp 08/28. Comparez avec la boite. Si la maladie continue, consultez.</div>
+        </div>
+        <p style="font-size:.65rem;color:var(--muted);margin-top:.4rem">157 caractères · GSM-7 · 1 SMS</p>
+      </div>
+      <div class="drawer-section">
+        <h3>Chaîne de traitement</h3>
+        <div class="timeline">
+          <div class="timeline-item"><strong>Normalisation</strong><small>« VERIF BF 7K2M-9Q4XZ » → BF7K2M9Q4XZ</small><time>0 ms</time></div>
+          <div class="timeline-item"><strong>Contrôle de forme</strong><small>Caractère de contrôle valide</small><time>1 ms</time></div>
+          <div class="timeline-item"><strong>Empreinte HMAC-SHA256</strong><small>Secret serveur · 2 calculs</small><time>2 ms</time></div>
+          <div class="timeline-item"><strong>Recherche verrouillée</strong><small>SELECT … FOR UPDATE · 1 ligne</small><time>18 ms</time></div>
+          <div class="timeline-item"><strong>Envoi SMS</strong><small>httpSMS · accusé reçu</small><time>6,1 s</time></div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Trace exportée (démonstration)."><span data-icon="download"></span>Exporter la trace</button>
+      <button class="btn btn--ghost" type="button" data-demo-action="Signalement lié créé (démonstration).">Créer une alerte</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Fermer</button>
+    </div>
+  </aside>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

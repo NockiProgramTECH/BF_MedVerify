@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Médicaments &amp; lots — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Référentiel des produits, lots et codes sécurisés BF-MedVerify : statuts, expiration, consommation des codes et décisions de rappel.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="medicaments" data-crumb="Médicaments &amp; lots">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Référentiel national</p>
+        <h1 class="page-title">Médicaments, lots et codes</h1>
+        <p class="page-sub">Le registre qui fait autorité : chaque code vérifié renvoie à un lot, chaque lot à un produit et à un titulaire d'AMM.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>1 248 codes générés cette semaine</span>
+          <span class="dot-sep"></span>
+          <span>2 lots suspendus</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn--ghost" type="button" data-demo-action="Import de lots préparé (démonstration)."><span data-icon="download"></span>Importer</button>
+        <button class="btn btn--primary" type="button" data-drawer="drawer-nouveau-lot"><span data-icon="plus"></span>Déclarer un lot</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Produits référencés</span><span class="kpi-icon"><span data-icon="pill"></span></span></div>
+        <div class="kpi-value"><span data-count="184">0</span></div>
+        <div class="kpi-foot"><span>142 avec codes actifs</span><span>42 en attente</span></div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Lots actifs</span><span class="kpi-icon"><span data-icon="box"></span></span></div>
+        <div class="kpi-value"><span data-count="76">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta"><span data-icon="plus"></span>6 ce mois</span><span>sur 94 déclarés</span></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top"><span class="kpi-label">Codes non utilisés</span><span class="kpi-icon"><span data-icon="key"></span></span></div>
+        <div class="kpi-value"><span data-count="612480">0</span></div>
+        <div class="kpi-foot"><span>68 % du volume imprimé</span><span>911 000 au total</span></div>
+      </article>
+      <article class="kpi kpi--red">
+        <div class="kpi-top"><span class="kpi-label">Lots rappelés</span><span class="kpi-icon"><span data-icon="shield"></span></span></div>
+        <div class="kpi-value"><span data-count="2">0</span></div>
+        <div class="kpi-foot"><span>CF-8812 · AL-0921</span><span>2 000 boîtes visées</span></div>
+      </article>
+    </div>
+
+    <section class="panel">
+      <div class="tabs" data-tabs role="tablist">
+        <button class="tab is-active" type="button" role="tab" aria-selected="true" data-tab="lots">Lots déclarés</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-tab="produits">Produits</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-tab="codes">Codes sécurisés</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-tab="rappels">Rappels</button>
+      </div>
+
+      <!-- Lots -->
+      <div data-tab-panel="lots">
+        <div class="toolbar">
+          <div class="search-field"><span data-icon="search"></span><input class="input" type="search" placeholder="Rechercher un produit, un lot, un laboratoire…" aria-label="Rechercher un lot" data-search-target="#table-lots" data-table-search></div>
+          <div style="display:flex;gap:.3rem;flex-wrap:wrap" data-filter-group data-filter-target="#table-lots">
+            <button class="filter-chip is-active" type="button" data-filter="all">Tous <span class="badge badge--neutral">8</span></button>
+            <button class="filter-chip" type="button" data-filter="actif">Actifs</button>
+            <button class="filter-chip" type="button" data-filter="expire">Expirés</button>
+            <button class="filter-chip" type="button" data-filter="rappel">Rappelés</button>
+          </div>
+          <span class="spacer"></span>
+          <span class="badge badge--neutral"><strong data-visible-count="table-lots">8</strong> lots</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="table-lots">
+            <thead>
+              <tr>
+                <th>Lot</th>
+                <th>Produit</th>
+                <th>Laboratoire</th>
+                <th>Expiration</th>
+                <th class="num">Codes</th>
+                <th class="num">Utilisés</th>
+                <th>Statut</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-click" tabindex="0" data-tags="actif" data-drawer-target="drawer-lot">
+                <td><span class="cell-code">BF-2291</span></td>
+                <td><span class="cell-main">Paracétamol 500 mg</span><span class="cell-sub">DCI : paracétamol</span></td>
+                <td>Laboratoire Sahel Pharma</td>
+                <td>31/08/2028</td>
+                <td class="num">40 000</td>
+                <td class="num">27 180</td>
+                <td><span class="badge badge--ok"><span class="dot"></span>ACTIF</span></td>
+                <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-lot">Ouvrir</button></td>
+              </tr>
+              <tr class="row-click" tabindex="0" data-tags="actif" data-drawer-target="drawer-lot">
+                <td><span class="cell-code">AMX-1180</span></td>
+                <td><span class="cell-main">Amoxicilline 500 mg</span><span class="cell-sub">DCI : amoxicilline</span></td>
+                <td>Laboratoire Faso Médic</td>
+                <td>30/11/2027</td>
+                <td class="num">32 000</td>
+                <td class="num">18 942</td>
+                <td><span class="badge badge--ok"><span class="dot"></span>ACTIF</span></td>
+                <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-lot">Ouvrir</button></td>
+              </tr>
+              <tr class="row-click" tabindex="0" data-tags="expire" data-drawer-target="drawer-lot">
+                <td><span class="cell-code">AL-0921</span></td>
+                <td><span class="cell-main">Artéméther-Luméfantrine</span><span class="cell-sub">80/480 mg · comprimé</span></td>
+                <td>Pharma Export Sahel</td>
+                <td style="color:var(--red-700)">30/06/2026</td>
+                <td class="num">12 000</td>
+                <td class="num">7 410</td>
+                <td><span class="badge badge--danger"><span class="dot"></span>EXPIRE</span></td>
+                <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-lot">Ouvrir</button></td>
+              </tr>
+              <tr class="row-click" tabindex="0" data-tags="rappel" data-drawer-target="drawer-lot">
+                <td><span class="cell-code">CF-8812</span></td>
+                <td><span class="cell-main">Ceftriaxone 1 g</span><span class="cell-sub">1 g · poudre injectable</span></td>
+                <td>Laboratoire Sahel Pharma</td>
+                <td>31/03/2028</td>
+                <td class="num">20 000</td>
+                <td class="num">4 210</td>
+                <td><span class="badge badge--danger"><span class="dot"></span>RAPPELE</span></td>
+                <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-lot">Ouvrir</button></td>
+              </tr>
+              <tr class="row-click" tabindex="0" data-tags="actif" data-drawer-target="drawer-lot">
+                <td><span class="cell-code">IB-4410</span></td>
+                <td><span class="cell-main">Ibuprofène 400 mg</span><span class="cell-sub">DCI : ibuprofène</span></td>
+                <td>Laboratoire Faso Médic</td>
+                <td>28/02/2028</td>
+                <td class="num">24 000</td>
+                <td class="num">9 640</td>
+                <td><span class="badge badge--ok"><span class="dot"></span>ACTIF</span></td>
+                <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-lot">Ouvrir</button></td>
+              </tr>
+              <tr class="row-click" tabindex="0" data-tags="actif" data-drawer-target="drawer-lot">
+                <td><span class="cell-code">AL-0922</span></td>
+                <td><span class="cell-main">Artéméther-Luméfantrine</span><span class="cell-sub">80/480 mg · comprimé</span></td>
+                <td>Pharma Export Sahel</td>
+                <td>31/01/2029</td>
+                <td class="num">16 000</td>
+                <td class="num">5 030</td>
+                <td><span class="badge badge--ok"><span class="dot"></span>ACTIF</span></td>
+                <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-lot">Ouvrir</button></td>
+              </tr>
+              <tr class="row-click" tabindex="0" data-tags="actif" data-drawer-target="drawer-lot">
+                <td><span class="cell-code">MT-3301</span></td>
+                <td><span class="cell-main">Métronidazole 500 mg</span><span class="cell-sub">DCI : métronidazole</span></td>
+                <td>Laboratoire Ouaga Labs</td>
+                <td>30/09/2027</td>
+                <td class="num">8 000</td>
+                <td class="num">2 190</td>
+                <td><span class="badge badge--warn"><span class="dot"></span>À 60 %</span></td>
+                <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-lot">Ouvrir</button></td>
+              </tr>
+              <tr class="row-click" tabindex="0" data-tags="actif" data-drawer-target="drawer-lot">
+                <td><span class="cell-code">SE-7788</span></td>
+                <td><span class="cell-main">Sérum oral · sachet</span><span class="cell-sub">Sels de réhydratation</span></td>
+                <td>Laboratoire Ouaga Labs</td>
+                <td>31/12/2027</td>
+                <td class="num">30 000</td>
+                <td class="num">21 990</td>
+                <td><span class="badge badge--ok"><span class="dot"></span>ACTIF</span></td>
+                <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-lot">Ouvrir</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="table-empty" data-table-empty hidden>Aucun lot ne correspond à ce filtre.</p>
+        </div>
+        <div class="panel-foot">
+          <span>8 lots affichés sur 76 actifs · tri par volume de codes</span>
+          <div class="pagination">
+            <span class="page-info">Page 1 sur 10</span>
+            <button type="button" data-page="1" class="is-active">1</button>
+            <button type="button" data-page="2">2</button>
+            <button type="button" data-page="2" aria-label="Page suivante"><span data-icon="chevron-right"></span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Produits -->
+      <div data-tab-panel="produits" hidden>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Produit</th><th>DCI</th><th>Dosage / forme</th><th>Titulaire d'AMM</th><th>Code AMM</th><th class="num">Lots</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td><span class="cell-main">Paracétamol 500 mg</span></td><td>Paracétamol</td><td>500 mg · comprimé</td><td>Sahel Pharma</td><td class="mono">AMM-BF-0142</td><td class="num">4</td><td><span class="badge badge--ok">Autorisé</span></td></tr>
+              <tr><td><span class="cell-main">Amoxicilline 500 mg</span></td><td>Amoxicilline</td><td>500 mg · gélule</td><td>Faso Médic</td><td class="mono">AMM-BF-0288</td><td class="num">3</td><td><span class="badge badge--ok">Autorisé</span></td></tr>
+              <tr><td><span class="cell-main">Artéméther-Luméfantrine</span></td><td>Artéméther + luméfantrine</td><td>80/480 mg · comprimé</td><td>Pharma Export Sahel</td><td class="mono">AMM-BF-0301</td><td class="num">2</td><td><span class="badge badge--warn">Surveillance</span></td></tr>
+              <tr><td><span class="cell-main">Ceftriaxone 1 g</span></td><td>Ceftriaxone</td><td>1 g · poudre injectable</td><td>Sahel Pharma</td><td class="mono">AMM-BF-0119</td><td class="num">1</td><td><span class="badge badge--danger">Lot rappelé</span></td></tr>
+              <tr><td><span class="cell-main">Ibuprofène 400 mg</span></td><td>Ibuprofène</td><td>400 mg · comprimé</td><td>Faso Médic</td><td class="mono">AMM-BF-0207</td><td class="num">2</td><td><span class="badge badge--ok">Autorisé</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-foot"><span>184 produits référencés · affichage partiel</span></div>
+      </div>
+
+      <!-- Codes -->
+      <div data-tab-panel="codes" hidden>
+        <div class="panel-body">
+          <div class="callout" style="margin-bottom:.9rem">
+            <span data-icon="lock"></span>
+            <div><strong>Seules les empreintes sont stockées</strong><p>Le fichier de codes en clair est généré côté laboratoire, imprimé puis détruit. La base ne conserve que le HMAC-SHA256 de chaque code.</p></div>
+          </div>
+          <div class="dash-grid">
+            <div class="span-6">
+              <div class="code-preview">BF7K2M9Q4XZ · BF3T8N5R2W5 · BFH4P7V2KDG</div>
+              <p class="hint" style="margin-top:.4rem;font-size:.68rem;color:var(--muted)">Aperçu de trois codes en clair du lot BF-2291, utilisés uniquement pour la démonstration du parcours.</p>
+            </div>
+            <div class="span-6">
+              <div class="meter-row" style="margin-bottom:.55rem"><span>Lot BF-2291</span><strong>27 180 / 40 000</strong><span class="progress"><span style="width:68%"></span></span></div>
+              <div class="meter-row" style="margin-bottom:.55rem"><span>Lot AMX-1180</span><strong>18 942 / 32 000</strong><span class="progress"><span style="width:59%"></span></span></div>
+              <div class="meter-row"><span>Lot SE-7788</span><strong>21 990 / 30 000</strong><span class="progress progress--gold"><span style="width:73%"></span></span></div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap">
+            <button class="btn btn--primary" type="button" data-demo-action="Génération de 10 000 codes simulée (démonstration)."><span data-icon="key"></span>Générer des codes</button>
+            <button class="btn btn--ghost" type="button" data-demo-action="Fichier d'impression préparé (démonstration)."><span data-icon="file"></span>Préparer l'impression</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rappels -->
+      <div data-tab-panel="rappels" hidden>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Lot</th><th>Produit</th><th>Motif</th><th>Décision</th><th>Date</th><th class="num">Boîtes visées</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td><span class="cell-code">CF-8812</span></td><td>Ceftriaxone 1 g</td><td>Lot non destiné au marché national</td><td>Suspension nationale</td><td>18/10/2026</td><td class="num">2 000</td><td><span class="badge badge--danger">En vigueur</span></td></tr>
+              <tr><td><span class="cell-code">AL-0921</span></td><td>Artéméther-Luméfantrine</td><td>Expiration dépassée, maintien en rayon</td><td>Retrait des officines</td><td>23/10/2026</td><td class="num">640</td><td><span class="badge badge--warn">En cours</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-foot"><span>Chaque rappel génère un SMS aux officines et une bannière sur le site public.</span></div>
+      </div>
+    </section>
+
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-5">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="chart"></span>Expiration des lots actifs</div><p class="panel-sub">Prochaines échéances</p></div></div>
+        <div class="panel-body">
+          <div class="chart-box" data-bar-chart data-height="196" data-bar-color="gold"
+               data-labels="Nov 26,Déc 26,T1 27,T2 27,T3 27,T4 27,2028"
+               data-values="3,5,9,14,18,21,6"
+               data-label="Lots arrivant à expiration par trimestre"></div>
+        </div>
+        <div class="panel-foot"><span>6 lots expirent avant juin 2027</span><a class="panel-link" href="alertes.html">Anticiper <span data-icon="arrow-right"></span></a></div>
+      </section>
+
+      <section class="panel span-7">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="building"></span>Répartition par laboratoire</div><p class="panel-sub">Codes actifs</p></div></div>
+        <div class="panel-body" style="display:grid;gap:.6rem">
+          <div class="meter-row"><span>Sahel Pharma</span><strong>338 000</strong><span class="progress"><span style="width:74%"></span></span></div>
+          <div class="meter-row"><span>Faso Médic</span><strong>212 400</strong><span class="progress"><span style="width:46%"></span></span></div>
+          <div class="meter-row"><span>Pharma Export Sahel</span><strong>176 800</strong><span class="progress"><span style="width:38%"></span></span></div>
+          <div class="meter-row"><span>Ouaga Labs</span><strong>118 200</strong><span class="progress"><span style="width:26%"></span></span></div>
+          <div class="meter-row"><span>Autres (8)</span><strong>65 600</strong><span class="progress progress--gold"><span style="width:14%"></span></span></div>
+        </div>
+        <div class="panel-foot"><span>911 000 codes imprimés · 68 % disponibles</span><a class="panel-link" href="portail-laboratoire.html">Portail laboratoire <span data-icon="arrow-right"></span></a></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Tiroir lot -->
+  <aside class="drawer" id="drawer-lot" inert aria-labelledby="titre-lot">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-lot">Lot BF-2291</h2>
+        <p>Paracétamol 500 mg · Sahel Pharma</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Identification</h3>
+        <dl class="kv">
+          <dt>Produit</dt><dd>Paracétamol 500 mg</dd>
+          <dt>DCI</dt><dd>Paracétamol</dd>
+          <dt>Forme</dt><dd>Comprimé</dd>
+          <dt>Titulaire AMM</dt><dd>Sahel Pharma</dd>
+          <dt>Code AMM</dt><dd class="mono">AMM-BF-0142</dd>
+          <dt>Fabrication</dt><dd>03/2026</dd>
+          <dt>Expiration</dt><dd>31/08/2028</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Codes</h3>
+        <div class="stat-row">
+          <div class="stat"><strong>40 000</strong><span>codes générés</span></div>
+          <div class="stat"><strong>27 180</strong><span>déjà vérifiés</span></div>
+        </div>
+        <div class="meter-row" style="margin-top:.6rem"><span>Consommation</span><strong>68 %</strong><span class="progress"><span style="width:68%"></span></span></div>
+        <p style="font-size:.65rem;color:var(--muted);margin-top:.4rem">Les codes non utilisés restent valides jusqu'à l'expiration du lot.</p>
+      </div>
+      <div class="drawer-section">
+        <h3>Surveillance</h3>
+        <dl class="kv">
+          <dt>Alertes liées</dt><dd>1 · signalement officine</dd>
+          <dt>Officines déclarantes</dt><dd>96</dd>
+          <dt>Dernière vérification</dt><dd>il y a 3 min</dd>
+          <dt>Statut</dt><dd><span class="badge badge--ok">ACTIF</span></dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Décision</h3>
+        <form data-demo-form="Décision enregistrée (démonstration).">
+          <div class="field" style="margin-bottom:.5rem">
+            <label for="lot-statut">Statut du lot</label>
+            <select class="select" id="lot-statut"><option>ACTIF</option><option>RAPPELE</option></select>
+          </div>
+          <div class="field">
+            <label for="lot-note">Note interne</label>
+            <textarea class="textarea" id="lot-note" placeholder="Observation consignée au dossier d'audit."></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Modifications enregistrées (démonstration).">Enregistrer</button>
+      <button class="btn btn--red" type="button" data-demo-action="Rappel du lot BF-2291 demandé — simulation.">Rappeler le lot</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Fermer</button>
+    </div>
+  </aside>
+
+  <!-- Tiroir nouveau lot -->
+  <aside class="drawer" id="drawer-nouveau-lot" inert aria-labelledby="titre-nouveau-lot">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-nouveau-lot">Déclarer un lot</h2>
+        <p>Enregistrement soumis à validation de la Faso FDA</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <form data-demo-form="Lot déclaré (démonstration). Aucun code n'a été généré.">
+        <div class="drawer-section">
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="nl-produit">Produit</label>
+            <select class="select" id="nl-produit"><option>Paracétamol 500 mg</option><option>Amoxicilline 500 mg</option><option>Ceftriaxone 1 g</option><option>Nouveau produit…</option></select>
+          </div>
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="nl-lot">Numéro de lot</label>
+            <input class="input" id="nl-lot" type="text" placeholder="ex. BF-2292" required>
+          </div>
+          <div class="verif-form-row" style="margin-top:0">
+            <div class="field">
+              <label for="nl-fab">Fabrication</label>
+              <input class="input" id="nl-fab" type="date" value="2026-10-01">
+            </div>
+            <div class="field">
+              <label for="nl-exp">Expiration</label>
+              <input class="input" id="nl-exp" type="date" value="2028-09-30">
+            </div>
+          </div>
+          <div class="field" style="margin-top:.55rem">
+            <label for="nl-qte">Quantité de codes</label>
+            <input class="input" id="nl-qte" type="number" value="20000" min="1">
+            <span class="hint">Chaque code est unique et généré côté serveur avant impression.</span>
+          </div>
+        </div>
+        <div class="callout">
+          <span data-icon="lock"></span>
+          <div><strong>Rappel de sécurité</strong><p>Le fichier de codes en clair doit être imprimé puis détruit. Seules les empreintes sont conservées.</p></div>
+        </div>
+      </form>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Lot déclaré en attente de validation (démonstration).">Déclarer le lot</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Annuler</button>
+    </div>
+  </aside>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

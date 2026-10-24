@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Couverture territoriale — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Couverture territoriale du dispositif BF-MedVerify : volumes par ville, officines actives, zones blanches et priorités de déploiement.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="territoire" data-crumb="Couverture territoriale">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Territoire · 13 régions</p>
+        <h1 class="page-title">Couverture territoriale</h1>
+        <p class="page-sub">Où le dispositif est présent, où il manque encore. Les volumes sont fictifs et servent à valider la lecture cartographique.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>12 480 vérifications / jour</span>
+          <span class="dot-sep"></span>
+          <span>13 villes suivies</span>
+          <span class="dot-sep"></span>
+          <span>4 zones blanches</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <div class="segmented" data-segmented>
+          <button type="button" class="is-active">Vérifications</button>
+          <button type="button">Officines</button>
+          <button type="button">Alertes</button>
+        </div>
+        <button class="btn btn--ghost" type="button" data-demo-action="Fond de carte exporté (démonstration)."><span data-icon="download"></span>Exporter</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Villes couvertes</span><span class="kpi-icon"><span data-icon="map-pin"></span></span></div>
+        <div class="kpi-value"><span data-count="13">0</span><small>/ 22</small></div>
+        <div class="kpi-foot"><span>59 % des villes cibles</span><span>9 à ouvrir</span></div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Population desservie</span><span class="kpi-icon"><span data-icon="users"></span></span></div>
+        <div class="kpi-value"><span data-count="7.4" data-decimals="1">0</span><small>M</small></div>
+        <div class="kpi-foot"><span>≈ 34 % de la population</span><span>estimation</span></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top"><span class="kpi-label">Zones blanches</span><span class="kpi-icon"><span data-icon="alert-triangle"></span></span></div>
+        <div class="kpi-value"><span data-count="4">0</span></div>
+        <div class="kpi-foot"><span>Dori, Gaoua, Djibo, Nouna</span><span>priorité</span></div>
+      </article>
+      <article class="kpi kpi--ink">
+        <div class="kpi-top"><span class="kpi-label">Concentration</span><span class="kpi-icon"><span data-icon="chart"></span></span></div>
+        <div class="kpi-value"><span data-count="36">0</span><small>%</small></div>
+        <div class="kpi-foot"><span>Ouagadougou</span><span>4 520 / jour</span></div>
+      </article>
+    </div>
+
+    <div class="dash-grid">
+      <section class="panel span-8">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="map-pin"></span>Carte des volumes</div>
+            <p class="panel-sub">Burkina Faso · vérifications par jour · bulles proportionnelles</p>
+          </div>
+          <div class="chart-legend">
+            <span><i style="width:8px;height:8px;border-radius:50%;background:#0e5535"></i>Ville suivie</span>
+            <span><i class="is-gold"></i>Zone blanche</span>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:.6rem">
+          <img src="../assets/img/carte-burkina.svg" alt="Carte du Burkina Faso : volumes de vérifications par ville" style="width:100%;height:auto;border-radius:6px">
+        </div>
+        <div class="panel-foot">
+          <span>Tracé simplifié issu d'un fond public · données fictives</span>
+          <span class="badge badge--neutral">13 villes</span>
+        </div>
+      </section>
+
+      <div class="span-4" style="display:grid;gap:.8rem">
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="activity"></span>Top 5 des villes</div><p class="panel-sub">Vérifications / jour</p></div></div>
+          <div class="panel-body" style="display:grid;gap:.55rem">
+            <div class="meter-row"><span>Ouagadougou</span><strong>4 520</strong><span class="progress"><span style="width:96%"></span></span></div>
+            <div class="meter-row"><span>Bobo-Dioulasso</span><strong>1 980</strong><span class="progress"><span style="width:44%"></span></span></div>
+            <div class="meter-row"><span>Koudougou</span><strong>940</strong><span class="progress"><span style="width:21%"></span></span></div>
+            <div class="meter-row"><span>Dédougou</span><strong>760</strong><span class="progress"><span style="width:17%"></span></span></div>
+            <div class="meter-row"><span>Kaya</span><strong>720</strong><span class="progress"><span style="width:16%"></span></span></div>
+          </div>
+          <div class="panel-foot"><span>Le top 2 concentre 52 % du volume</span></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="alert-triangle"></span>Zones blanches</div><p class="panel-sub">Aucune officine connectée</p></div></div>
+          <div class="panel-body panel-body--flush">
+            <div class="feed">
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="map-pin"></span></span>
+                <span class="feed-main"><strong>Djibo</strong><small>Sahel · 2 officines identifiées, 0 conventionnée</small></span>
+                <span class="feed-time">priorité 1</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="map-pin"></span></span>
+                <span class="feed-main"><strong>Nouna</strong><small>Boucle du Mouhoun · couverture réseau instable</small></span>
+                <span class="feed-time">priorité 2</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="map-pin"></span></span>
+                <span class="feed-main"><strong>Gaoua</strong><small>Sud-Ouest · officine suspendue, non remplacée</small></span>
+                <span class="feed-time">priorité 2</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="map-pin"></span></span>
+                <span class="feed-main"><strong>Dori</strong><small>Sahel · candidature en revue</small></span>
+                <span class="feed-time">priorité 3</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-foot"><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Plan de déploiement généré (démonstration).">Planifier l'ouverture</button></div>
+        </section>
+      </div>
+    </div>
+
+    <section class="panel" style="margin-top:.8rem">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title"><span data-icon="layers"></span>Détail par ville</div>
+          <p class="panel-sub">Volumes, officines, couverture et priorités</p>
+        </div>
+        <span class="badge badge--neutral">13 lignes</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Ville</th><th>Région</th><th class="num">Vérif. / jour</th><th class="num">Officines</th><th>Couverture</th><th>Priorité</th><th>Dernière activité</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="cell-main">Ouagadougou</span></td><td>Centre</td><td class="num">4 520</td><td class="num">108</td><td><div class="progress progress--thin"><span style="width:96%"></span></div></td><td><span class="badge badge--ok">Saturée</span></td><td>il y a 3 min</td></tr>
+            <tr><td><span class="cell-main">Bobo-Dioulasso</span></td><td>Hauts-Bassins</td><td class="num">1 980</td><td class="num">62</td><td><div class="progress progress--thin"><span style="width:91%"></span></div></td><td><span class="badge badge--ok">Solide</span></td><td>il y a 9 min</td></tr>
+            <tr><td><span class="cell-main">Koudougou</span></td><td>Centre-Ouest</td><td class="num">940</td><td class="num">34</td><td><div class="progress progress--thin"><span style="width:88%"></span></div></td><td><span class="badge badge--ok">Solide</span></td><td>il y a 1 h</td></tr>
+            <tr><td><span class="cell-main">Dédougou</span></td><td>Boucle du Mouhoun</td><td class="num">760</td><td class="num">30</td><td><div class="progress progress--thin"><span style="width:84%"></span></div></td><td><span class="badge badge--warn">À renforcer</span></td><td>il y a 2 h</td></tr>
+            <tr><td><span class="cell-main">Kaya</span></td><td>Centre-Nord</td><td class="num">720</td><td class="num">26</td><td><div class="progress progress--thin"><span style="width:79%"></span></div></td><td><span class="badge badge--warn">À renforcer</span></td><td>il y a 2 h</td></tr>
+            <tr><td><span class="cell-main">Fada N'Gourma</span></td><td>Est</td><td class="num">640</td><td class="num">24</td><td><div class="progress progress--thin"><span style="width:76%"></span></div></td><td><span class="badge badge--warn">À renforcer</span></td><td>il y a 3 h</td></tr>
+            <tr><td><span class="cell-main">Banfora</span></td><td>Cascades</td><td class="num">560</td><td class="num">22</td><td><div class="progress progress--thin"><span style="width:82%"></span></div></td><td><span class="badge badge--ok">Solide</span></td><td>il y a 4 h</td></tr>
+            <tr><td><span class="cell-main">Tenkodogo</span></td><td>Centre-Est</td><td class="num">520</td><td class="num">20</td><td><div class="progress progress--thin"><span style="width:74%"></span></div></td><td><span class="badge badge--warn">À renforcer</span></td><td>il y a 5 h</td></tr>
+            <tr><td><span class="cell-main">Ouahigouya</span></td><td>Nord</td><td class="num">480</td><td class="num">18</td><td><div class="progress progress--thin progress--gold"><span style="width:71%"></span></div></td><td><span class="badge badge--warn">À renforcer</span></td><td>il y a 6 h</td></tr>
+            <tr><td><span class="cell-main">Ziniaré</span></td><td>Plateau-Central</td><td class="num">420</td><td class="num">14</td><td><div class="progress progress--thin progress--gold"><span style="width:68%"></span></div></td><td><span class="badge badge--warn">À renforcer</span></td><td>il y a 7 h</td></tr>
+            <tr><td><span class="cell-main">Manga</span></td><td>Centre-Sud</td><td class="num">380</td><td class="num">12</td><td><div class="progress progress--thin progress--gold"><span style="width:62%"></span></div></td><td><span class="badge badge--warn">À renforcer</span></td><td>il y a 8 h</td></tr>
+            <tr><td><span class="cell-main">Dori</span></td><td>Sahel</td><td class="num">300</td><td class="num">8</td><td><div class="progress progress--thin progress--red"><span style="width:54%"></span></div></td><td><span class="badge badge--danger">Zone blanche</span></td><td>il y a 2 j</td></tr>
+            <tr><td><span class="cell-main">Gaoua</span></td><td>Sud-Ouest</td><td class="num">260</td><td class="num">6</td><td><div class="progress progress--thin progress--red"><span style="width:49%"></span></div></td><td><span class="badge badge--danger">Zone blanche</span></td><td>il y a 6 j</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-foot">
+        <span>Couverture = part des officines du registre national ayant une convention active.</span>
+        <span class="badge badge--neutral">Données fictives</span>
+      </div>
+    </section>
+
+    <div class="callout callout--gold" style="margin-top:.8rem">
+      <span data-icon="help"></span>
+      <div>
+        <strong>Méthode de lecture</strong>
+        <p>La carte ne représente pas la couverture réseau mobile : elle montre l'usage réel du dispositif. Un volume faible peut signaler une absence d'officine partenaire autant qu'un manque d'adhésion des patients.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

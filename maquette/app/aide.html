@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aide &amp; raccourcis — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Centre d'aide du pilotage BF-MedVerify : démarrage, raccourcis clavier, signification des verdicts, statut des services et glossaire.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="aide" data-crumb="Aide">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Support · utilisation</p>
+        <h1 class="page-title">Aide &amp; raccourcis</h1>
+        <p class="page-sub">Tout ce qu'il faut pour démarrer dans le pilotage : parcours, raccourcis clavier, lectures des verdicts et statut des services.</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn--ghost" type="button" data-open-palette><span data-icon="search"></span>Recherche rapide</button>
+        <a class="btn btn--primary" href="../ecosysteme.html#contact"><span data-icon="send"></span>Contacter l'équipe</a>
+      </div>
+    </div>
+
+    <section class="panel" style="margin-bottom:.8rem">
+      <div class="panel-body" style="padding:1.1rem">
+        <div class="search-field" style="max-width:560px">
+          <span data-icon="search"></span>
+          <input class="input" type="search" placeholder="Rechercher dans l'aide : « rappel », « SMS », « export »…" aria-label="Rechercher dans l'aide" data-table-search>
+        </div>
+        <div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.7rem">
+          <span class="tag">Premiers pas</span>
+          <span class="tag">Alertes</span>
+          <span class="tag">Lots</span>
+          <span class="tag">SMS</span>
+          <span class="tag">Exports</span>
+          <span class="tag">Sécurité</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="dash-grid">
+      <section class="panel span-7">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="book"></span>Premiers pas</div><p class="panel-sub">Parcours recommandé sur une semaine</p></div></div>
+        <div class="panel-body">
+          <div class="timeline">
+            <div class="timeline-item">
+              <strong>1 · Lire la vue d'ensemble</strong>
+              <small>Vérifier les volumes, le taux d'authenticité et les alertes ouvertes. Repérer toute anomalie de latence sur la passerelle.</small>
+            </div>
+            <div class="timeline-item timeline-item--gold">
+              <strong>2 · Qualifier les alertes du jour</strong>
+              <small>Ouvrir chaque alerte, croiser avec le laboratoire, consigner la décision et respecter le délai de 24 h.</small>
+            </div>
+            <div class="timeline-item">
+              <strong>3 · Contrôler les lots</strong>
+              <small>Vérifier les lots proches de l'expiration, l'usage des codes et les signalements d'officines.</small>
+            </div>
+            <div class="timeline-item">
+              <strong>4 · Produire le rapport</strong>
+              <small>Générer le rapport mensuel, vérifier la qualité des données puis partager aux destinataires habilités.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="span-5" style="display:grid;gap:.8rem">
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="key"></span>Raccourcis clavier</div></div></div>
+          <div class="panel-body" style="display:grid;gap:.55rem">
+            <div class="meter-row" style="grid-template-columns:1fr auto"><span>Recherche rapide</span><span><kbd>Ctrl</kbd> <kbd>K</kbd></span></div>
+            <div class="meter-row" style="grid-template-columns:1fr auto"><span>Fermer un tiroir</span><kbd>Échap</kbd></div>
+            <div class="meter-row" style="grid-template-columns:1fr auto"><span>Ouvrir le menu (mobile)</span><span><kbd>Ctrl</kbd> <kbd>M</kbd></span></div>
+            <div class="meter-row" style="grid-template-columns:1fr auto"><span>Valider une recherche</span><kbd>↵</kbd></div>
+            <div class="meter-row" style="grid-template-columns:1fr auto"><span>Parcourir les résultats</span><span><kbd>↑</kbd> <kbd>↓</kbd></span></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="activity"></span>Statut des services</div><p class="panel-sub">Temps réel</p></div><span class="badge badge--ok">Opérationnel</span></div>
+          <div class="panel-body panel-body--flush">
+            <div class="feed">
+              <div class="feed-item"><span class="feed-ico"><span data-icon="database"></span></span><span class="feed-main"><strong>API &amp; base</strong><small>14 ms · 0 erreur</small></span><span class="feed-time">OK</span></div>
+              <div class="feed-item"><span class="feed-ico feed-ico--gold"><span data-icon="message"></span></span><span class="feed-main"><strong>Passerelle SMS</strong><small>Latence 48 s à Bobo</small></span><span class="feed-time">Dégradé</span></div>
+              <div class="feed-item"><span class="feed-ico"><span data-icon="shield"></span></span><span class="feed-main"><strong>Webhook signé</strong><small>Dernier appel il y a 12 s</small></span><span class="feed-time">OK</span></div>
+              <div class="feed-item"><span class="feed-ico"><span data-icon="download"></span></span><span class="feed-main"><strong>Exports</strong><small>3 tâches en file</small></span><span class="feed-time">OK</span></div>
+            </div>
+          </div>
+          <div class="panel-foot"><a class="panel-link" href="sms.html">Superviser le canal <span data-icon="arrow-right"></span></a></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-7">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="help"></span>Questions fréquentes</div><p class="panel-sub">Pilotage et terrain</p></div></div>
+        <div class="panel-body">
+          <div class="faq">
+            <details open>
+              <summary>Que faire quand une alerte dépasse le délai de 24 h ?<span data-icon="plus"></span></summary>
+              <p>Consigner immédiatement une décision provisoire (maintien sous surveillance, suspension ou demande d'inspection), notifier le responsable de cellule et programmer une revue sous 12 h. L'alerte reste visible en rouge dans le tableau de bord jusqu'à sa clôture.</p>
+            </details>
+            <details>
+              <summary>Comment suspendre un lot ?<span data-icon="plus"></span></summary>
+              <p>Ouvrir la fiche du lot dans « Médicaments &amp; lots », passer son statut à RAPPELE et motiver la décision. Les vérifications suivantes renvoient alors « REVOQUE », en priorité sur l'expiration et sur la première vérification. Un SMS d'information est envoyé aux officines si l'option est active.</p>
+            </details>
+            <details>
+              <summary>Un code inconnu signifie-t-il toujours une contrefaçon ?<span data-icon="plus"></span></summary>
+              <p>Non. Une faute de frappe est détectée avant toute recherche et renvoie « MAL_ECRIT ». Un code bien formé mais absent de la base est plus préoccupant : trois cas en 24 h créent une alerte « codes inconnus ».</p>
+            </details>
+            <details>
+              <summary>Puis-je voir les numéros de téléphone des patients ?<span data-icon="plus"></span></summary>
+              <p>Non, et c'est volontaire. La base ne contient que des empreintes HMAC-SHA256. Les écrans affichent des numéros tronqués à titre d'illustration, jamais des valeurs réelles.</p>
+            </details>
+            <details>
+              <summary>Comment exporter des données pour un audit ?<span data-icon="plus"></span></summary>
+              <p>Utiliser « Rapports &amp; exports » avec un rôle habilité. Les exports détaillés sont restreints, journalisés et limités dans le temps. Aucun export ne contient de données personnelles en clair.</p>
+            </details>
+            <details>
+              <summary>Que faire si la passerelle SMS tombe ?<span data-icon="plus"></span></summary>
+              <p>Basculer sur la SIM de secours depuis « Passerelle SMS », vérifier le crédit et la connexion du téléphone Android. Les requêtes reçues pendant l'interruption restent en file et sont retraitées automatiquement.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <div class="span-5" style="display:grid;gap:.8rem">
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="book"></span>Glossaire</div></div></div>
+          <div class="panel-body" style="display:grid;gap:.65rem;font-size:.75rem">
+            <div><strong style="display:block;font-size:.78rem">AMM</strong><span style="color:var(--muted)">Autorisation de mise sur le marché, délivrée pour un produit et un titulaire.</span></div>
+            <div><strong style="display:block;font-size:.78rem">Empreinte (hash)</strong><span style="color:var(--muted)">Résultat non réversible d'une fonction cryptographique, ici HMAC-SHA256 avec un secret serveur.</span></div>
+            <div><strong style="display:block;font-size:.78rem">Poivre (pepper)</strong><span style="color:var(--muted)">Secret global ajouté avant le hachage, conservé hors de la base.</span></div>
+            <div><strong style="display:block;font-size:.78rem">Verdict</strong><span style="color:var(--muted)">Réponse du dispositif : VRAI, DEJA_UTILISE, EXPIRE, REVOQUE, INCONNU, MAL_ECRIT, LIMITE.</span></div>
+            <div><strong style="display:block;font-size:.78rem">Zone blanche</strong><span style="color:var(--muted)">Territoire sans officine conventionnée, donc sans point de contrôle local.</span></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="send"></span>Contacter le support</div><p class="panel-sub">Équipe projet</p></div></div>
+          <div class="panel-body" style="display:grid;gap:.6rem">
+            <div class="mini-card"><span data-icon="shield"></span><strong>Cellule surveillance</strong><small>surveillance@fasofda.bf · poste 1204</small></div>
+            <div class="mini-card"><span data-icon="message"></span><strong>Astreinte technique</strong><small>+226 70 00 00 00 · 7 h — 19 h</small></div>
+            <div class="mini-card"><span data-icon="file"></span><strong>Documentation technique</strong><small><a href="../../DOCUMENTATION_TECHNIQUE.md" style="color:var(--green-700);text-decoration:underline">DOCUMENTATION_TECHNIQUE.md</a></small></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:.8rem">
+      <span data-icon="spark"></span>
+      <div>
+        <strong>Astuce</strong>
+        <p>Appuyez sur <kbd>Ctrl</kbd> + <kbd>K</kbd> pour ouvrir la recherche rapide et sauter directement vers n'importe quelle page du pilotage.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

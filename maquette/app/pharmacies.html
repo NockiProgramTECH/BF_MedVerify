@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pharmacies partenaires — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Réseau des officines partenaires BF-MedVerify : statut, région, volume de vérifications, formation et convention.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="pharmacies" data-crumb="Pharmacies partenaires">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Réseau · 13 régions</p>
+        <h1 class="page-title">Pharmacies partenaires</h1>
+        <p class="page-sub">384 officines connectées au dispositif. Chaque fiche porte son statut de convention, sa formation et son volume de vérifications.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>352 actives</span>
+          <span class="dot-sep"></span>
+          <span>24 en attente de convention</span>
+          <span class="dot-sep"></span>
+          <span>8 suspendues</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <div class="search-field" style="min-width:230px"><span data-icon="search"></span><input class="input" type="search" placeholder="Rechercher une officine…" aria-label="Rechercher une officine" data-search-target="#table-officines" data-table-search></div>
+        <button class="btn btn--ghost" type="button" data-demo-action="Annuaire exporté (démonstration)."><span data-icon="download"></span>Exporter</button>
+        <button class="btn btn--primary" type="button" data-drawer="drawer-nouvelle-officine"><span data-icon="plus"></span>Ajouter une officine</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Officines actives</span><span class="kpi-icon"><span data-icon="store"></span></span></div>
+        <div class="kpi-value"><span data-count="352">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta"><span data-icon="trend-up"></span>+18 ce mois</span><span>92 % du réseau</span></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top"><span class="kpi-label">En attente de convention</span><span class="kpi-icon"><span data-icon="file"></span></span></div>
+        <div class="kpi-value"><span data-count="24">0</span></div>
+        <div class="kpi-foot"><span>Délai moyen 9 jours</span><span>6 documents manquants</span></div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Formées cette année</span><span class="kpi-icon"><span data-icon="book"></span></span></div>
+        <div class="kpi-value"><span data-count="286">0</span></div>
+        <div class="kpi-foot"><span>81 % des actives</span><span>2 sessions / mois</span></div>
+      </article>
+      <article class="kpi kpi--red">
+        <div class="kpi-top"><span class="kpi-label">Suspendues</span><span class="kpi-icon"><span data-icon="alert-triangle"></span></span></div>
+        <div class="kpi-value"><span data-count="8">0</span></div>
+        <div class="kpi-foot"><span>3 lots rappelés non retirés</span><span>2 contrôles en cours</span></div>
+      </article>
+    </div>
+
+    <section class="panel">
+      <div class="toolbar">
+        <div style="display:flex;gap:.3rem;flex-wrap:wrap" data-filter-group data-filter-target="#table-officines">
+          <button class="filter-chip is-active" type="button" data-filter="all">Toutes <span class="badge badge--neutral">10</span></button>
+          <button class="filter-chip" type="button" data-filter="active">Actives</button>
+          <button class="filter-chip" type="button" data-filter="attente">En attente</button>
+          <button class="filter-chip" type="button" data-filter="suspendue">Suspendues</button>
+        </div>
+        <span class="spacer"></span>
+        <select class="select" style="max-width:190px;min-height:32px;height:32px;font-size:.72rem" aria-label="Filtrer par région">
+          <option>Toutes les régions</option>
+          <option>Centre</option>
+          <option>Hauts-Bassins</option>
+          <option>Centre-Ouest</option>
+          <option>Boucle du Mouhoun</option>
+          <option>Est</option>
+        </select>
+        <span class="badge badge--neutral"><strong data-visible-count="table-officines">10</strong> résultats</span>
+        <button class="filter-chip" type="button" data-filter-reset><span data-icon="refresh"></span>Réinitialiser</button>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="table-officines">
+          <thead>
+            <tr><th>Officine</th><th>Région / ville</th><th>Convention</th><th>Vérifications 30 j</th><th>Formation</th><th>Statut</th><th>Dernière activité</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr class="row-click" tabindex="0" data-tags="active" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">PM</span><div class="cell-person"><strong>Pharmacie du Marché</strong><small>P. Kaboré · 3 vérificateurs</small></div></div></td>
+              <td>Centre · Ouagadougou</td>
+              <td><span class="badge badge--ok">Signée</span></td>
+              <td class="num">9 240</td>
+              <td><span class="badge badge--ok">2026</span></td>
+              <td><span class="status-line"><span class="status-dot"></span>Active</span></td>
+              <td>il y a 3 min</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="active" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">O2</span><div class="cell-person"><strong>Officine Ouaga 2000</strong><small>A. Sawadogo · 2 vérificateurs</small></div></div></td>
+              <td>Centre · Ouagadougou</td>
+              <td><span class="badge badge--ok">Signée</span></td>
+              <td class="num">7 880</td>
+              <td><span class="badge badge--ok">2026</span></td>
+              <td><span class="status-line"><span class="status-dot"></span>Active</span></td>
+              <td>il y a 11 min</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="active" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">CG</span><div class="cell-person"><strong>Pharmacie de la Gare</strong><small>M. Traoré · 3 vérificateurs</small></div></div></td>
+              <td>Hauts-Bassins · Bobo-Dioulasso</td>
+              <td><span class="badge badge--ok">Signée</span></td>
+              <td class="num">6 420</td>
+              <td><span class="badge badge--ok">2026</span></td>
+              <td><span class="status-line"><span class="status-dot"></span>Active</span></td>
+              <td>il y a 24 min</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="active" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">PC</span><div class="cell-person"><strong>Pharmacie du Centre</strong><small>S. Ouédraogo · 1 vérificateur</small></div></div></td>
+              <td>Centre-Ouest · Koudougou</td>
+              <td><span class="badge badge--ok">Signée</span></td>
+              <td class="num">4 180</td>
+              <td><span class="badge badge--warn">2025</span></td>
+              <td><span class="status-line"><span class="status-dot"></span>Active</span></td>
+              <td>il y a 1 h</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="attente" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">SA</span><div class="cell-person"><strong>Pharmacie Sahel</strong><small>I. Diallo · candidature</small></div></div></td>
+              <td>Sahel · Dori</td>
+              <td><span class="badge badge--warn">En revue</span></td>
+              <td class="num">—</td>
+              <td><span class="badge badge--neutral">—</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>En attente</span></td>
+              <td>il y a 2 j</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="attente" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">DB</span><div class="cell-person"><strong>Dépôt Bon Conseil</strong><small>R. Bationo · dossier incomplet</small></div></div></td>
+              <td>Boucle du Mouhoun · Dédougou</td>
+              <td><span class="badge badge--warn">En revue</span></td>
+              <td class="num">—</td>
+              <td><span class="badge badge--neutral">—</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>En attente</span></td>
+              <td>il y a 5 j</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="active" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">FK</span><div class="cell-person"><strong>Pharmacie Kaya Nord</strong><small>H. Compaoré · 2 vérificateurs</small></div></div></td>
+              <td>Centre-Nord · Kaya</td>
+              <td><span class="badge badge--ok">Signée</span></td>
+              <td class="num">3 960</td>
+              <td><span class="badge badge--ok">2026</span></td>
+              <td><span class="status-line"><span class="status-dot"></span>Active</span></td>
+              <td>il y a 2 h</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="suspendue" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">BE</span><div class="cell-person"><strong>Pharmacie de l'Est</strong><small>K. Sawadogo · contrôle en cours</small></div></div></td>
+              <td>Est · Fada N'Gourma</td>
+              <td><span class="badge badge--ok">Signée</span></td>
+              <td class="num">2 140</td>
+              <td><span class="badge badge--warn">2025</span></td>
+              <td><span class="status-line status-line--red"><span class="status-dot status-dot--red"></span>Suspendue</span></td>
+              <td>il y a 3 j</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="active" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">BC</span><div class="cell-person"><strong>Pharmacie des Cascades</strong><small>Y. Hien · 2 vérificateurs</small></div></div></td>
+              <td>Cascades · Banfora</td>
+              <td><span class="badge badge--ok">Signée</span></td>
+              <td class="num">1 980</td>
+              <td><span class="badge badge--ok">2026</span></td>
+              <td><span class="status-line"><span class="status-dot"></span>Active</span></td>
+              <td>il y a 4 h</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="suspendue" data-drawer-target="drawer-officine">
+              <td><div class="cell-user"><span class="avatar">SO</span><div class="cell-person"><strong>Officine Sud-Ouest</strong><small>A. Kambou · lot rappelé non retiré</small></div></div></td>
+              <td>Sud-Ouest · Gaoua</td>
+              <td><span class="badge badge--warn">À renouveler</span></td>
+              <td class="num">860</td>
+              <td><span class="badge badge--neutral">—</span></td>
+              <td><span class="status-line status-line--red"><span class="status-dot status-dot--red"></span>Suspendue</span></td>
+              <td>il y a 6 j</td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-officine">Fiche</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="table-empty" data-table-empty hidden>Aucune officine ne correspond à ce filtre.</p>
+      </div>
+      <div class="panel-foot">
+        <span>10 officines sur 384 · tri par volume</span>
+        <div class="pagination">
+          <span class="page-info">Page 1 sur 39</span>
+          <button type="button" data-page="1" class="is-active">1</button>
+          <button type="button" data-page="2">2</button>
+          <button type="button" data-page="2" aria-label="Page suivante"><span data-icon="chevron-right"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-6">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="map-pin"></span>Répartition par région</div><p class="panel-sub">Officines actives</p></div></div>
+        <div class="panel-body" style="display:grid;gap:.55rem">
+          <div class="meter-row"><span>Centre</span><strong>108</strong><span class="progress"><span style="width:96%"></span></span></div>
+          <div class="meter-row"><span>Hauts-Bassins</span><strong>62</strong><span class="progress"><span style="width:56%"></span></span></div>
+          <div class="meter-row"><span>Centre-Ouest</span><strong>34</strong><span class="progress"><span style="width:31%"></span></span></div>
+          <div class="meter-row"><span>Boucle du Mouhoun</span><strong>30</strong><span class="progress"><span style="width:27%"></span></span></div>
+          <div class="meter-row"><span>Centre-Nord</span><strong>26</strong><span class="progress"><span style="width:24%"></span></span></div>
+          <div class="meter-row"><span>Est</span><strong>24</strong><span class="progress progress--gold"><span style="width:22%"></span></span></div>
+          <div class="meter-row"><span>Autres (7)</span><strong>68</strong><span class="progress"><span style="width:62%"></span></span></div>
+        </div>
+        <div class="panel-foot"><a class="panel-link" href="territoire.html">Voir la carte <span data-icon="arrow-right"></span></a></div>
+      </section>
+
+      <section class="panel span-6">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="clipboard"></span>Qualité du réseau</div><p class="panel-sub">Contrôles et conformité</p></div></div>
+        <div class="panel-body">
+          <div class="stat-row">
+            <div class="stat"><strong>96 %</strong><span>conventions à jour</span></div>
+            <div class="stat"><strong>81 %</strong><span>personnel formé</span></div>
+            <div class="stat"><strong>2,3 j</strong><span>délai de traitement</span></div>
+            <div class="stat"><strong>8</strong><span>suspensions en cours</span></div>
+          </div>
+          <div class="callout callout--gold" style="margin-top:.8rem">
+            <span data-icon="alert-triangle"></span>
+            <div><strong>3 suspensions liées à un rappel</strong><p>Des lots rappelés n'avaient pas été retirés du rayon. La réintégration suppose un contrôle documenté.</p></div>
+          </div>
+        </div>
+        <div class="panel-foot"><span>Audit terrain trimestriel</span><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Plan de contrôle généré (démonstration).">Planifier</button></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Tiroir fiche officine -->
+  <aside class="drawer" id="drawer-officine" inert aria-labelledby="titre-officine">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-officine">Pharmacie du Marché</h2>
+        <p>Ouagadougou · secteur 30 · convention 2025-118</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Identité</h3>
+        <dl class="kv">
+          <dt>Raison sociale</dt><dd>Pharmacie du Marché SARL</dd>
+          <dt>Responsable</dt><dd>P. Kaboré, pharmacien</dd>
+          <dt>Autorisation</dt><dd class="mono">PH-OUA-0231</dd>
+          <dt>Région</dt><dd>Centre</dd>
+          <dt>Ville</dt><dd>Ouagadougou</dd>
+          <dt>Vérificateurs</dt><dd>3 comptes</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Activité · 30 jours</h3>
+        <div class="stat-row">
+          <div class="stat"><strong>9 240</strong><span>vérifications</span></div>
+          <div class="stat"><strong>2,8 %</strong><span>codes non conformes</span></div>
+        </div>
+        <div class="meter-row" style="margin-top:.6rem"><span>Vérification avant délivrance</span><strong>94 %</strong><span class="progress"><span style="width:94%"></span></span></div>
+      </div>
+      <div class="drawer-section">
+        <h3>Conformité</h3>
+        <dl class="kv">
+          <dt>Convention</dt><dd><span class="badge badge--ok">Signée 12/01/2025</span></dd>
+          <dt>Dernière formation</dt><dd>14/09/2026</dd>
+          <dt>Dernier contrôle</dt><dd>02/10/2026 · conforme</dd>
+          <dt>Signalements émis</dt><dd>4</dd>
+          <dt>Statut</dt><dd><span class="badge badge--ok">Active</span></dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Actions</h3>
+        <div style="display:grid;gap:.4rem">
+          <button class="btn btn--ghost btn--sm" type="button" data-demo-action="Attestation de convention générée (démonstration)."><span data-icon="file"></span>Générer l'attestation</button>
+          <button class="btn btn--ghost btn--sm" type="button" data-demo-action="Session de formation programmée (démonstration)."><span data-icon="book"></span>Programmer une formation</button>
+          <button class="btn btn--ghost btn--sm" type="button" data-demo-action="Fiche officine envoyée par SMS (démonstration)."><span data-icon="send"></span>Envoyer un rappel</button>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Modifications enregistrées (démonstration).">Enregistrer</button>
+      <button class="btn btn--red" type="button" data-demo-action="Suspension de l'officine demandée (démonstration).">Suspendre</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Fermer</button>
+    </div>
+  </aside>
+
+  <!-- Tiroir ajout -->
+  <aside class="drawer" id="drawer-nouvelle-officine" inert aria-labelledby="titre-ajout-officine">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-ajout-officine">Ajouter une officine</h2>
+        <p>Création d'un dossier de convention</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <form data-demo-form="Dossier de convention créé (démonstration).">
+        <div class="drawer-section">
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="of-nom">Nom de l'officine</label>
+            <input class="input" id="of-nom" type="text" placeholder="ex. Pharmacie de la Paix" required>
+          </div>
+          <div class="verif-form-row" style="margin-top:0">
+            <div class="field">
+              <label for="of-region">Région</label>
+              <select class="select" id="of-region"><option>Centre</option><option>Hauts-Bassins</option><option>Centre-Ouest</option><option>Est</option><option>Sahel</option></select>
+            </div>
+            <div class="field">
+              <label for="of-ville">Ville</label>
+              <input class="input" id="of-ville" type="text" placeholder="Ouagadougou">
+            </div>
+          </div>
+          <div class="field" style="margin-top:.55rem">
+            <label for="of-autorisation">Numéro d'autorisation</label>
+            <input class="input" id="of-autorisation" type="text" placeholder="PH-OUA-XXXX">
+          </div>
+          <div class="field" style="margin-top:.55rem">
+            <label for="of-resp">Pharmacien responsable</label>
+            <input class="input" id="of-resp" type="text" placeholder="Nom et numéro d'ordre">
+          </div>
+        </div>
+        <div class="callout">
+          <span data-icon="file"></span>
+          <div><strong>Pièces à fournir</strong><p>Autorisation d'exercice, attestation d'assurance et engagement de vérification avant délivrance.</p></div>
+        </div>
+      </form>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Dossier créé, en attente de validation (démonstration).">Créer le dossier</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Annuler</button>
+    </div>
+  </aside>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

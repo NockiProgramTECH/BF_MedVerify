@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paramètres — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Paramètres BF-MedVerify : environnement local/online, secrets, anti-spam, seuils d'alerte, notifications, sauvegardes et journal d'audit.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="parametres" data-crumb="Paramètres">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Administration · système</p>
+        <h1 class="page-title">Paramètres</h1>
+        <p class="page-sub">Configuration de l'environnement, seuils métier, notifications et sécurité. Toute modification est consignée au journal d'audit.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>APP_ENV = online</span>
+          <span class="dot-sep"></span>
+          <span>Base PostgreSQL · pool 10 + 20</span>
+          <span class="dot-sep"></span>
+          <span>Dernière modification le 22/10/2026</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn--ghost" type="button" data-demo-action="Configuration exportée en .env.example (démonstration)."><span data-icon="download"></span>Exporter</button>
+        <button class="btn btn--primary" type="button" data-demo-action="Paramètres enregistrés (démonstration)."><span data-icon="check"></span>Enregistrer</button>
+      </div>
+    </div>
+
+    <div class="callout callout--danger" style="margin-bottom:.8rem">
+      <span data-icon="alert-triangle"></span>
+      <div>
+        <strong>Zone sensible</strong>
+        <p>Les clés et le poivre cryptographique ne sont jamais affichés en clair dans cette page. Leur modification invalide les sessions administrateur en cours.</p>
+      </div>
+    </div>
+
+    <div class="tabs" data-tabs role="tablist">
+      <button class="tab is-active" type="button" role="tab" aria-selected="true" data-tab="env">Environnement</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-tab="regles">Règles métier</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-tab="notifs">Notifications</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-tab="securite">Sécurité</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-tab="audit">Audit</button>
+    </div>
+
+    <!-- Environnement -->
+    <div data-tab-panel="env">
+      <div class="dash-grid">
+        <section class="panel span-7">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="database"></span>Base de données</div><p class="panel-sub">Pilotée par APP_ENV</p></div><span class="badge badge--ok">Connectée</span></div>
+          <div class="panel-body">
+            <div class="segmented" data-segmented style="margin-bottom:.9rem">
+              <button type="button">local</button>
+              <button type="button" class="is-active">online</button>
+            </div>
+            <div class="field" style="margin-bottom:.6rem">
+              <label for="env-url">URL de connexion</label>
+              <input class="input mono" id="env-url" type="text" value="postgresql://bfmv:••••@db.bf-medverify.bf:5432/bfmv?sslmode=require" readonly>
+              <span class="hint">Les identifiants sont injectés par l'hébergeur, jamais stockés dans le dépôt.</span>
+            </div>
+            <div class="verif-form-row" style="margin-top:.2rem">
+              <div class="field"><label for="env-pool">Pool size</label><input class="input" id="env-pool" type="number" value="10"></div>
+              <div class="field"><label for="env-overflow">Max overflow</label><input class="input" id="env-overflow" type="number" value="20"></div>
+            </div>
+            <label class="switch" style="margin-top:.8rem"><input type="checkbox" checked><span class="track"></span>pool_pre_ping (recommandé pour les bases cloud)</label>
+            <label class="switch" style="margin-top:.5rem"><input type="checkbox" checked><span class="track"></span>AUTO_INIT_DB — créer les tables manquantes au démarrage</label>
+            <label class="switch" style="margin-top:.5rem"><input type="checkbox"><span class="track"></span>SQL_ECHO — journaliser les requêtes (désactivé en online)</label>
+          </div>
+          <div class="panel-foot"><span>PostgreSQL 16 · 5 tables · 1,2 Go</span><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Test de connexion réussi (démonstration).">Tester la connexion</button></div>
+        </section>
+
+        <section class="panel span-5">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="key"></span>Secrets applicatifs</div><p class="panel-sub">Valeurs masquées</p></div></div>
+          <div class="panel-body">
+            <div style="display:grid;gap:.65rem">
+              <div>
+                <p class="field-label" style="margin-bottom:.25rem">BFMV_PEPPER</p>
+                <div style="display:flex;gap:.35rem;align-items:center">
+                  <span class="cell-code" id="pepper">••••••••••••••••</span>
+                  <button class="btn btn--ghost btn--sm" type="button" data-reveal-secret="pepper" data-secret-value="demo-pepper-32-caracteres-max">Révéler</button>
+                </div>
+                <p class="hint">Dernière rotation : jamais · sauvegardé hors base</p>
+              </div>
+              <div>
+                <p class="field-label" style="margin-bottom:.25rem">API_KEY</p>
+                <div style="display:flex;gap:.35rem;align-items:center">
+                  <span class="cell-code" id="apikey">••••••••••••••••</span>
+                  <button class="btn btn--ghost btn--sm" type="button" data-reveal-secret="apikey" data-secret-value="demo-api-key-not-real">Révéler</button>
+                </div>
+                <p class="hint">Exigée sur /verifier et /sms-entrant</p>
+              </div>
+              <div>
+                <p class="field-label" style="margin-bottom:.25rem">HTTPSMS_WEBHOOK_SIGNING_KEY</p>
+                <div style="display:flex;gap:.35rem;align-items:center">
+                  <span class="cell-code" id="webhookkey">••••••••••••••••</span>
+                  <button class="btn btn--ghost btn--sm" type="button" data-reveal-secret="webhookkey" data-secret-value="demo-signing-key-32-caracteres-min">Révéler</button>
+                </div>
+                <p class="hint">JWT HS256 · 401 si invalide</p>
+              </div>
+            </div>
+            <div class="callout callout--danger" style="margin-top:.9rem">
+              <span data-icon="alert-triangle"></span>
+              <div><strong>Ne jamais perdre le poivre</strong><p>Sans BFMV_PEPPER, les empreintes de tous les codes deviennent irrecalculables. Conservez-le dans deux coffres distincts.</p></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-top:.8rem">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="server"></span>Services externes</div><p class="panel-sub">États et endpoints</p></div></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Service</th><th>Endpoint</th><th>Dernier test</th><th>Latence</th><th>Statut</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><span class="cell-main">httpSMS · envoi</span><span class="cell-sub">api.httpsms.com</span></td><td class="mono" style="font-size:.66rem">/v1/messages/send</td><td>il y a 12 s</td><td>1,2 s</td><td><span class="badge badge--ok">OK</span></td><td><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Test d'envoi simulé (démonstration).">Tester</button></td></tr>
+              <tr><td><span class="cell-main">httpSMS · webhook</span><span class="cell-sub">CloudEvents signé</span></td><td class="mono" style="font-size:.66rem">/httpsms/webhook</td><td>il y a 12 s</td><td>0,3 s</td><td><span class="badge badge--ok">OK</span></td><td><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Signature vérifiée (démonstration).">Vérifier</button></td></tr>
+              <tr><td><span class="cell-main">PostgreSQL</span><span class="cell-sub">base principale</span></td><td class="mono" style="font-size:.66rem">5432</td><td>il y a 30 s</td><td>14 ms</td><td><span class="badge badge--ok">OK</span></td><td><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Connexion testée (démonstration).">Tester</button></td></tr>
+              <tr><td><span class="cell-main">Sauvegarde chiffrée</span><span class="cell-sub">stockage objet</span></td><td class="mono" style="font-size:.66rem">quotidien 02:00</td><td>hier 02:04</td><td>—</td><td><span class="badge badge--warn">À vérifier</span></td><td><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Restauration testée (démonstration).">Restaurer</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- Règles métier -->
+    <div data-tab-panel="regles" hidden>
+      <div class="dash-grid">
+        <section class="panel span-6">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="shield"></span>Anti-spam</div><p class="panel-sub">Protection contre le test massif</p></div></div>
+          <div class="panel-body">
+            <div class="field" style="margin-bottom:.6rem"><label for="spam-max">Demandes maximum par minute et par téléphone</label><input class="input" id="spam-max" type="number" value="5"></div>
+            <p class="hint">Au-delà, la requête reçoit le verdict LIMITE et aucune recherche de code n'est effectuée.</p>
+            <div class="field" style="margin-top:.7rem"><label for="spam-msg">Message renvoyé</label><textarea class="textarea" id="spam-msg">BF-MedVerify: Trop de demandes. Attendez 1 minute puis reessayez.</textarea></div>
+          </div>
+          <div class="panel-foot"><span>Ce seuil protège les 39,6 bits d'un code sur 11 caractères.</span></div>
+        </section>
+
+        <section class="panel span-6">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="bell"></span>Seuils d'alerte</div><p class="panel-sub">Déclenchement automatique</p></div></div>
+          <div class="panel-body">
+            <div class="verif-form-row" style="margin-top:0">
+              <div class="field"><label for="seuil-inconnu">Codes inconnus / 24 h</label><input class="input" id="seuil-inconnu" type="number" value="3"></div>
+              <div class="field"><label for="seuil-tel">Téléphones distincts / code</label><input class="input" id="seuil-tel" type="number" value="3"></div>
+            </div>
+            <div class="field" style="margin-top:.6rem"><label for="seuil-latence">Latence passerelle tolérée (s)</label><input class="input" id="seuil-latence" type="number" value="45"></div>
+            <div class="field" style="margin-top:.6rem"><label for="sla">Délai de qualification (h)</label><input class="input" id="sla" type="number" value="24"></div>
+            <label class="switch" style="margin-top:.8rem"><input type="checkbox" checked><span class="track"></span>Alerte SMS immédiate au régulateur de garde</label>
+          </div>
+          <div class="panel-foot"><span>3 alertes créées aujourd'hui</span></div>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-top:.8rem">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="message"></span>Messages de réponse</div><p class="panel-sub">Modèles GSM-7 · 160 caractères maximum</p></div></div>
+        <div class="panel-body" style="display:grid;gap:.8rem">
+          <div class="dash-grid">
+            <div class="span-4"><p class="field-label" style="margin-bottom:.3rem">VRAI</p><div class="bubble bubble--out" style="max-width:100%">BF-MedVerify: AUTHENTIQUE. Paracetamol 500 mg, lot BF-2291, exp 08/28. Comparez avec la boite.</div></div>
+            <div class="span-4"><p class="field-label" style="margin-bottom:.3rem">DEJA_UTILISE</p><div class="bubble" style="max-width:100%">BF-MedVerify: ATTENTION. Code deja verifie le 22/10. Si ce n'est pas vous, copie possible.</div></div>
+            <div class="span-4"><p class="field-label" style="margin-bottom:.3rem">REVOQUE</p><div class="bubble bubble--alert" style="max-width:100%">BF-MedVerify: ATTENTION. Ce lot est signale (rappel ou suspicion). Ne le prenez pas.</div></div>
+          </div>
+          <div class="callout">
+            <span data-icon="help"></span>
+            <div><strong>Sans accents, en ASCII</strong><p>Un accent force l'encodage Unicode et réduit la longueur utile de 160 à 70 caractères par SMS. Les modèles sont désaccentués côté serveur.</p></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Notifications -->
+    <div data-tab-panel="notifs" hidden>
+      <div class="dash-grid">
+        <section class="panel span-6">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="send"></span>Canaux</div><p class="panel-sub">Qui est prévenu, et comment</p></div></div>
+          <div class="panel-body" style="display:grid;gap:.7rem">
+            <label class="switch"><input type="checkbox" checked><span class="track"></span>SMS au régulateur de garde</label>
+            <label class="switch"><input type="checkbox" checked><span class="track"></span>E-mail à la direction des médicaments</label>
+            <label class="switch"><input type="checkbox"><span class="track"></span>Notification aux laboratoires concernés</label>
+            <label class="switch"><input type="checkbox" checked><span class="track"></span>SMS aux officines en cas de rappel</label>
+            <label class="switch"><input type="checkbox"><span class="track"></span>Bannière publique sur le site vitrine</label>
+          </div>
+          <div class="panel-foot"><span>Les envois respectent le plafond anti-spam.</span></div>
+        </section>
+
+        <section class="panel span-6">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="clock"></span>Horaires de garde</div><p class="panel-sub">Astreinte</p></div></div>
+          <div class="panel-body">
+            <div class="verif-form-row" style="margin-top:0">
+              <div class="field"><label for="garde-debut">Début</label><input class="input" id="garde-debut" type="time" value="07:00"></div>
+              <div class="field"><label for="garde-fin">Fin</label><input class="input" id="garde-fin" type="time" value="19:00"></div>
+            </div>
+            <div class="field" style="margin-top:.6rem"><label for="garde-tel">Numéro d'astreinte</label><input class="input" id="garde-tel" type="tel" value="+226 70 00 00 00"></div>
+            <div class="callout callout--gold" style="margin-top:.7rem">
+              <span data-icon="clock"></span>
+              <div><strong>Hors garde</strong><p>Les alertes critiques restent en file et déclenchent un SMS dès l'ouverture de la garde.</p></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-top:.8rem">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="bell"></span>Matrice de notification</div><p class="panel-sub">Par type d'événement</p></div></div>
+        <div class="table-wrap">
+          <table class="data-table gov-table">
+            <thead><tr><th>Événement</th><th>Régulateur</th><th>Laboratoire</th><th>Pharmacie</th><th>Citoyen</th></tr></thead>
+            <tbody>
+              <tr><td>Code copié probable</td><td><span class="gov-letter">S</span></td><td><span class="gov-letter gov-letter--c">E</span></td><td><span class="gov-letter gov-letter--i">—</span></td><td><span class="gov-letter gov-letter--i">—</span></td></tr>
+              <tr><td>Codes inconnus</td><td><span class="gov-letter">S</span></td><td><span class="gov-letter gov-letter--i">—</span></td><td><span class="gov-letter gov-letter--c">S</span></td><td><span class="gov-letter gov-letter--i">—</span></td></tr>
+              <tr><td>Lot rappelé</td><td><span class="gov-letter">S</span></td><td><span class="gov-letter gov-letter--a">S</span></td><td><span class="gov-letter gov-letter--a">S</span></td><td><span class="gov-letter gov-letter--c">B</span></td></tr>
+              <tr><td>Latence passerelle</td><td><span class="gov-letter">S</span></td><td><span class="gov-letter gov-letter--i">—</span></td><td><span class="gov-letter gov-letter--i">—</span></td><td><span class="gov-letter gov-letter--i">—</span></td></tr>
+              <tr><td>Rapport mensuel</td><td><span class="gov-letter gov-letter--a">E</span></td><td><span class="gov-letter gov-letter--i">—</span></td><td><span class="gov-letter gov-letter--i">—</span></td><td><span class="gov-letter gov-letter--i">P</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="legend-line">
+          <span><span class="gov-letter">S</span> SMS</span>
+          <span><span class="gov-letter gov-letter--a">E</span> e-mail</span>
+          <span><span class="gov-letter gov-letter--c">B</span> bannière publique</span>
+          <span><span class="gov-letter gov-letter--i">P</span> rapport publié</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sécurité -->
+    <div data-tab-panel="securite" hidden>
+      <div class="dash-grid">
+        <section class="panel span-6">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="lock"></span>Politique d'accès</div><p class="panel-sub">Comptes et sessions</p></div></div>
+          <div class="panel-body" style="display:grid;gap:.7rem">
+            <label class="switch"><input type="checkbox" checked><span class="track"></span>Double authentification obligatoire pour les administrateurs</label>
+            <label class="switch"><input type="checkbox" checked><span class="track"></span>Verrouillage après 5 échecs consécutifs</label>
+            <label class="switch"><input type="checkbox" checked><span class="track"></span>Expiration de session après 30 minutes d'inactivité</label>
+            <label class="switch"><input type="checkbox"><span class="track"></span>Restriction par plage d'adresses IP</label>
+            <div class="verif-form-row" style="margin-top:.2rem">
+              <div class="field"><label for="pwd-min">Longueur minimale du mot de passe</label><input class="input" id="pwd-min" type="number" value="14"></div>
+              <div class="field"><label for="sess">Durée de session (min)</label><input class="input" id="sess" type="number" value="30"></div>
+            </div>
+          </div>
+          <div class="panel-foot"><span>62 comptes sur 68 utilisent la 2FA</span></div>
+        </section>
+
+        <section class="panel span-6">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="database"></span>Sauvegardes</div><p class="panel-sub">Résilience</p></div></div>
+          <div class="panel-body">
+            <dl class="kv">
+              <dt>Fréquence</dt><dd>Quotidienne · 02:00 GMT</dd>
+              <dt>Rétention</dt><dd>30 jours</dd>
+              <dt>Chiffrement</dt><dd>AES-256</dd>
+              <dt>Dernière sauvegarde</dt><dd>24/10 02:04 · 1,2 Go</dd>
+              <dt>Dernier test</dt><dd>12/10/2026 · réussi</dd>
+              <dt>Site de secours</dt><dd>Région secondaire</dd>
+            </dl>
+            <div class="callout callout--gold" style="margin-top:.7rem">
+              <span data-icon="alert-triangle"></span>
+              <div><strong>Test de restauration à planifier</strong><p>Le dernier test date de 12 jours. Une restauration trimestrielle documentée est attendue.</p></div>
+            </div>
+          </div>
+          <div class="panel-foot"><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Sauvegarde lancée (démonstration).">Sauvegarder maintenant</button><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Test de restauration planifié (démonstration).">Planifier un test</button></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Audit -->
+    <div data-tab-panel="audit" hidden>
+      <section class="panel">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="clipboard"></span>Journal d'audit</div><p class="panel-sub">Toute action administrative est consignée</p></div><span class="badge badge--neutral">Rétention 24 mois</span></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Horodatage</th><th>Acteur</th><th>Action</th><th>Objet</th><th>Adresse</th><th>Résultat</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">24/10 10:42</td><td>A. Fofana</td><td>Consultation du journal d'audit</td><td>Paramètres</td><td class="mono">41.203.•. •</td><td><span class="badge badge--ok">OK</span></td></tr>
+              <tr><td class="mono">24/10 09:58</td><td>S. Ouédraogo</td><td>Déclaration de lot</td><td>BF-2292</td><td class="mono">41.203.•. •</td><td><span class="badge badge--ok">OK</span></td></tr>
+              <tr><td class="mono">24/10 08:14</td><td>Inconnu</td><td>Connexion échouée ×3</td><td>admin-bfmv</td><td class="mono">196.20.•. •</td><td><span class="badge badge--danger">Bloqué</span></td></tr>
+              <tr><td class="mono">23/10 08:12</td><td>Système</td><td>Création d'alerte automatique</td><td>ALT-2026-0412</td><td>—</td><td><span class="badge badge--ok">OK</span></td></tr>
+              <tr><td class="mono">22/10 16:30</td><td>A. Fofana</td><td>Export restreint</td><td>verifications-2026-10-22.csv</td><td class="mono">41.203.•. •</td><td><span class="badge badge--warn">Journalisé</span></td></tr>
+              <tr><td class="mono">18/10 09:00</td><td>A. Fofana</td><td>Suspension de lot</td><td>CF-8812</td><td class="mono">41.203.•. •</td><td><span class="badge badge--ok">OK</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-foot"><span>6 événements sur 1 248 · 30 derniers jours</span><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Journal d'audit exporté (démonstration)."><span data-icon="download"></span>Exporter</button></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>
