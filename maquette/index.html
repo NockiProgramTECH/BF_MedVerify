@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BF-MedVerify — Vérifier un médicament par SMS, au Burkina Faso</title>
+  <meta name="description" content="Un code à gratter, un SMS, une réponse claire. BF-MedVerify relie laboratoires, pharmacies et citoyens pour vérifier l'authenticité des médicaments, même sans internet.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body class="site-page" data-layout="public" data-page="accueil">
+  <main id="main">
+
+    <!-- ================= HÉROS ================= -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Prototype · Burkina Faso</p>
+          <h1>Avant d'avaler,<span class="line-2"><span class="accent">vérifiez</span>.</span></h1>
+          <p class="hero-sub">Un code à gratter sur la boîte, un SMS, une réponse claire. BF-MedVerify relie les laboratoires, les pharmacies et les citoyens pour arrêter la contrefaçon — même sans internet.</p>
+          <div class="hero-ctas">
+            <a class="btn btn--primary btn--lg" href="verifier.html"><span data-icon="scan"></span>Tester le vérificateur</a>
+            <a class="btn btn--ghost btn--lg" href="#solution"><span data-icon="arrow-down"></span>Comprendre le dispositif</a>
+          </div>
+          <div class="hero-proof">
+            <span><span data-icon="message"></span>Fonctionne par SMS</span>
+            <span><span data-icon="smartphone"></span>Aucune application</span>
+            <span><span data-icon="key"></span>11 caractères</span>
+            <span><span data-icon="lock"></span>Données chiffrées</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-scene">
+            <span class="scene-stamp">Scénario pilote</span>
+            <svg class="scene" viewBox="0 0 640 520" role="img" aria-labelledby="sceneTitle sceneDesc">
+              <title id="sceneTitle">Une pharmacienne remet une boîte de médicament à une patiente</title>
+              <desc id="sceneDesc">La patiente scanne le code de la boîte avec son téléphone. Une carte de réponse confirme que le lot est authentique.</desc>
+              <defs>
+                <pattern id="sceneDots" width="18" height="18" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.7" fill="#c7d8c9"/>
+                </pattern>
+              </defs>
+
+              <!-- Décor -->
+              <circle cx="258" cy="248" r="176" fill="#dce9dc"/>
+              <circle cx="556" cy="300" r="126" fill="#e1ecdf"/>
+              <rect x="30" y="36" width="92" height="76" fill="url(#sceneDots)" opacity="0.8"/>
+              <path class="scene-star" d="m84 60 5.5 12 13 1.2-9.7 8.7 2.6 12.7-11.4-6.7-11.4 6.7 2.6-12.7-9.7-8.7 13-1.2Z" fill="#e6b41c"/>
+              <path d="M0 482h640" stroke="#c7d8c9" stroke-width="2"/>
+              <ellipse cx="240" cy="488" rx="208" ry="12" fill="#d3e1d3"/>
+              <ellipse cx="548" cy="490" rx="66" ry="9" fill="#d3e1d3"/>
+
+              <!-- Comptoir -->
+              <rect x="60" y="352" width="366" height="18" rx="9" fill="#f7f2e7" stroke="#cfc5b2" stroke-width="2"/>
+              <rect x="68" y="368" width="350" height="110" rx="5" fill="#0e5535"/>
+              <rect x="84" y="386" width="318" height="76" rx="4" fill="#146b44"/>
+              <line x1="84" y1="384" x2="402" y2="384" stroke="#e6b41c" stroke-width="1.6" opacity="0.65"/>
+              <path d="M106 412v16M98 420h16" stroke="#e2eee5" stroke-width="3.4" stroke-linecap="round"/>
+              <text x="258" y="426" text-anchor="middle" font-size="11" letter-spacing="3.2" fill="#dce9dc" font-weight="600">PHARMACIE</text>
+              <rect x="300" y="338" width="58" height="16" rx="3" fill="#fcfaf5" stroke="#c9bfac"/>
+              <rect x="306" y="334" width="42" height="6" rx="2" fill="#e6b41c"/>
+
+              <!-- Pharmacienne -->
+              <g class="scene-pharmacist">
+                <path d="M156 378c0-54 34-86 84-86s84 32 84 86Z" fill="#fcfaf5" stroke="#d8cfbd" stroke-width="2"/>
+                <path d="M240 298v80" stroke="#e5ddcc" stroke-width="2"/>
+                <path d="M214 312l26 22 26-22" fill="#0a4229"/>
+                <circle cx="240" cy="352" r="2.4" fill="#9aa196"/>
+                <rect x="225" y="250" width="30" height="48" rx="13" fill="#7c4e2e"/>
+                <circle cx="240" cy="216" r="43" fill="#8a5a38"/>
+                <circle cx="198" cy="220" r="7" fill="#7c4e2e"/>
+                <circle cx="282" cy="220" r="7" fill="#7c4e2e"/>
+                <path d="M196 210c-3-40 17-65 44-65s47 25 44 65c-12-11-27-17-44-17s-32 6-44 17Z" fill="#0a4229"/>
+                <path d="M200 195c12-9 25-13 40-13s28 4 40 13" fill="none" stroke="#e6b41c" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="285" cy="157" r="9" fill="#0a4229"/>
+                <circle cx="285" cy="157" r="3.4" fill="#e6b41c"/>
+                <circle cx="225" cy="217" r="2.6" fill="#14241b"/>
+                <circle cx="255" cy="217" r="2.6" fill="#14241b"/>
+                <path d="M218 207c4-3 10-3 14 0M248 207c4-3 10-3 14 0" stroke="#14241b" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M240 222v7" stroke="#6e4423" stroke-width="2" stroke-linecap="round"/>
+                <path d="M231 238c6 5 13 5 19 0" stroke="#14241b" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+                <!-- Bras gauche posé sur le comptoir -->
+                <path d="M172 348c12 16 28 21 48 18" stroke="#d8cfbd" stroke-width="24" fill="none" stroke-linecap="round"/>
+                <path d="M172 348c12 16 28 21 48 18" stroke="#fcfaf5" stroke-width="20" fill="none" stroke-linecap="round"/>
+                <circle cx="226" cy="363" r="9" fill="#8a5a38"/>
+
+                <!-- Bras droit qui tend la boîte -->
+                <g class="scene-offer">
+                  <path d="M296 342c22-8 40-20 58-30" stroke="#d8cfbd" stroke-width="24" fill="none" stroke-linecap="round"/>
+                  <path d="M296 342c22-8 40-20 58-30" stroke="#fcfaf5" stroke-width="20" fill="none" stroke-linecap="round"/>
+                  <circle cx="360" cy="306" r="9" fill="#8a5a38"/>
+                  <g transform="rotate(-7 392 292)">
+                    <rect x="344" y="262" width="100" height="66" rx="5" fill="#fcfaf5" stroke="#c9bfac" stroke-width="2"/>
+                    <rect x="344" y="262" width="100" height="15" rx="5" fill="#0e5535"/>
+                    <rect x="354" y="286" width="40" height="4" rx="2" fill="#c9bfac"/>
+                    <rect x="354" y="295" width="28" height="4" rx="2" fill="#ded6c6"/>
+                    <rect x="354" y="306" width="58" height="12" rx="2" fill="#fbf0cf" stroke="#e6b41c" stroke-dasharray="3 3"/>
+                    <text x="358" y="315" font-size="6.4" font-family="monospace" fill="#9a7410" letter-spacing="0.8">BF 7K2M 9Q4XZ</text>
+                    <circle cx="428" cy="304" r="10" fill="#0e5535"/>
+                    <path d="m423 304 3.6 3.6 7-8" stroke="#fcfaf5" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line class="scene-scan" x1="354" y1="300" x2="416" y2="300" stroke="#e6b41c" stroke-width="1.4"/>
+                  </g>
+                </g>
+              </g>
+
+              <!-- Patiente -->
+              <g class="scene-patient">
+                <path d="M526 404v72" stroke="#0a4229" stroke-width="24" stroke-linecap="round"/>
+                <path d="M562 404v72" stroke="#0a4229" stroke-width="24" stroke-linecap="round"/>
+                <path d="M512 480h28M548 480h30" stroke="#14241b" stroke-width="9" stroke-linecap="round"/>
+                <path d="M506 314c0-16 18-26 42-26s42 10 42 26l5 98h-94Z" fill="#e6b41c" stroke="#c99a10" stroke-width="2"/>
+                <path d="M524 294c7 9 15 13 24 13s17-4 24-13" stroke="#0a4229" stroke-width="8" fill="none" stroke-linecap="round"/>
+                <rect x="534" y="270" width="28" height="30" rx="10" fill="#6e4423"/>
+                <circle cx="548" cy="250" r="47" fill="#14241b"/>
+                <circle cx="548" cy="252" r="36" fill="#6e4423"/>
+                <path d="M511 244c4-26 18-42 37-42s33 16 37 42c-10-8-23-12-37-12s-27 4-37 12Z" fill="#14241b"/>
+                <circle cx="511" cy="256" r="6" fill="#6e4423"/>
+                <circle cx="585" cy="256" r="6" fill="#6e4423"/>
+                <circle cx="511" cy="267" r="5" fill="none" stroke="#e6b41c" stroke-width="2"/>
+                <circle cx="585" cy="267" r="5" fill="none" stroke="#e6b41c" stroke-width="2"/>
+                <circle cx="535" cy="252" r="2.4" fill="#14241b"/>
+                <circle cx="561" cy="252" r="2.4" fill="#14241b"/>
+                <path d="M529 243c4-3 9-3 13 0M555 243c4-3 9-3 13 0" stroke="#14241b" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M548 257v6" stroke="#4a2c16" stroke-width="2" stroke-linecap="round"/>
+                <path d="M540 271c5 4 12 4 17 0" stroke="#14241b" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+                <!-- Bras avec téléphone -->
+                <g class="scene-phone-hand">
+                  <path d="M515 322c-13-8-23-19-30-32" stroke="#c99a10" stroke-width="18" fill="none" stroke-linecap="round"/>
+                  <circle cx="484" cy="286" r="9" fill="#6e4423"/>
+                  <g transform="rotate(-9 477 254)">
+                    <rect x="457" y="224" width="40" height="66" rx="7" fill="#14241b"/>
+                    <rect x="461" y="229" width="32" height="55" rx="3" fill="#e2eee5"/>
+                    <path d="m468 249 5 5 9-10" stroke="#0e5535" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="466" y="262" width="22" height="3" rx="1.5" fill="#c8ddcd"/>
+                    <rect x="466" y="268" width="15" height="3" rx="1.5" fill="#c8ddcd"/>
+                    <circle cx="477" cy="289" r="1.8" fill="#4b6f5b"/>
+                  </g>
+                </g>
+
+                <!-- Bras opposé + sac -->
+                <path d="M580 322c10 18 14 34 11 50" stroke="#c99a10" stroke-width="18" fill="none" stroke-linecap="round"/>
+                <circle cx="590" cy="376" r="8" fill="#6e4423"/>
+                <path d="M578 382h26l5 34h-36Z" fill="#0e5535"/>
+                <path d="M591 398v8M587 402h8" stroke="#e6b41c" stroke-width="2" stroke-linecap="round"/>
+              </g>
+
+              <!-- Lien code -> téléphone -->
+              <path class="scene-dash" d="M442 286c18 12 30 10 44-2" stroke="#2a8058" stroke-width="1.8" fill="none"/>
+
+              <!-- Carte de réponse -->
+              <g class="scene-badge">
+                <rect x="396" y="52" width="200" height="88" rx="12" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.5"/>
+                <rect x="396" y="52" width="5" height="88" rx="2.5" fill="#0e5535"/>
+                <circle cx="428" cy="82" r="14" fill="#0e5535"/>
+                <path class="scene-check" d="m421 82 5 5 9-10" stroke="#fcfaf5" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="452" y="78" font-size="12.5" font-weight="700" fill="#0e5535" letter-spacing="0.3">AUTHENTIQUE</text>
+                <text x="452" y="94" font-size="8.4" fill="#5b6a5f">Paracétamol 500 mg</text>
+                <text x="452" y="106" font-size="8.4" fill="#5b6a5f">Lot BF-2291 · exp. 08/28</text>
+                <text x="452" y="122" font-size="6.8" fill="#7b877e" letter-spacing="0.4">RÉPONSE SMS · BF-MEDVERIFY</text>
+                <path d="m574 64 2.6 5.8 6.2.6-4.7 4.2 1.3 6.1-5.4-3.2-5.4 3.2 1.3-6.1-4.7-4.2 6.2-.6Z" fill="#e6b41c"/>
+              </g>
+
+              <!-- Petite pastille SMS -->
+              <g class="scene-badge-2">
+                <rect x="58" y="212" width="112" height="38" rx="8" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.2"/>
+                <rect x="70" y="222" width="18" height="18" rx="4" fill="#e2eee5"/>
+                <path d="M74 227h10M74 231h7M74 235h9" stroke="#0e5535" stroke-width="1.3" stroke-linecap="round"/>
+                <text x="96" y="230" font-size="7.5" font-weight="700" fill="#14241b">SMS reçu</text>
+                <text x="96" y="241" font-size="7" fill="#7b877e">en quelques secondes</text>
+              </g>
+            </svg>
+            <span class="scene-caption"><span class="pill-dot"></span>Au comptoir, Ouagadougou · données fictives</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BANDEAU ================= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-chunk">
+          <span>Code à gratter <b class="sep">✦</b></span>
+          <span>SMS au 8000 <b class="sep">✦</b></span>
+          <span>Réponse claire <b class="sep">✦</b></span>
+          <span>Sans internet <b class="sep">✦</b></span>
+          <span>Données chiffrées <b class="sep">✦</b></span>
+          <span>Faso FDA <b class="sep">✦</b></span>
+          <span>Pharmacies partenaires <b class="sep">✦</b></span>
+        </div>
+        <div class="marquee-chunk">
+          <span>Code à gratter <b class="sep">✦</b></span>
+          <span>SMS au 8000 <b class="sep">✦</b></span>
+          <span>Réponse claire <b class="sep">✦</b></span>
+          <span>Sans internet <b class="sep">✦</b></span>
+          <span>Données chiffrées <b class="sep">✦</b></span>
+          <span>Faso FDA <b class="sep">✦</b></span>
+          <span>Pharmacies partenaires <b class="sep">✦</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= PREUVES ================= -->
+    <section class="proof-strip">
+      <div class="container">
+        <div class="proof-grid">
+          <div class="proof-item">
+            <strong><span data-count="12480" data-suffix="">0</span></strong>
+            <span>vérifications par jour dans le scénario pilote</span>
+          </div>
+          <div class="proof-item">
+            <strong><span data-count="384">0</span></strong>
+            <span>pharmacies et dépôts connectés</span>
+          </div>
+          <div class="proof-item">
+            <strong><span data-count="13">0</span></strong>
+            <span>régions couvertes par le maillage SMS</span>
+          </div>
+          <div class="proof-item">
+            <strong><span data-count="92.6" data-decimals="1" data-suffix=" %">0</span></strong>
+            <span>des réponses reçues en moins de 30 secondes</span>
+          </div>
+        </div>
+        <p class="proof-note">Chiffres de démonstration — scénario pilote simulé, non validés par la Faso FDA.</p>
+      </div>
+    </section>
+
+    <!-- ================= PROBLÈME ================= -->
+    <section class="section" id="probleme">
+      <div class="container">
+        <div class="problem-intro">
+          <div class="section-head">
+            <p class="eyebrow">Le constat</p>
+            <h2>La contrefaçon ne se voit pas. Elle se vérifie.</h2>
+          </div>
+          <p class="lead">Une boîte peut imiter l'emballage, la marque et le prix. Ce qu'elle ne peut pas imiter, c'est un code unique, rattaché à un lot déclaré, déjà vérifié ou signalé. Encore faut-il pouvoir l'interroger.</p>
+        </div>
+
+        <div class="issue-grid">
+          <article class="issue reveal">
+            <span class="issue-no">01</span>
+            <span data-icon="copy" class="icon"></span>
+            <h3>L'emballage se copie</h3>
+            <p>Une imprimante suffit à reproduire un blister, une notice et un numéro de lot. Sans base de référence, l'œil ne fait pas la différence.</p>
+          </article>
+          <article class="issue reveal" style="--d:90ms">
+            <span class="issue-no">02</span>
+            <span data-icon="package" class="icon"></span>
+            <h3>Le lot disparaît</h3>
+            <p>Entre l'importation, le stockage et l'officine, la traçabilité se rompt. Le patient achète alors une boîte sans historique vérifiable.</p>
+          </article>
+          <article class="issue reveal" style="--d:180ms">
+            <span class="issue-no">03</span>
+            <span data-icon="flag" class="icon"></span>
+            <h3>Le signalement arrive trop tard</h3>
+            <p>Quand une boîte suspecte est repérée, l'information circule à la main. Les autres ventes du même lot ont déjà eu lieu.</p>
+          </article>
+        </div>
+
+        <div class="chain-wrap reveal">
+          <div class="chain-title">
+            <h3>La chaîne du médicament</h3>
+            <span class="badge badge--danger"><span class="dot"></span>Un maillon sans preuve suffit</span>
+          </div>
+          <div class="chain">
+            <div class="chain-node">
+              <span class="node-ico"><span data-icon="building"></span></span>
+              <strong>Laboratoire</strong>
+              <small>Déclare le lot et ses codes</small>
+            </div>
+            <div class="chain-node">
+              <span class="node-ico"><span data-icon="truck"></span></span>
+              <strong>Importateur</strong>
+              <small>Réceptionne et transporte</small>
+            </div>
+            <div class="chain-node is-break">
+              <span class="node-ico"><span data-icon="alert-triangle"></span></span>
+              <strong>Grossiste</strong>
+              <small>Rupture de traçabilité</small>
+            </div>
+            <div class="chain-node">
+              <span class="node-ico"><span data-icon="store"></span></span>
+              <strong>Officine</strong>
+              <small>Délivre la boîte</small>
+            </div>
+            <div class="chain-node">
+              <span class="node-ico"><span data-icon="user"></span></span>
+              <strong>Patient</strong>
+              <small>Achète sans preuve</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SOLUTION ================= -->
+    <section class="section section--green" id="solution">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow">Le dispositif</p>
+          <h2>Un code. Un SMS. Une réponse.</h2>
+          <p>Trois gestes, aucun smartphone requis, aucune connexion internet nécessaire. Le médicament parle au réseau, le réseau répond au patient.</p>
+        </div>
+
+        <div class="steps">
+          <article class="step-card reveal">
+            <span class="step-no">ÉTAPE 01</span>
+            <div class="step-art" aria-hidden="true">
+              <svg viewBox="0 0 260 200" role="img">
+                <circle cx="128" cy="102" r="80" fill="#eef4ec"/>
+                <ellipse cx="126" cy="178" rx="76" ry="8" fill="#e4ecdf"/>
+                <g transform="rotate(-6 120 110)">
+                  <rect x="62" y="68" width="112" height="84" rx="7" fill="#fcfaf5" stroke="#c9bfac" stroke-width="2"/>
+                  <rect x="62" y="68" width="112" height="17" rx="7" fill="#0e5535"/>
+                  <rect x="74" y="96" width="46" height="5" rx="2.5" fill="#c9bfac"/>
+                  <rect x="74" y="106" width="34" height="5" rx="2.5" fill="#ded6c6"/>
+                  <rect x="74" y="121" width="72" height="17" rx="3" fill="#fbf0cf" stroke="#e6b41c" stroke-dasharray="3 3"/>
+                  <text x="80" y="133" font-size="6.8" font-family="monospace" fill="#9a7410" letter-spacing="0.7">BF 7K2M 9Q4XZ</text>
+                  <circle cx="158" cy="135" r="8" fill="#0e5535"/>
+                  <path d="m154 135 3 3 6-7" stroke="#fcfaf5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <g class="art-hand">
+                  <path d="M250 32c-6 32-22 60-44 80" stroke="#146b44" stroke-width="17" fill="none" stroke-linecap="round"/>
+                  <circle cx="202" cy="116" r="15" fill="#8a5a38"/>
+                  <circle cx="190" cy="106" r="5" fill="#8a5a38"/>
+                  <g class="art-coin">
+                    <circle cx="187" cy="123" r="10" fill="#e6b41c" stroke="#b88a10" stroke-width="2"/>
+                    <text x="187" y="127" text-anchor="middle" font-size="7" font-weight="700" fill="#7d5c0d">F</text>
+                  </g>
+                </g>
+                <path class="art-blink" d="M52 160h80" stroke="#c9dac9" stroke-width="2" stroke-linecap="round"/>
+                <path d="m42 52 3.2 7.2 7.8.7-5.9 5.3 1.7 7.6-6.8-4-6.8 4 1.7-7.6-5.9-5.3 7.8-.7Z" fill="#e6b41c"/>
+              </svg>
+            </div>
+            <h3>Grattez la couche</h3>
+            <p>Un code à 11 caractères apparaît sous la surface argentée. Il est lisible, unique et rattaché à un lot précis.</p>
+            <span class="step-tag tag">11 caractères · sans 0 ni O</span>
+          </article>
+
+          <article class="step-card reveal" style="--d:100ms">
+            <span class="step-no">ÉTAPE 02</span>
+            <div class="step-art" aria-hidden="true">
+              <svg viewBox="0 0 260 200" role="img">
+                <circle cx="128" cy="104" r="80" fill="#eef4ec"/>
+                <rect x="44" y="26" width="92" height="150" rx="12" fill="#14241b"/>
+                <rect x="50" y="34" width="80" height="134" rx="7" fill="#fcfaf5"/>
+                <rect x="50" y="34" width="80" height="15" rx="7" fill="#0e5535"/>
+                <text x="58" y="45" font-size="6.2" fill="#dce9dc" font-weight="600">BF-MedVerify</text>
+                <rect x="58" y="58" width="58" height="26" rx="5" fill="#e2eee5" stroke="#c8ddcd"/>
+                <text x="62" y="68" font-size="5.4" font-family="monospace" fill="#0e5535">VERIF</text>
+                <text x="62" y="77" font-size="5.4" font-family="monospace" fill="#0e5535">BF7K2M9Q4XZ</text>
+                <rect x="64" y="92" width="42" height="16" rx="4" fill="#fbf0cf"/>
+                <text x="67" y="102" font-size="4.8" fill="#9a7410">SMS en cours…</text>
+                <g opacity="0.8">
+                  <rect x="58" y="128" width="12" height="12" rx="2" fill="#eae3d5"/>
+                  <rect x="74" y="128" width="12" height="12" rx="2" fill="#eae3d5"/>
+                  <rect x="90" y="128" width="12" height="12" rx="2" fill="#eae3d5"/>
+                  <rect x="58" y="144" width="12" height="12" rx="2" fill="#eae3d5"/>
+                  <rect x="74" y="144" width="12" height="12" rx="2" fill="#eae3d5"/>
+                  <rect x="90" y="144" width="12" height="12" rx="2" fill="#eae3d5"/>
+                </g>
+                <g class="art-send">
+                  <circle cx="118" cy="160" r="15" fill="#0e5535"/>
+                  <path d="m112 160 11-5-4 11-2-4Z" fill="#fcfaf5"/>
+                </g>
+                <g class="art-char">
+                  <circle cx="201" cy="76" r="33" fill="#14241b"/>
+                  <circle cx="201" cy="80" r="25" fill="#6e4423"/>
+                  <path d="M181 74c3-16 11-25 21-25s18 9 21 25c-6-5-13-8-21-8s-15 3-21 8Z" fill="#14241b"/>
+                  <circle cx="192" cy="80" r="1.8" fill="#14241b"/>
+                  <circle cx="210" cy="80" r="1.8" fill="#14241b"/>
+                  <path d="M196 89c3 3 7 3 10 0" stroke="#14241b" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                  <path d="M168 200c0-30 14-48 33-48s33 18 33 48Z" fill="#e6b41c" stroke="#c99a10" stroke-width="2"/>
+                  <path d="M188 154c2 5 7 8 13 8s11-3 13-8" stroke="#0a4229" stroke-width="5" fill="none" stroke-linecap="round"/>
+                  <path d="M180 165c-12 6-22 14-28 24" stroke="#c99a10" stroke-width="13" fill="none" stroke-linecap="round"/>
+                  <circle cx="148" cy="192" r="7" fill="#6e4423"/>
+                </g>
+                <path d="M150 50c14-7 26-6 36 2" stroke="#2a8058" stroke-width="1.4" stroke-dasharray="3 5" fill="none"/>
+              </svg>
+            </div>
+            <h3>Envoyez le SMS</h3>
+            <p>Le patient recopie le code dans un message précédé de <span class="mono">VERIF</span>, vers le numéro court du dispositif. Aucune application, aucun forfait data.</p>
+            <span class="step-tag tag">SMS · GSM-7 · 160 caractères</span>
+          </article>
+
+          <article class="step-card reveal" style="--d:200ms">
+            <span class="step-no">ÉTAPE 03</span>
+            <div class="step-art" aria-hidden="true">
+              <svg viewBox="0 0 260 200" role="img">
+                <circle cx="128" cy="104" r="80" fill="#eef4ec"/>
+                <g class="art-char">
+                  <circle cx="64" cy="86" r="34" fill="#14241b"/>
+                  <circle cx="64" cy="90" r="26" fill="#6e4423"/>
+                  <path d="M42 84c3-17 11-26 22-26s19 9 22 26c-6-5-13-8-22-8s-16 3-22 8Z" fill="#14241b"/>
+                  <circle cx="55" cy="90" r="1.9" fill="#14241b"/>
+                  <circle cx="73" cy="90" r="1.9" fill="#14241b"/>
+                  <path d="M59 99c4 3 8 3 12 0" stroke="#14241b" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+                  <path d="M26 200c0-32 17-52 38-52s38 20 38 52Z" fill="#e6b41c" stroke="#c99a10" stroke-width="2"/>
+                  <path d="M46 152c3 5 9 8 18 8s15-3 18-8" stroke="#0a4229" stroke-width="5" fill="none" stroke-linecap="round"/>
+                  <path d="M92 166c14 1 26-4 36-14" stroke="#c99a10" stroke-width="13" fill="none" stroke-linecap="round"/>
+                  <circle cx="132" cy="150" r="7" fill="#6e4423"/>
+                </g>
+                <g class="art-bubble">
+                  <rect x="132" y="26" width="112" height="56" rx="9" fill="#fcfaf5" stroke="#ded6c6" stroke-width="1.4"/>
+                  <rect x="132" y="26" width="4" height="56" rx="2" fill="#0e5535"/>
+                  <circle cx="154" cy="46" r="9" fill="#0e5535"/>
+                  <path class="art-check" d="m150 46 3 3 6-7" stroke="#fcfaf5" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text x="169" y="45" font-size="8" font-weight="700" fill="#0e5535">AUTHENTIQUE</text>
+                  <text x="169" y="56" font-size="5.8" fill="#5b6a5f">Paracétamol 500 mg</text>
+                  <text x="169" y="66" font-size="5.8" fill="#5b6a5f">Lot BF-2291 · exp. 08/28</text>
+                  <text x="145" y="77" font-size="4.8" fill="#7b877e">Réponse reçue · quelques secondes</text>
+                </g>
+                <rect x="148" y="96" width="52" height="86" rx="7" fill="#14241b"/>
+                <rect x="152" y="100" width="44" height="78" rx="4" fill="#e2eee5"/>
+                <path class="art-check" d="m164 134 6 6 13-15" stroke="#0e5535" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="m224 116 3.4 7.6 8.2.8-6.2 5.6 1.8 8-7.2-4.2-7.2 4.2 1.8-8-6.2-5.6 8.2-.8Z" fill="#e6b41c"/>
+              </svg>
+            </div>
+            <h3>Recevez la réponse</h3>
+            <p>Le SMS revient avec le produit, le lot, l'expiration et la conduite à tenir. Quatre verdicts possibles, jamais de réponse ambiguë.</p>
+            <span class="step-tag tag">Authentique · déjà utilisé · expiré · inconnu</span>
+          </article>
+        </div>
+
+        <div class="solution-foot">
+          <span>Le code est vérifié une première fois, puis associé à l'empreinte du téléphone — jamais au numéro en clair.</span>
+          <a class="link-arrow" href="verifier.html">Essayer le simulateur <span data-icon="arrow-right"></span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VERDICTS ================= -->
+    <section class="section section--paper">
+      <div class="container">
+        <div class="verdicts-intro">
+          <div>
+            <p class="eyebrow">Les réponses</p>
+            <h2>Quatre verdicts. Aucune zone grise.</h2>
+          </div>
+          <p class="lead">Chaque réponse indique quoi faire : prendre, ne pas prendre, rapporter, signaler. Le message reste court pour tenir dans un SMS unique.</p>
+        </div>
+        <div class="verdict-grid">
+          <article class="verdict reveal">
+            <div class="verdict-head">
+              <div>
+                <span class="verdict-code">VRAI · code inédit</span>
+                <h3>Produit authentique</h3>
+              </div>
+              <span class="badge badge--ok verdict-badge"><span class="dot"></span>Confiance</span>
+            </div>
+            <div class="verdict-sms">BF-MedVerify: AUTHENTIQUE. Paracetamol 500 mg, lot BF-2291, exp 08/28. Comparez avec la boite.</div>
+            <p>Le lot existe, il est actif et le code n'avait pas encore été utilisé. Comparer reste utile : nom, dosage, lot, date.</p>
+          </article>
+          <article class="verdict verdict--gold reveal" style="--d:80ms">
+            <div class="verdict-head">
+              <div>
+                <span class="verdict-code">DEJA_UTILISE · même code, autre téléphone</span>
+                <h3>Déjà vérifié</h3>
+              </div>
+              <span class="badge badge--warn verdict-badge"><span class="dot"></span>Attention</span>
+            </div>
+            <div class="verdict-sms">BF-MedVerify: ATTENTION. Code deja verifie le 22/10. Si ce n'est pas vous, copie possible.</div>
+            <p>Une boîte scannée par un autre téléphone peut être une copie. Le message invite à ne pas la prendre et à la rapporter.</p>
+          </article>
+          <article class="verdict verdict--red reveal" style="--d:160ms">
+            <div class="verdict-head">
+              <div>
+                <span class="verdict-code">EXPIRE / REVOQUE · lot à retirer</span>
+                <h3>Expiré ou rappelé</h3>
+              </div>
+              <span class="badge badge--danger verdict-badge"><span class="dot"></span>Risque</span>
+            </div>
+            <div class="verdict-sms">BF-MedVerify: ATTENTION. Medicament expire (06/26). Ne le prenez pas. Rapportez-le a la pharmacie.</div>
+            <p>La date est dépassée ou le lot fait l'objet d'un rappel. La Faso FDA est notifiée et peut suspendre le lot.</p>
+          </article>
+          <article class="verdict verdict--red reveal" style="--d:240ms">
+            <div class="verdict-head">
+              <div>
+                <span class="verdict-code">INCONNU · code absent de la base</span>
+                <h3>Code non reconnu</h3>
+              </div>
+              <span class="badge badge--danger verdict-badge"><span class="dot"></span>Suspect</span>
+            </div>
+            <div class="verdict-sms">BF-MedVerify: CODE NON RECONNU. Verifiez les 11 caracteres. Si le code est exact, ne prenez pas ce produit.</div>
+            <p>Avant de conclure, le patient vérifie sa saisie. Si le code est exact, la boîte devient un signalement pour la pharmacie.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SMS ================= -->
+    <section class="section section--sand" id="sms">
+      <div class="container sms-split">
+        <div class="sms-visual">
+          <div class="sms-float sms-float--1"><span data-icon="wifi"></span>Sans internet</div>
+          <div class="phone-mock" aria-hidden="true">
+            <div class="phone-screen">
+              <div class="phone-status"><span>12:42</span><span>Réseau · 82 %</span></div>
+              <div class="phone-contact">
+                <span class="avatar">BF</span>
+                <div><strong>BF-MedVerify</strong><small>Numéro court · 8000</small></div>
+              </div>
+              <div class="phone-thread">
+                <div class="bubble bubble--out">VERIF BF7K2M9Q4XZ<time>12:41</time></div>
+                <div class="bubble">BF-MedVerify: AUTHENTIQUE. Paracetamol 500 mg, lot BF-2291, exp 08/28. Comparez avec la boite.<time>12:41</time></div>
+                <div class="bubble bubble--out">Merci, je vérifie la boîte avec le pharmacien.<time>12:42</time></div>
+                <div class="bubble">Si la maladie continue, consultez un agent de santé.<time>12:42</time></div>
+              </div>
+              <div class="phone-input"><span>Écrire un message…</span><b>›</b></div>
+            </div>
+          </div>
+          <div class="sms-float sms-float--2"><span data-icon="clock"></span>Réponse en quelques secondes</div>
+        </div>
+
+        <div>
+          <p class="eyebrow">Le canal</p>
+          <h2>Le SMS, parce qu'il marche partout.</h2>
+          <p class="lead" style="margin-top:.8rem">Pas d'application à installer, pas de forfait data. Un téléphone à touches suffit, même dans une zone où la 3G ne passe pas.</p>
+          <div class="feature-list">
+            <div class="feature-item">
+              <span class="ico"><span data-icon="key"></span></span>
+              <div>
+                <strong>Un alphabet sans piège</strong>
+                <p>31 caractères seulement : ni 0, ni O, ni 1, ni I, ni L. Les confusions de lecture disparaissent.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="ico"><span data-icon="message"></span></span>
+              <div>
+                <strong>Un message GSM-7, sans accent</strong>
+                <p>160 caractères utiles, un seul SMS, un coût maîtrisé. Le produit, le lot et l'expiration tiennent dans la réponse.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="ico"><span data-icon="shield"></span></span>
+              <div>
+                <strong>Un anti-spam intégré</strong>
+                <p>Cinq demandes par minute et par téléphone, verrouillage du code pendant la vérification : pas de test massif des codes.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="ico"><span data-icon="lock"></span></span>
+              <div>
+                <strong>Des empreintes, jamais des identités</strong>
+                <p>Le code et le numéro sont transformés par HMAC-SHA256. La base ne permet pas de les reconstituer.</p>
+              </div>
+            </div>
+          </div>
+          <div class="sms-stats">
+            <div><strong>81 %</strong><span>des vérifications passent par SMS</span></div>
+            <div><strong>5 / min</strong><span>plafond anti-spam par numéro</span></div>
+            <div><strong>0</strong><span>code stocké en clair</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ÉCOSYSTÈME ================= -->
+    <section class="section section--paper" id="ecosysteme">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">L'écosystème</p>
+          <h2>Personne ne protège seul.</h2>
+          <p>Un régulateur, des laboratoires, des officines et des citoyens. La valeur du dispositif naît de la circulation du signal entre eux.</p>
+        </div>
+        <div class="actor-grid">
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="shield"></span></span>
+            <h3>Faso FDA</h3>
+            <p>Pilote les lots, qualifie les alertes, suspend un lot en un clic et suit la couverture nationale.</p>
+            <span class="tag">Régulation</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="building"></span></span>
+            <h3>Laboratoires</h3>
+            <p>Déclarent les lots, génèrent les codes sécurisés et sont notifiés en temps réel en cas de rappel.</p>
+            <span class="tag">Déclaration</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="store"></span></span>
+            <h3>Pharmacies</h3>
+            <p>Vérifient avant la délivrance, signalent les boîtes suspectes et protègent leur patientèle.</p>
+            <span class="tag">Terrain</span>
+          </article>
+          <article class="actor">
+            <span class="actor-ico"><span data-icon="user-check"></span></span>
+            <h3>Citoyens</h3>
+            <p>Un SMS suffit pour vérifier, alerter et exiger la traçabilité au moment de l'achat.</p>
+            <span class="tag">Confiance</span>
+          </article>
+        </div>
+        <p style="margin-top:1.5rem"><a class="link-arrow" href="ecosysteme.html">Explorer tout l'écosystème <span data-icon="arrow-right"></span></a></p>
+      </div>
+    </section>
+
+    <!-- ================= PILOTAGE ================= -->
+    <section class="section section--sand">
+      <div class="container pilotage-split">
+        <div>
+          <div class="preview-frame" aria-hidden="true">
+            <div class="preview-bar"><i></i><i></i><i></i><span>bf-medverify.bf / pilotage</span></div>
+            <div class="preview-screen">
+              <div class="preview-side"><b></b><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="preview-main">
+                <div class="preview-title"><span>Vue d'ensemble</span><small>24 octobre 2026</small></div>
+                <div class="preview-kpis">
+                  <div class="preview-kpi"><small>Vérifications</small><strong>12 480</strong><em>+8,4 %</em></div>
+                  <div class="preview-kpi"><small>Authentiques</small><strong>92,6 %</strong><em>+1,2 pt</em></div>
+                  <div class="preview-kpi"><small>Alertes</small><strong style="color:#a11f27">3</strong><em style="color:#a11f27">2 critiques</em></div>
+                </div>
+                <div class="preview-chart">
+                  <small>Vérifications · 7 derniers jours</small>
+                  <svg viewBox="0 0 260 58" preserveAspectRatio="none">
+                    <path class="area" d="M0 46 C22 42 30 32 52 34 C74 36 84 24 106 26 C128 28 138 18 160 22 C182 26 192 10 214 14 C236 18 246 8 260 10 L260 58 L0 58 Z"/>
+                    <path class="line" d="M0 46 C22 42 30 32 52 34 C74 36 84 24 106 26 C128 28 138 18 160 22 C182 26 192 10 214 14 C236 18 246 8 260 10"/>
+                  </svg>
+                </div>
+                <div class="preview-table"><span></span><span></span><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+          <p class="preview-caption">Extrait de la maquette de pilotage — données fictives.</p>
+        </div>
+        <div class="pilotage-copy">
+          <p class="eyebrow">Le pilotage</p>
+          <h2>Un tableau de bord, pas un tableau de plus.</h2>
+          <p class="lead" style="margin-top:.8rem">Le régulateur voit le pouls du dispositif : volumes, verdicts, alertes, couverture et santé de la passerelle SMS. Chaque signal a un propriétaire et une échéance.</p>
+          <ul class="checklist">
+            <li><span data-icon="check-circle"></span>Alertes critiques qualifiées et assignées, avec chronologie.</li>
+            <li><span data-icon="check-circle"></span>Lots et codes suivis du laboratoire jusqu'à la boîte.</li>
+            <li><span data-icon="check-circle"></span>Couverture par région et par officine partenaire.</li>
+            <li><span data-icon="check-circle"></span>Exports prêts pour la tutelle et les partenaires.</li>
+          </ul>
+          <p style="margin-top:1.4rem"><a class="btn btn--primary" href="app/index.html"><span data-icon="grid"></span>Entrer dans le pilotage</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONFIDENTIALITÉ ================= -->
+    <section class="section section--paper">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Confiance</p>
+          <h2>Le code ne dit pas qui vous êtes.</h2>
+          <p>Un dispositif de santé publique ne peut pas devenir un fichier de patients. La conception retire l'identité avant même d'écrire en base.</p>
+        </div>
+        <div class="privacy-grid">
+          <article class="privacy-card reveal">
+            <span data-icon="lock"></span>
+            <h3>Aucun code en clair</h3>
+            <p>Seule l'empreinte HMAC-SHA256 du code est stockée. Une fuite de la base ne révèle aucun code utilisable.</p>
+          </article>
+          <article class="privacy-card reveal" style="--d:90ms">
+            <span data-icon="user"></span>
+            <h3>Aucun numéro en clair</h3>
+            <p>Le téléphone est haché avec un secret serveur distinct. Il sert à reconnaître une première vérification, pas à identifier une personne.</p>
+          </article>
+          <article class="privacy-card reveal" style="--d:180ms">
+            <span data-icon="shield"></span>
+            <h3>Un secret gardé à part</h3>
+            <p>Le poivre cryptographique (BFMV_PEPPER) n'est jamais dans la base. Sans lui, les empreintes sont inexploitables.</p>
+          </article>
+        </div>
+        <div class="hash-pipe reveal">
+          <span class="chip">BF7K2M9Q4XZ</span>
+          <span data-icon="arrow-right"></span>
+          <span class="chip">HMAC-SHA256 + secret</span>
+          <span data-icon="arrow-right"></span>
+          <span class="chip chip--green chip--long">a91c4e7b…c07f3e1d</span>
+          <small>Le code saisi n'est jamais conservé : seule cette empreinte de 64 caractères est comparée à la base.</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="section section--sand">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">Questions fréquentes</p>
+          <h2>Ce qu'il faut savoir avant de gratter.</h2>
+          <p class="lead" style="margin-top:.8rem">Les réponses aux questions des patients, des pharmaciens et des partenaires.</p>
+          <p style="margin-top:1.2rem"><a class="link-arrow" href="ecosysteme.html#contact">Poser une autre question <span data-icon="arrow-right"></span></a></p>
+        </div>
+        <div class="faq">
+          <details open>
+            <summary>Faut-il un smartphone ou internet ?<span data-icon="plus"></span></summary>
+            <p>Non. Un téléphone capable d'envoyer un SMS suffit. Le patient écrit le code précédé de VERIF et reçoit la réponse sur le même téléphone, même sans données mobiles.</p>
+          </details>
+          <details>
+            <summary>Que se passe-t-il si le code a déjà été utilisé ?<span data-icon="plus"></span></summary>
+            <p>Le message indique la date de la première vérification. Si ce n'est pas vous, la boîte peut être une copie : ne la prenez pas et rapportez-la à la pharmacie. Un même code vérifié par au moins trois téléphones différents déclenche une alerte pour la Faso FDA.</p>
+          </details>
+          <details>
+            <summary>Le dispositif remplace-t-il le pharmacien ?<span data-icon="plus"></span></summary>
+            <p>Non. Il ajoute une preuve au moment de la délivrance. Le pharmacien reste celui qui conseille, qui signale et qui décide de retirer une boîte du rayon.</p>
+          </details>
+          <details>
+            <summary>Les numéros de téléphone sont-ils conservés ?<span data-icon="plus"></span></summary>
+            <p>Jamais en clair. Seule une empreinte HMAC-SHA256 est enregistrée, avec un secret serveur. Elle sert à limiter le spam et à reconnaître une première vérification, sans identifier la personne.</p>
+          </details>
+          <details>
+            <summary>Qui peut voir les données de pilotage ?<span data-icon="plus"></span></summary>
+            <p>Les rôles sont séparés : la Faso FDA pilote et qualifie les alertes, les laboratoires voient leurs lots, les pharmacies voient leur officine. La maquette de pilotage détaille ces permissions.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= APPEL ================= -->
+    <section class="section section--tight section--paper">
+      <div class="container">
+        <div class="cta-inner">
+          <div>
+            <p class="eyebrow" style="color:var(--gold-300)">Prochaine étape</p>
+            <h2>Une boîte vérifiée,<br>c'est une <span class="accent">contrefaçon</span> écartée.</h2>
+            <p>Testez le parcours complet, puis explorez le pilotage, l'écosystème et les pages qui restent à construire pour finaliser le dispositif.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn--paper btn--lg" href="verifier.html"><span data-icon="scan"></span>Tester un code</a>
+            <a class="btn btn--ghost btn--lg" href="ecosysteme.html" style="color:var(--paper);border-color:rgba(252,250,245,.35)">Voir l'écosystème</a>
+          </div>
+          <span class="cta-star" aria-hidden="true">✦</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/layout.js"></script>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

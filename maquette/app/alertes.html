@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alertes — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Centre d'alertes BF-MedVerify : qualification, assignation, chronologie et décision de rappel des lots suspects.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="alertes" data-crumb="Alertes">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Surveillance · Faso FDA</p>
+        <h1 class="page-title">Centre d'alertes</h1>
+        <p class="page-sub">Chaque signal est qualifié, assigné et documenté. Trois alertes sont ouvertes, dont une hors délai de qualification.</p>
+        <div class="page-meta">
+          <span class="status-line status-line--red"><span class="status-dot status-dot--red"></span>1 hors délai</span>
+          <span class="dot-sep"></span>
+          <span>SLA : 24 h ouvrées</span>
+          <span class="dot-sep"></span>
+          <span>Dernière alerte reçue il y a 2 h</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn--ghost" type="button" data-demo-action="Rapport d'alertes exporté (démonstration)."><span data-icon="download"></span>Exporter</button>
+        <button class="btn btn--primary" type="button" data-drawer="drawer-nouvelle-alerte"><span data-icon="plus"></span>Créer une alerte</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <article class="kpi kpi--red">
+        <div class="kpi-top"><span class="kpi-label">Critiques</span><span class="kpi-icon"><span data-icon="alert-triangle"></span></span></div>
+        <div class="kpi-value"><span data-count="3">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta kpi-delta--down"><span data-icon="clock"></span>1 en retard</span><span>7 jours</span></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top"><span class="kpi-label">À qualifier</span><span class="kpi-icon"><span data-icon="filter"></span></span></div>
+        <div class="kpi-value"><span data-count="8">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta"><span data-icon="clock"></span>Délai moyen 6 h</span><span>file d'attente</span></div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Traitées · 30 jours</span><span class="kpi-icon"><span data-icon="check-circle"></span></span></div>
+        <div class="kpi-value"><span data-count="146">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta"><span data-icon="trend-up"></span>74 % sous 24 h</span><span>sur 197 reçues</span></div>
+      </article>
+      <article class="kpi kpi--ink">
+        <div class="kpi-top"><span class="kpi-label">Décisions de rappel</span><span class="kpi-icon"><span data-icon="shield"></span></span></div>
+        <div class="kpi-value"><span data-count="2">0</span><small>lots</small></div>
+        <div class="kpi-foot"><span>CF-8812 · AL-0921</span><span>en vigueur</span></div>
+      </article>
+    </div>
+
+    <div class="callout callout--danger" style="margin-bottom:.8rem">
+      <span data-icon="alert-circle"></span>
+      <div>
+        <strong>1 alerte dépasse le délai de qualification</strong>
+        <p>Le signal « Code copié probable · CF-8812 » a été créé le 23/10 à 08:12. Le délai de 24 h est dépassé de 2 h : une décision de maintien ou de retrait doit être consignée.</p>
+      </div>
+    </div>
+
+    <section class="panel">
+      <div class="toolbar">
+        <div class="search-field"><span data-icon="search"></span><input class="input" type="search" placeholder="Rechercher un lot, une officine…" aria-label="Rechercher dans les alertes" data-search-target="#table-alertes" data-table-search></div>
+        <div style="display:flex;gap:.3rem;flex-wrap:wrap" data-filter-group data-filter-target="#table-alertes">
+          <button class="filter-chip is-active" type="button" data-filter="all">Toutes <span class="badge badge--neutral">13</span></button>
+          <button class="filter-chip" type="button" data-filter="critique">Critiques <span class="badge badge--neutral">3</span></button>
+          <button class="filter-chip" type="button" data-filter="attente">À qualifier <span class="badge badge--neutral">8</span></button>
+          <button class="filter-chip" type="button" data-filter="traitee">Traitées <span class="badge badge--neutral">2</span></button>
+        </div>
+        <span class="spacer"></span>
+        <span class="badge badge--neutral"><strong data-visible-count="table-alertes">9</strong> affichées</span>
+        <button class="filter-chip" type="button" data-filter-reset><span data-icon="refresh"></span>Réinitialiser</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table" id="table-alertes">
+          <thead>
+            <tr>
+              <th>Alerte</th>
+              <th>Type</th>
+              <th>Produit / lot</th>
+              <th>Localisation</th>
+              <th>Gravité</th>
+              <th>Statut</th>
+              <th>Ouverte</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-click" tabindex="0" data-tags="critique attente" data-drawer-target="drawer-alerte-copie">
+              <td><span class="cell-main">Code copié probable</span><span class="cell-sub">ALT-2026-0412</span></td>
+              <td>Code multi-téléphones</td>
+              <td><span class="cell-main">Ceftriaxone 1 g</span><span class="cell-sub">CF-8812</span></td>
+              <td>Ouagadougou · 3 officines</td>
+              <td><span class="badge badge--danger"><span class="dot"></span>Critique</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>À qualifier</span></td>
+              <td><span class="mono">23/10 08:12</span><span class="cell-sub" style="color:var(--red-700)">26 h</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-copie" data-demo-action="Traitement de l'alerte ouvert.">Traiter</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="critique attente" data-drawer-target="drawer-alerte-inconnus">
+              <td><span class="cell-main">18 codes inconnus en 24 h</span><span class="cell-sub">ALT-2026-0411</span></td>
+              <td>Codes inconnus</td>
+              <td><span class="cell-main">Non identifié</span><span class="cell-sub">—</span></td>
+              <td>Ouagadougou · secteur 30</td>
+              <td><span class="badge badge--danger"><span class="dot"></span>Critique</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>À qualifier</span></td>
+              <td><span class="mono">24/10 06:04</span><span class="cell-sub">4 h</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-inconnus">Traiter</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="critique attente" data-drawer-target="drawer-alerte-lot">
+              <td><span class="cell-main">Lot expiré toujours en rayon</span><span class="cell-sub">ALT-2026-0410</span></td>
+              <td>Expiration</td>
+              <td><span class="cell-main">Artéméther-Luméfantrine</span><span class="cell-sub">AL-0921</span></td>
+              <td>Bobo-Dioulasso · 2 officines</td>
+              <td><span class="badge badge--danger"><span class="dot"></span>Critique</span></td>
+              <td><span class="status-line status-line--red"><span class="status-dot status-dot--red"></span>Escaladée</span></td>
+              <td><span class="mono">23/10 17:45</span><span class="cell-sub">17 h</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-lot">Traiter</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="attente" data-drawer-target="drawer-alerte-sms">
+              <td><span class="cell-main">Latence passerelle &gt; 45 s</span><span class="cell-sub">ALT-2026-0409</span></td>
+              <td>Technique</td>
+              <td><span class="cell-main">Canal SMS</span><span class="cell-sub">+226 70 00 00 00</span></td>
+              <td>Bobo-Dioulasso</td>
+              <td><span class="badge badge--warn"><span class="dot"></span>Moyenne</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>À qualifier</span></td>
+              <td><span class="mono">24/10 09:20</span><span class="cell-sub">1 h</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-sms">Traiter</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="attente" data-drawer-target="drawer-alerte-officine">
+              <td><span class="cell-main">Signalement d'officine</span><span class="cell-sub">ALT-2026-0408</span></td>
+              <td>Signalement terrain</td>
+              <td><span class="cell-main">Paracétamol 500 mg</span><span class="cell-sub">BF-2291</span></td>
+              <td>Koudougou · Pharmacie du Centre</td>
+              <td><span class="badge badge--warn"><span class="dot"></span>Moyenne</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>À qualifier</span></td>
+              <td><span class="mono">24/10 07:30</span><span class="cell-sub">3 h</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-officine">Traiter</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="attente" data-drawer-target="drawer-alerte-copie">
+              <td><span class="cell-main">Code réutilisé 3 fois</span><span class="cell-sub">ALT-2026-0407</span></td>
+              <td>Code multi-téléphones</td>
+              <td><span class="cell-main">Amoxicilline 500 mg</span><span class="cell-sub">AMX-1180</span></td>
+              <td>Ouagadougou · 1 officine</td>
+              <td><span class="badge badge--warn"><span class="dot"></span>Moyenne</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>À qualifier</span></td>
+              <td><span class="mono">23/10 22:10</span><span class="cell-sub">12 h</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-copie">Traiter</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="attente" data-drawer-target="drawer-alerte-officine">
+              <td><span class="cell-main">Numéros suspects répétés</span><span class="cell-sub">ALT-2026-0406</span></td>
+              <td>Anti-spam</td>
+              <td><span class="cell-main">—</span><span class="cell-sub">5 demandes/min</span></td>
+              <td>Dédougou</td>
+              <td><span class="badge badge--neutral"><span class="dot"></span>Faible</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>À qualifier</span></td>
+              <td><span class="mono">23/10 19:02</span><span class="cell-sub">15 h</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-officine">Traiter</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="attente" data-drawer-target="drawer-alerte-inconnus">
+              <td><span class="cell-main">Codes inconnus · lot non déclaré</span><span class="cell-sub">ALT-2026-0405</span></td>
+              <td>Codes inconnus</td>
+              <td><span class="cell-main">Non identifié</span><span class="cell-sub">—</span></td>
+              <td>Kaya</td>
+              <td><span class="badge badge--warn"><span class="dot"></span>Moyenne</span></td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>À qualifier</span></td>
+              <td><span class="mono">23/10 14:26</span><span class="cell-sub">20 h</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-inconnus">Traiter</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="traitee" data-drawer-target="drawer-alerte-lot">
+              <td><span class="cell-main">Rappel national · CF-8812</span><span class="cell-sub">ALT-2026-0398</span></td>
+              <td>Décision de rappel</td>
+              <td><span class="cell-main">Ceftriaxone 1 g</span><span class="cell-sub">CF-8812</span></td>
+              <td>National</td>
+              <td><span class="badge badge--danger"><span class="dot"></span>Critique</span></td>
+              <td><span class="badge badge--ok"><span class="dot"></span>Clôturée</span></td>
+              <td><span class="mono">18/10 09:00</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-lot">Voir</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="traitee" data-drawer-target="drawer-alerte-officine">
+              <td><span class="cell-main">Formation anti-contrefaçon</span><span class="cell-sub">ALT-2026-0391</span></td>
+              <td>Prévention</td>
+              <td><span class="cell-main">—</span><span class="cell-sub">12 officines</span></td>
+              <td>Bobo-Dioulasso</td>
+              <td><span class="badge badge--neutral"><span class="dot"></span>Faible</span></td>
+              <td><span class="badge badge--ok"><span class="dot"></span>Clôturée</span></td>
+              <td><span class="mono">12/10 10:00</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-alerte-officine">Voir</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="table-empty" data-table-empty hidden>Aucune alerte ne correspond à ce filtre.</p>
+      </div>
+
+      <div class="panel-foot">
+        <span>Affichage de 10 alertes · 13 au total</span>
+        <div class="pagination">
+          <span class="page-info">Page 1 sur 2</span>
+          <button type="button" data-page="1" class="is-active">1</button>
+          <button type="button" data-page="2">2</button>
+          <button type="button" data-page="2" aria-label="Page suivante"><span data-icon="chevron-right"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-7">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="clock"></span>Chronologie de l'alerte critique</div>
+            <p class="panel-sub">ALT-2026-0412 · Code copié probable · CF-8812</p>
+          </div>
+          <span class="badge badge--danger"><span class="dot"></span>Hors délai</span>
+        </div>
+        <div class="panel-body">
+          <div class="timeline">
+            <div class="timeline-item timeline-item--red">
+              <strong>Trois téléphones différents vérifient le même code</strong>
+              <small>Seuil d'alerte atteint automatiquement par le service de vérification.</small>
+              <time>23/10 · 08:12</time>
+            </div>
+            <div class="timeline-item timeline-item--gold">
+              <strong>Alerte créée et assignée à la cellule surveillance</strong>
+              <small>Priorité critique · lot CF-8812 · 3 officines concernées à Ouagadougou.</small>
+              <time>23/10 · 08:14</time>
+            </div>
+            <div class="timeline-item">
+              <strong>Demande d'informations au laboratoire titulaire</strong>
+              <small>Quantités livrées, destinations, date d'impression des codes.</small>
+              <time>23/10 · 11:40</time>
+            </div>
+            <div class="timeline-item">
+              <strong>Retour du laboratoire : lot non destiné au marché burkinabè</strong>
+              <small>Signal renforcé · suspicion de réétiquetage ou d'importation parallèle.</small>
+              <time>24/10 · 07:05</time>
+            </div>
+            <div class="timeline-item timeline-item--red">
+              <strong>Délai de qualification dépassé</strong>
+              <small>Décision attendue : suspension nationale ou surveillance ciblée.</small>
+              <time>24/10 · 08:12</time>
+            </div>
+          </div>
+        </div>
+        <div class="panel-foot">
+          <span>Journal d'audit conservé 24 mois</span>
+          <button class="btn btn--ghost btn--sm" type="button" data-demo-action="Historique complet exporté (démonstration).">Exporter l'historique</button>
+        </div>
+      </section>
+
+      <section class="panel span-5">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="shield"></span>Protocole de traitement</div>
+            <p class="panel-sub">4 étapes obligatoires</p>
+          </div>
+        </div>
+        <div class="panel-body panel-body--flush">
+          <div class="feed">
+            <div class="feed-item">
+              <span class="feed-ico"><span data-icon="search"></span></span>
+              <span class="feed-main"><strong>1 · Qualifier</strong><small>Vérifier les faits : nombre de téléphones, officines, historique du lot.</small></span>
+              <span class="feed-time">fait</span>
+            </div>
+            <div class="feed-item">
+              <span class="feed-ico"><span data-icon="building"></span></span>
+              <span class="feed-main"><strong>2 · Croiser avec le laboratoire</strong><small>Confirmer la destination du lot et les quantités réellement livrées.</small></span>
+              <span class="feed-time">fait</span>
+            </div>
+            <div class="feed-item">
+              <span class="feed-ico feed-ico--gold"><span data-icon="edit"></span></span>
+              <span class="feed-main"><strong>3 · Décider</strong><small>Suspension, surveillance renforcée ou classement sans suite, avec motivation écrite.</small></span>
+              <span class="feed-time">à faire</span>
+            </div>
+            <div class="feed-item">
+              <span class="feed-ico"><span data-icon="send"></span></span>
+              <span class="feed-main"><strong>4 · Informer</strong><small>Officines, grossistes, partenaires et citoyens via SMS et communiqué.</small></span>
+              <span class="feed-time">à faire</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel-foot"><a class="panel-link" href="aide.html">Consulter le manuel <span data-icon="arrow-right"></span></a></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Tiroir : alerte code copié -->
+  <aside class="drawer" id="drawer-alerte-copie" inert aria-labelledby="titre-copie">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-copie">Code copié probable · CF-8812</h2>
+        <p>ALT-2026-0412 · critique · ouverte il y a 26 h</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Signal</h3>
+        <dl class="kv">
+          <dt>Type</dt><dd>Code multi-téléphones</dd>
+          <dt>Code</dt><dd class="mono">BF9C6B3Z8M4</dd>
+          <dt>Produit</dt><dd>Ceftriaxone 1 g</dd>
+          <dt>Lot</dt><dd>CF-8812</dd>
+          <dt>Téléphones distincts</dt><dd>7</dd>
+          <dt>Officines citées</dt><dd>3 · Ouagadougou</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Analyse</h3>
+        <div class="callout callout--danger" style="margin-bottom:.5rem">
+          <span data-icon="alert-triangle"></span>
+          <div><strong>Suspicion forte</strong><p>Le laboratoire indique que ce lot n'était pas destiné au Burkina Faso. Le même code a été vérifié dans trois officines différentes.</p></div>
+        </div>
+        <p style="font-size:.76rem;line-height:1.55;color:var(--muted)">Le lot est déjà en rappel national depuis le 18/10. Des boîtes continuent d'être présentées en officine, ce qui suggère une distribution parallèle postérieure au rappel.</p>
+      </div>
+      <div class="drawer-section">
+        <h3>Décision</h3>
+        <form data-demo-form="Décision enregistrée (démonstration). Aucun effet réel.">
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="decision">Issue</label>
+            <select class="select" id="decision">
+              <option>Suspension nationale du lot</option>
+              <option>Surveillance ciblée des 3 officines</option>
+              <option>Demande d'inspection terrain</option>
+              <option>Classement sans suite</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="motif">Motivation</label>
+            <textarea class="textarea" id="motif" placeholder="Éléments factuels justifiant la décision, destinés au dossier d'audit."></textarea>
+          </div>
+          <label class="checkline"><input type="checkbox" checked><span>Informer les officines concernées par SMS.</span></label>
+        </form>
+      </div>
+      <div class="drawer-section">
+        <h3>Journal</h3>
+        <div class="timeline">
+          <div class="timeline-item timeline-item--red"><strong>Alerte créée</strong><small>Seuil : 3 téléphones</small><time>23/10 08:12</time></div>
+          <div class="timeline-item"><strong>Retour laboratoire</strong><small>Lot non destiné au marché local</small><time>24/10 07:05</time></div>
+          <div class="timeline-item timeline-item--gold"><strong>Hors délai</strong><small>Qualification attendue</small><time>24/10 08:12</time></div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Décision enregistrée et officines notifiées (démonstration).">Enregistrer la décision</button>
+      <button class="btn btn--ghost" type="button" data-demo-action="Alerte escaladée au directeur (démonstration).">Escalader</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Fermer</button>
+    </div>
+  </aside>
+
+  <!-- Tiroir : codes inconnus -->
+  <aside class="drawer" id="drawer-alerte-inconnus" inert aria-labelledby="titre-inconnus">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-inconnus">Codes inconnus en 24 h</h2>
+        <p>ALT-2026-0411 · critique · ouverte il y a 4 h</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Signal</h3>
+        <dl class="kv">
+          <dt>Codes inconnus</dt><dd>18</dd>
+          <dt>Seuil d'alerte</dt><dd>3 en 24 h</dd>
+          <dt>Zone</dt><dd>Ouagadougou · secteur 30</dd>
+          <dt>Officines</dt><dd>3</dd>
+          <dt>Format</dt><dd>Bien formé</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Lecture</h3>
+        <p style="font-size:.76rem;line-height:1.55;color:var(--muted)">Les codes respectent la forme attendue (11 caractères, caractère de contrôle valide) mais n'existent pas dans la base. Cela évoque un lot imprimé hors du circuit officiel plutôt qu'une simple erreur de saisie.</p>
+        <div class="callout callout--gold" style="margin-top:.55rem">
+          <span data-icon="help"></span>
+          <div><strong>Ne pas confondre</strong><p>Une faute de frappe est classée « MAL_ECRIT » avant toute recherche en base et ne déclenche jamais d'alerte.</p></div>
+        </div>
+      </div>
+      <div class="drawer-section">
+        <h3>Actions proposées</h3>
+        <label class="checkline" style="margin-bottom:.4rem"><input type="checkbox" checked><span>Demander une inspection des 3 officines.</span></label>
+        <label class="checkline" style="margin-bottom:.4rem"><input type="checkbox" checked><span>Notifier le grossiste déclaré pour la zone.</span></label>
+        <label class="checkline"><input type="checkbox"><span>Publier un avertissement sur le site public.</span></label>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Inspection demandée (démonstration).">Demander une inspection</button>
+      <button class="btn btn--ghost" type="button" data-demo-action="Alerte mise en surveillance (démonstration).">Surveiller</button>
+    </div>
+  </aside>
+
+  <!-- Tiroir : lot -->
+  <aside class="drawer" id="drawer-alerte-lot" inert aria-labelledby="titre-lot">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-lot">Lot AL-0921 expiré</h2>
+        <p>ALT-2026-0410 · escaladée · 2 officines</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Lot</h3>
+        <dl class="kv">
+          <dt>Produit</dt><dd>Artéméther-Luméfantrine 80/480</dd>
+          <dt>Numéro de lot</dt><dd>AL-0921</dd>
+          <dt>Expiration</dt><dd style="color:var(--red-700)">30/06/2026</dd>
+          <dt>Statut</dt><dd><span class="badge badge--danger">Périmé</span></dd>
+          <dt>Codes actifs</dt><dd>0 / 12 000</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Constat terrain</h3>
+        <p style="font-size:.76rem;line-height:1.55;color:var(--muted)">Le lot reste proposé dans deux officines de Bobo-Dioulasso. Les vérifications renvoient « EXPIRE » et le pharmacien a confirmé le maintien en rayon au moment du contrôle.</p>
+      </div>
+      <div class="drawer-section">
+        <h3>Décision</h3>
+        <div class="callout callout--danger">
+          <span data-icon="shield"></span>
+          <div><strong>Retrait immédiat</strong><p>Retirer le lot du rayon, tracer les quantités restantes et informer les patients ayant acheté depuis le 30/06/2026.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--red" type="button" data-demo-action="Ordre de retrait envoyé aux 2 officines (démonstration).">Ordonner le retrait</button>
+      <button class="btn btn--ghost" type="button" data-drawer-close>Fermer</button>
+    </div>
+  </aside>
+
+  <!-- Tiroir : passerelle -->
+  <aside class="drawer" id="drawer-alerte-sms" inert aria-labelledby="titre-sms">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-sms">Latence passerelle · Bobo</h2>
+        <p>ALT-2026-0409 · moyenne · ouverte il y a 1 h</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Mesures</h3>
+        <dl class="kv">
+          <dt>Latence médiane</dt><dd>48 s</dd>
+          <dt>Seuil d'alerte</dt><dd>45 s</dd>
+          <dt>Messages en attente</dt><dd>11</dd>
+          <dt>Téléphone passerelle</dt><dd>+226 70 00 00 00</dd>
+          <dt>Réseau</dt><dd>Instable depuis 09:20</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Actions</h3>
+        <p style="font-size:.76rem;line-height:1.55;color:var(--muted)">Vérifier la connexion du téléphone Android, la batterie et le crédit SMS. Si l'incident dure, basculer le trafic sur la SIM de secours.</p>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <a class="btn btn--primary" href="sms.html"><span data-icon="message"></span>Superviser le canal</a>
+      <button class="btn btn--ghost" type="button" data-drawer-close>Fermer</button>
+    </div>
+  </aside>
+
+  <!-- Tiroir : officine -->
+  <aside class="drawer" id="drawer-alerte-officine" inert aria-labelledby="titre-officine">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-officine">Signalement d'officine</h2>
+        <p>Pharmacie du Centre · Koudougou</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Déclaration</h3>
+        <dl class="kv">
+          <dt>Déclarant</dt><dd>P. Kaboré, pharmacien</dd>
+          <dt>Produit</dt><dd>Paracétamol 500 mg</dd>
+          <dt>Lot</dt><dd>BF-2291</dd>
+          <dt>Motif</dt><dd>Boîte sans couche grattable</dd>
+          <dt>Reçu le</dt><dd>24/10 07:30</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Premier constat</h3>
+        <p style="font-size:.76rem;line-height:1.55;color:var(--muted)">Le lot BF-2291 est déclaré actif et conforme. L'absence de couche grattable sur une boîte isolée peut correspondre à un conditionnement secondaire différent ou à une contrefaçon locale.</p>
+        <div class="callout" style="margin-top:.55rem">
+          <span data-icon="check-circle"></span>
+          <div><strong>Vérification du code</strong><p>Le code présenté est authentique et vérifié pour la première fois par cette officine.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Demande de prélèvement envoyée (démonstration).">Demander un prélèvement</button>
+      <button class="btn btn--ghost" type="button" data-demo-action="Signalement classé sans suite (démonstration).">Classer</button>
+    </div>
+  </aside>
+
+  <!-- Tiroir : nouvelle alerte -->
+  <aside class="drawer" id="drawer-nouvelle-alerte" inert aria-labelledby="titre-nouvelle">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-nouvelle">Créer une alerte</h2>
+        <p>Saisie manuelle · à utiliser pour les signalements hors ligne</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <form data-demo-form="Alerte créée (démonstration) — aucune notification réelle.">
+        <div class="drawer-section">
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="na-type">Type d'alerte</label>
+            <select class="select" id="na-type">
+              <option>Code copié probable</option>
+              <option>Codes inconnus</option>
+              <option>Lot expiré</option>
+              <option>Signalement d'officine</option>
+              <option>Incident technique</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="na-lot">Lot concerné</label>
+            <input class="input" id="na-lot" type="text" placeholder="ex. CF-8812">
+          </div>
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="na-zone">Zone</label>
+            <select class="select" id="na-zone"><option>Ouagadougou</option><option>Bobo-Dioulasso</option><option>Koudougou</option><option>Kaya</option><option>National</option></select>
+          </div>
+          <div class="field" style="margin-bottom:.55rem">
+            <label for="na-detail">Détail</label>
+            <textarea class="textarea" id="na-detail" placeholder="Faits observés, source du signalement, pièces jointes attendues."></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="submit" data-demo-action="Alerte créée (démonstration).">Créer l'alerte</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Annuler</button>
+    </div>
+  </aside>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

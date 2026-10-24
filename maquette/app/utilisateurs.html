@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Utilisateurs &amp; rôles — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Gestion des accès BF-MedVerify : rôles régulateur, laboratoire, pharmacie, auditeur ; matrice de permissions et journal des connexions.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="utilisateurs" data-crumb="Utilisateurs &amp; rôles">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Gouvernance · accès</p>
+        <h1 class="page-title">Utilisateurs &amp; rôles</h1>
+        <p class="page-sub">Quatre rôles, des périmètres explicites. Un laboratoire ne voit que ses lots, une officine que son activité, un auditeur ne modifie rien.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>68 comptes actifs</span>
+          <span class="dot-sep"></span>
+          <span>2 invitations en attente</span>
+          <span class="dot-sep"></span>
+          <span>Authentification à deux facteurs requise pour les administrateurs</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn--ghost" type="button" data-demo-action="Répertoire des comptes exporté (démonstration)."><span data-icon="download"></span>Exporter</button>
+        <button class="btn btn--primary" type="button" data-drawer="drawer-inviter"><span data-icon="plus"></span>Inviter un utilisateur</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Comptes actifs</span><span class="kpi-icon"><span data-icon="users"></span></span></div>
+        <div class="kpi-value"><span data-count="68">0</span></div>
+        <div class="kpi-foot"><span>62 avec 2FA</span><span>91 %</span></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top"><span class="kpi-label">Invitations en attente</span><span class="kpi-icon"><span data-icon="send"></span></span></div>
+        <div class="kpi-value"><span data-count="2">0</span></div>
+        <div class="kpi-foot"><span>Expirent sous 5 jours</span><span>relance auto</span></div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Connexions · 7 jours</span><span class="kpi-icon"><span data-icon="activity"></span></span></div>
+        <div class="kpi-value"><span data-count="412">0</span></div>
+        <div class="kpi-foot"><span>Activité normale</span><span>0 incident</span></div>
+      </article>
+      <article class="kpi kpi--ink">
+        <div class="kpi-top"><span class="kpi-label">Rôles</span><span class="kpi-icon"><span data-icon="key"></span></span></div>
+        <div class="kpi-value"><span data-count="4">0</span></div>
+        <div class="kpi-foot"><span>Régulateur · labo · pharmacie · auditeur</span></div>
+      </article>
+    </div>
+
+    <div class="callout" style="margin-bottom:.8rem">
+      <span data-icon="shield"></span>
+      <div>
+        <strong>Principe du moindre privilège</strong>
+        <p>Chaque compte est rattaché à un rôle et, le cas échéant, à une organisation. Aucun rôle ne permet à la fois de modifier un lot et de valider sa propre décision de rappel.</p>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <section class="panel span-7">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="layers"></span>Matrice des rôles</div><p class="panel-sub">Permissions par module</p></div></div>
+        <div class="table-wrap">
+          <table class="data-table role-matrix">
+            <thead>
+              <tr><th>Permission</th><th>Régulateur</th><th>Laboratoire</th><th>Pharmacie</th><th>Auditeur</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Consulter le tableau de bord</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td><td class="yes"><span data-icon="check"></span></td></tr>
+              <tr><td>Voir toutes les alertes</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td><td class="yes"><span data-icon="eye"></span></td></tr>
+              <tr><td>Qualifier une alerte</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>Déclarer un lot</td><td class="yes"><span data-icon="check"></span></td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>Générer des codes</td><td class="no">—</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>Vérifier une boîte</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td></tr>
+              <tr><td>Signaler un produit</td><td class="yes"><span data-icon="check"></span></td><td class="yes"><span data-icon="check"></span></td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td></tr>
+              <tr><td>Suspendre un lot</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>Gérer les officines</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>Générer un export détaillé</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td><td class="yes"><span data-icon="eye"></span></td></tr>
+              <tr><td>Gérer les comptes et rôles</td><td class="yes"><span data-icon="check"></span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+              <tr><td>Modifier les paramètres système</td><td class="yes"><span data-icon="lock"></span></td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-foot">
+          <span><span data-icon="check"></span> complet · <span data-icon="eye"></span> lecture seule · <span data-icon="lock"></span> avec double validation</span>
+        </div>
+      </section>
+
+      <div class="span-5" style="display:grid;gap:.8rem">
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="clipboard"></span>Demandes d'accès</div><p class="panel-sub">À traiter</p></div><span class="badge badge--warn">2</span></div>
+          <div class="panel-body panel-body--flush">
+            <div class="feed">
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="building"></span></span>
+                <span class="feed-main"><strong>K. Sawadogo · Pharmacie de l'Est</strong><small>Demande un accès « pharmacie » pour 2 vérificateurs.</small></span>
+                <span class="feed-time">il y a 1 j</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="lock"></span></span>
+                <span class="feed-main"><strong>Audit externe · cabinet régional</strong><small>Accès lecture seule de 30 jours, sur les exports agrégés.</small></span>
+                <span class="feed-time">il y a 3 j</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-foot">
+            <button class="btn btn--ghost btn--sm" type="button" data-demo-action="Demande approuvée (démonstration).">Approuver</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-demo-action="Demande refusée (démonstration).">Refuser</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="clock"></span>Dernières connexions</div><p class="panel-sub">Journal d'accès</p></div></div>
+          <div class="panel-body panel-body--flush">
+            <div class="feed">
+              <div class="feed-item">
+                <span class="feed-ico"><span data-icon="user-check"></span></span>
+                <span class="feed-main"><strong>A. Fofana · régulatrice</strong><small>Ouagadougou · 2FA validée</small></span>
+                <span class="feed-time">10:42</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico"><span data-icon="user-check"></span></span>
+                <span class="feed-main"><strong>S. Ouédraogo · laboratoire</strong><small>Ouagadougou · 2FA validée</small></span>
+                <span class="feed-time">09:58</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="alert-triangle"></span></span>
+                <span class="feed-main"><strong>Tentative échouée · 3 essais</strong><small>Compte « admin-bfmv » · IP inconnue · bloqué</small></span>
+                <span class="feed-time">08:14</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-foot"><span>Verrouillage après 5 échecs</span><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Journal d'accès ouvert (démonstration).">Tout voir</button></div>
+        </section>
+      </div>
+    </div>
+
+    <section class="panel" style="margin-top:.8rem">
+      <div class="toolbar">
+        <div class="search-field"><span data-icon="search"></span><input class="input" type="search" placeholder="Rechercher un nom, une organisation…" aria-label="Rechercher un utilisateur" data-search-target="#table-comptes" data-table-search></div>
+        <div style="display:flex;gap:.3rem;flex-wrap:wrap" data-filter-group data-filter-target="#table-comptes">
+          <button class="filter-chip is-active" type="button" data-filter="all">Tous</button>
+          <button class="filter-chip" type="button" data-filter="regulateur">Régulateur</button>
+          <button class="filter-chip" type="button" data-filter="laboratoire">Laboratoire</button>
+          <button class="filter-chip" type="button" data-filter="pharmacie">Pharmacie</button>
+          <button class="filter-chip" type="button" data-filter="auditeur">Auditeur</button>
+        </div>
+        <span class="spacer"></span>
+        <span class="badge badge--neutral"><strong data-visible-count="table-comptes">8</strong> comptes</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="table-comptes">
+          <thead><tr><th>Utilisateur</th><th>Organisation</th><th>Rôle</th><th>2FA</th><th>Dernière connexion</th><th>Statut</th><th></th></tr></thead>
+          <tbody>
+            <tr class="row-click" tabindex="0" data-tags="regulateur" data-drawer-target="drawer-compte">
+              <td><div class="cell-user"><span class="avatar">AF</span><div class="cell-person"><strong>Awa Fofana</strong><small>awa.fofana@fasofda.bf</small></div></div></td>
+              <td>Faso FDA</td>
+              <td><span class="badge badge--dark">Administratrice</span></td>
+              <td><span class="badge badge--ok">Active</span></td>
+              <td>il y a 6 min</td>
+              <td><span class="status-line"><span class="status-dot"></span>Actif</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-compte">Gérer</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="regulateur" data-drawer-target="drawer-compte">
+              <td><div class="cell-user"><span class="avatar">IK</span><div class="cell-person"><strong>Issa Kaboré</strong><small>i.kabore@fasofda.bf</small></div></div></td>
+              <td>Faso FDA</td>
+              <td><span class="badge badge--dark">Régulateur</span></td>
+              <td><span class="badge badge--ok">Active</span></td>
+              <td>il y a 2 h</td>
+              <td><span class="status-line"><span class="status-dot"></span>Actif</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-compte">Gérer</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="laboratoire" data-drawer-target="drawer-compte">
+              <td><div class="cell-user"><span class="avatar">SO</span><div class="cell-person"><strong>Dr Salif Ouédraogo</strong><small>s.ouedraogo@sahelpharma.bf</small></div></div></td>
+              <td>Sahel Pharma</td>
+              <td><span class="badge badge--neutral">Laboratoire</span></td>
+              <td><span class="badge badge--ok">Active</span></td>
+              <td>il y a 48 min</td>
+              <td><span class="status-line"><span class="status-dot"></span>Actif</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-compte">Gérer</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="pharmacie" data-drawer-target="drawer-compte">
+              <td><div class="cell-user"><span class="avatar">PK</span><div class="cell-person"><strong>Philippe Kaboré</strong><small>p.kabore@pharmaciemarche.bf</small></div></div></td>
+              <td>Pharmacie du Marché</td>
+              <td><span class="badge badge--neutral">Pharmacie</span></td>
+              <td><span class="badge badge--ok">Active</span></td>
+              <td>il y a 3 min</td>
+              <td><span class="status-line"><span class="status-dot"></span>Actif</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-compte">Gérer</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="pharmacie" data-drawer-target="drawer-compte">
+              <td><div class="cell-user"><span class="avatar">AT</span><div class="cell-person"><strong>Aminata Traoré</strong><small>a.traore@officine2000.bf</small></div></div></td>
+              <td>Officine Ouaga 2000</td>
+              <td><span class="badge badge--neutral">Pharmacie</span></td>
+              <td><span class="badge badge--warn">À activer</span></td>
+              <td>jamais</td>
+              <td><span class="status-line status-line--gold"><span class="status-dot status-dot--gold"></span>Invité</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-compte">Gérer</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="laboratoire" data-drawer-target="drawer-compte">
+              <td><div class="cell-user"><span class="avatar">MS</span><div class="cell-person"><strong>Moussa Sawadogo</strong><small>m.sawadogo@fasmedic.bf</small></div></div></td>
+              <td>Faso Médic</td>
+              <td><span class="badge badge--neutral">Laboratoire</span></td>
+              <td><span class="badge badge--ok">Active</span></td>
+              <td>hier</td>
+              <td><span class="status-line"><span class="status-dot"></span>Actif</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-compte">Gérer</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="auditeur" data-drawer-target="drawer-compte">
+              <td><div class="cell-user"><span class="avatar">EX</span><div class="cell-person"><strong>Cabinet audit régional</strong><small>audit@cabinet-regional.bf</small></div></div></td>
+              <td>Prestataire</td>
+              <td><span class="badge badge--neutral">Auditeur</span></td>
+              <td><span class="badge badge--ok">Active</span></td>
+              <td>il y a 4 j</td>
+              <td><span class="status-line status-line--muted"><span class="status-dot status-dot--muted"></span>Expire bientôt</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-compte">Gérer</button></td>
+            </tr>
+            <tr class="row-click" tabindex="0" data-tags="pharmacie" data-drawer-target="drawer-compte">
+              <td><div class="cell-user"><span class="avatar">HY</span><div class="cell-person"><strong>Hélène Yanogo</strong><small>h.yanogo@pharmacieest.bf</small></div></div></td>
+              <td>Pharmacie de l'Est</td>
+              <td><span class="badge badge--neutral">Pharmacie</span></td>
+              <td><span class="badge badge--ok">Active</span></td>
+              <td>il y a 3 j</td>
+              <td><span class="status-line status-line--red"><span class="status-dot status-dot--red"></span>Suspendu</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-drawer="drawer-compte">Gérer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="table-empty" data-table-empty hidden>Aucun compte ne correspond à ce filtre.</p>
+      </div>
+      <div class="panel-foot"><span>8 comptes affichés sur 68</span><span class="badge badge--neutral">Dernière revue des accès : 01/10/2026</span></div>
+    </section>
+  </main>
+
+  <aside class="drawer" id="drawer-compte" inert aria-labelledby="titre-compte">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-compte">Awa Fofana</h2>
+        <p>Faso FDA · administratrice · compte créé le 12/01/2025</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h3>Identité</h3>
+        <dl class="kv">
+          <dt>Nom</dt><dd>Awa Fofana</dd>
+          <dt>E-mail</dt><dd>awa.fofana@fasofda.bf</dd>
+          <dt>Organisation</dt><dd>Faso FDA</dd>
+          <dt>Rôle</dt><dd>Administratrice</dd>
+          <dt>Périmètre</dt><dd>National</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Sécurité</h3>
+        <dl class="kv">
+          <dt>Double authentification</dt><dd><span class="badge badge--ok">Active</span></dd>
+          <dt>Dernière connexion</dt><dd>il y a 6 min · Ouagadougou</dd>
+          <dt>Mots de passe</dt><dd>Politique : 14 caractères</dd>
+          <dt>Verrouillage</dt><dd>après 5 échecs</dd>
+        </dl>
+      </div>
+      <div class="drawer-section">
+        <h3>Modifier le rôle</h3>
+        <form data-demo-form="Rôle modifié (démonstration).">
+          <div class="field" style="margin-bottom:.5rem">
+            <label for="c-role">Rôle</label>
+            <select class="select" id="c-role"><option>Administratrice</option><option>Régulateur</option><option>Auditeur (lecture seule)</option></select>
+          </div>
+          <div class="field">
+            <label for="c-note">Justification</label>
+            <textarea class="textarea" id="c-note" placeholder="Motif consigné au journal d'audit."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="drawer-section">
+        <h3>Activité récente</h3>
+        <div class="timeline">
+          <div class="timeline-item"><strong>Qualification d'alerte</strong><small>ALT-2026-0412 · hors délai signalé</small><time>il y a 2 h</time></div>
+          <div class="timeline-item"><strong>Export restreint</strong><small>verifications-2026-10-22.csv</small><time>22/10</time></div>
+          <div class="timeline-item"><strong>Rappel national</strong><small>Lot CF-8812 suspendu</small><time>18/10</time></div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Modifications enregistrées (démonstration).">Enregistrer</button>
+      <button class="btn btn--ghost" type="button" data-demo-action="Réinitialisation du mot de passe envoyée (démonstration).">Réinitialiser</button>
+      <button class="btn btn--red" type="button" data-demo-action="Compte désactivé (démonstration).">Désactiver</button>
+    </div>
+  </aside>
+
+  <aside class="drawer" id="drawer-inviter" inert aria-labelledby="titre-inviter">
+    <div class="drawer-head">
+      <div>
+        <h2 id="titre-inviter">Inviter un utilisateur</h2>
+        <p>Un e-mail d'activation valable 7 jours</p>
+      </div>
+      <button class="drawer-close" type="button" data-drawer-close aria-label="Fermer"><span data-icon="x"></span></button>
+    </div>
+    <div class="drawer-body">
+      <form data-demo-form="Invitation envoyée (démonstration). Aucun e-mail réel.">
+        <div class="drawer-section">
+          <div class="field" style="margin-bottom:.55rem"><label for="inv-nom">Nom complet</label><input class="input" id="inv-nom" type="text" placeholder="Prénom et nom" required></div>
+          <div class="field" style="margin-bottom:.55rem"><label for="inv-email">E-mail professionnel</label><input class="input" id="inv-email" type="email" placeholder="nom@organisation.bf" required></div>
+          <div class="field" style="margin-bottom:.55rem"><label for="inv-org">Organisation</label><select class="select" id="inv-org"><option>Faso FDA</option><option>Sahel Pharma</option><option>Faso Médic</option><option>Pharmacie du Marché</option><option>Cabinet externe</option></select></div>
+          <div class="field"><label for="inv-role">Rôle</label><select class="select" id="inv-role"><option>Régulateur</option><option>Laboratoire</option><option>Pharmacie</option><option>Auditeur (lecture seule)</option></select></div>
+        </div>
+        <div class="callout">
+          <span data-icon="lock"></span>
+          <div><strong>Rôles sensibles</strong><p>Le rôle administrateur ne peut être attribué que par un autre administrateur, avec double validation.</p></div>
+        </div>
+      </form>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn--primary" type="button" data-demo-action="Invitation envoyée (démonstration).">Envoyer l'invitation</button>
+      <button class="btn btn--quiet" type="button" data-drawer-close>Annuler</button>
+    </div>
+  </aside>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

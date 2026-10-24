@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portail pharmacie — BF-MedVerify</title>
+  <meta name="description" content="Poste de travail de l'officine : vérifier une boîte, suivre le stock et les péremptions, signaler un produit et se former.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="pharmacie" data-page="ph-dashboard" data-crumb="Mon officine">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Pharmacie du Marché · Ouagadougou</p>
+        <h1 class="page-title">Bonjour Philippe.</h1>
+        <p class="page-sub">Trois boîtes à vérifier avant la fermeture, un lot arrivé à échéance et deux rappels à contrôler dans le rayon.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>Convention active</span>
+          <span class="dot-sep"></span>
+          <span>Formation à jour · 14/09/2026</span>
+          <span class="dot-sep"></span>
+          <span>3 vérificateurs</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <a class="btn btn--ghost" href="#signalements"><span data-icon="flag"></span>Signaler</a>
+        <a class="btn btn--primary" href="#verifier"><span data-icon="scan"></span>Vérifier une boîte</a>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Vérifications · aujourd'hui</span><span class="kpi-icon"><span data-icon="scan"></span></span></div>
+        <div class="kpi-value"><span data-count="42">0</span></div>
+        <div class="kpi-foot"><span class="kpi-delta"><span data-icon="trend-up"></span>+9</span><span>vs hier</span></div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-top"><span class="kpi-label">Taux de conformité</span><span class="kpi-icon"><span data-icon="check-circle"></span></span></div>
+        <div class="kpi-value"><span data-count="97.6" data-decimals="1">0</span><small>%</small></div>
+        <div class="kpi-foot"><span>41 boîtes authentiques</span><span>1 déjà utilisée</span></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top"><span class="kpi-label">Péremptions proches</span><span class="kpi-icon"><span data-icon="calendar"></span></span></div>
+        <div class="kpi-value"><span data-count="6">0</span><small>réf.</small></div>
+        <div class="kpi-foot"><span>2 sous 30 jours</span><span>à retirer</span></div>
+      </article>
+      <article class="kpi kpi--red">
+        <div class="kpi-top"><span class="kpi-label">Rappels en cours</span><span class="kpi-icon"><span data-icon="shield"></span></span></div>
+        <div class="kpi-value"><span data-count="2">0</span></div>
+        <div class="kpi-foot"><span>CF-8812 · AL-0921</span><span>1 retiré</span></div>
+      </article>
+    </div>
+
+    <div class="callout callout--danger" style="margin-bottom:.8rem">
+      <span data-icon="alert-triangle"></span>
+      <div>
+        <strong>Rappel national · Ceftriaxone 1 g, lot CF-8812</strong>
+        <p>Vérifiez le rayon : 2 boîtes ont été identifiées dans votre stock. Retirez-les et confirmez le retrait dans la page « Stock &amp; péremption ».</p>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <!-- Vérification rapide -->
+      <section class="panel span-7" id="verifier">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="scan"></span>Vérification rapide</div><p class="panel-sub">Avant de délivrer, vérifiez le code</p></div><span class="badge badge--neutral">Simulation</span></div>
+        <div class="panel-body">
+          <div class="verif-form-row" style="margin-top:0">
+            <div class="field"><label for="ph-code">Code à 11 caractères</label><input class="input mono" id="ph-code" type="text" placeholder="BF7K2M9Q4XZ" maxlength="16" style="letter-spacing:.12em;text-transform:uppercase"></div>
+            <div class="field"><label for="ph-patient">Référence patient (facultatif)</label><input class="input" id="ph-patient" type="text" placeholder="ex. ORD-2291"></div>
+          </div>
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.75rem">
+            <button class="btn btn--primary btn--sm" type="button" data-demo-action="Vérification simulée : AUTHENTIQUE (Paracétamol 500 mg, lot BF-2291)."><span data-icon="scan"></span>Vérifier</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-demo-action="Scanner la couche grattable (caméra simulée)."><span data-icon="qr"></span>Scanner</button>
+            <a class="btn btn--ghost btn--sm" href="../verifier.html">Parcours complet <span data-icon="external"></span></a>
+          </div>
+          <div class="callout" style="margin-top:.8rem">
+            <span data-icon="lock"></span>
+            <div><strong>Vérification tracée, patient protégé</strong><p>Le code n'est jamais conservé. La vérification est enregistrée avec votre identifiant d'officine, pas avec l'identité du patient.</p></div>
+          </div>
+          <div class="verif-form-row">
+            <div class="field"><label for="ph-lot">Lot en rayon</label><select class="select" id="ph-lot"><option>BF-2291 · Paracétamol</option><option>AMX-1180 · Amoxicilline</option><option>AL-0921 · Artéméther-Luméfantrine</option><option>AL-0922 · Artéméther-Luméfantrine</option><option>IB-4410 · Ibuprofène</option></select></div>
+            <div class="field"><label for="ph-qte">Quantité délivrée</label><input class="input" id="ph-qte" type="number" value="1" min="1"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="span-5" style="display:grid;gap:.8rem">
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="clock"></span>À faire avant la fermeture</div><p class="panel-sub">3 tâches</p></div></div>
+          <div class="panel-body panel-body--flush">
+            <div class="feed">
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--red"><span data-icon="shield"></span></span>
+                <span class="feed-main"><strong>Retirer le lot CF-8812</strong><small>2 boîtes identifiées · échéance aujourd'hui 18:00</small></span>
+                <span class="feed-time">urgent</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="calendar"></span></span>
+                <span class="feed-main"><strong>Sortir les 2 références périmées</strong><small>Lot AL-0921 · exp. 30/06/2026</small></span>
+                <span class="feed-time">aujourd'hui</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico"><span data-icon="book"></span></span>
+                <span class="feed-main"><strong>Session de formation</strong><small>Vendredi 14:30 · salle de la direction régionale</small></span>
+                <span class="feed-time">vendredi</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head"><div><div class="panel-title"><span data-icon="activity"></span>Activité récente</div></div></div>
+          <div class="panel-body panel-body--flush">
+            <div class="feed">
+              <div class="feed-item">
+                <span class="feed-ico"><span data-icon="check-circle"></span></span>
+                <span class="feed-main"><strong>Paracétamol 500 mg · BF-2291</strong><small>Authentique · vérifié au comptoir</small></span>
+                <span class="feed-time">10:42</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico feed-ico--gold"><span data-icon="alert-triangle"></span></span>
+                <span class="feed-main"><strong>Amoxicilline 500 mg · AMX-1180</strong><small>Déjà vérifié · boîte écartée</small></span>
+                <span class="feed-time">09:58</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico"><span data-icon="flag"></span></span>
+                <span class="feed-main"><strong>Signalement transmis</strong><small>Boîte sans couche grattable</small></span>
+                <span class="feed-time">07:30</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Stock -->
+    <section class="panel" id="stock" style="margin-top:.8rem">
+      <div class="panel-head"><div><div class="panel-title"><span data-icon="calendar"></span>Stock &amp; péremption</div><p class="panel-sub">Lots présents en rayon</p></div><span class="badge badge--warn">2 lots à retirer</span></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Produit</th><th>Lot</th><th class="num">Stock</th><th>Expiration</th><th>Statut du lot</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="cell-main">Paracétamol 500 mg</span><span class="cell-sub">Boîte de 20</span></td>
+              <td><span class="cell-code">BF-2291</span></td>
+              <td class="num">148</td>
+              <td>31/08/2028</td>
+              <td><span class="badge badge--ok">Actif</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Inventaire du lot BF-2291 ouvert (démonstration).">Inventaire</button></td>
+            </tr>
+            <tr>
+              <td><span class="cell-main">Amoxicilline 500 mg</span><span class="cell-sub">Boîte de 16</span></td>
+              <td><span class="cell-code">AMX-1180</span></td>
+              <td class="num">62</td>
+              <td>30/11/2027</td>
+              <td><span class="badge badge--ok">Actif</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Inventaire du lot AMX-1180 ouvert (démonstration).">Inventaire</button></td>
+            </tr>
+            <tr>
+              <td><span class="cell-main">Artéméther-Luméfantrine</span><span class="cell-sub">Plaquette de 6</span></td>
+              <td><span class="cell-code">AL-0921</span></td>
+              <td class="num">24</td>
+              <td style="color:var(--red-700)">30/06/2026</td>
+              <td><span class="badge badge--danger">Expiré</span></td>
+              <td><button class="btn btn--red btn--sm" type="button" data-demo-action="Retrait du lot AL-0921 enregistré (démonstration).">Retirer</button></td>
+            </tr>
+            <tr>
+              <td><span class="cell-main">Ceftriaxone 1 g</span><span class="cell-sub">Flacon injectable</span></td>
+              <td><span class="cell-code">CF-8812</span></td>
+              <td class="num">2</td>
+              <td>31/03/2028</td>
+              <td><span class="badge badge--danger">Rappelé</span></td>
+              <td><button class="btn btn--red btn--sm" type="button" data-demo-action="Retrait du lot rappelé CF-8812 enregistré (démonstration).">Retirer</button></td>
+            </tr>
+            <tr>
+              <td><span class="cell-main">Ibuprofène 400 mg</span><span class="cell-sub">Boîte de 20</span></td>
+              <td><span class="cell-code">IB-4410</span></td>
+              <td class="num">96</td>
+              <td>28/02/2028</td>
+              <td><span class="badge badge--ok">Actif</span></td>
+              <td><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Inventaire du lot IB-4410 ouvert (démonstration).">Inventaire</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-foot"><span>Dernier inventaire : 18/10/2026</span><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Inventaire général lancé (démonstration).">Nouvel inventaire</button></div>
+    </section>
+
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-6" id="ventes">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="chart"></span>Ventes vérifiées</div><p class="panel-sub">14 derniers jours</p></div></div>
+        <div class="panel-body">
+          <div class="chart-box" data-bar-chart data-height="190" data-labels="11,12,13,14,15,16,17,18,19,20,21,22,23,24" data-values="34,38,31,42,45,36,28,40,44,48,51,43,47,42" data-label="Ventes vérifiées par jour"></div>
+        </div>
+        <div class="panel-foot"><span>Moyenne 42 / jour · 97,6 % de conformité</span></div>
+      </section>
+
+      <section class="panel span-6" id="signaler">
+        <div class="panel-head"><div><div class="panel-title"><span data-icon="flag"></span>Signaler un produit</div><p class="panel-sub">Transmet directement à la Faso FDA</p></div></div>
+        <div class="panel-body">
+          <form data-demo-form="Signalement transmis à la Faso FDA (démonstration).">
+            <div class="verif-form-row" style="margin-top:0">
+              <div class="field"><label for="sig-lot">Lot concerné</label><select class="select" id="sig-lot"><option>BF-2291 · Paracétamol</option><option>AMX-1180 · Amoxicilline</option><option>AL-0921 · Artéméther-Luméfantrine</option><option>Inconnu</option></select></div>
+              <div class="field"><label for="sig-motif">Motif</label><select class="select" id="sig-motif"><option>Emballage suspect</option><option>Pas de couche grattable</option><option>Code déjà utilisé</option><option>Effet indésirable</option><option>Autre</option></select></div>
+            </div>
+            <div class="field" style="margin-top:.6rem"><label for="sig-detail">Description</label><textarea class="textarea" id="sig-detail" placeholder="Décrivez la boîte, la provenance et ce qui vous alerte."></textarea></div>
+            <label class="checkline" style="margin-top:.6rem"><input type="checkbox" checked><span>Je joins le numéro de lot et l'officine au signalement.</span></label>
+            <div style="margin-top:.7rem"><button class="btn btn--primary btn--sm" type="submit"><span data-icon="send"></span>Transmettre</button></div>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel" id="formation" style="margin-top:.8rem">
+      <div class="panel-head"><div><div class="panel-title"><span data-icon="book"></span>Formation &amp; notices</div><p class="panel-sub">Ressources pour l'équipe</p></div><span class="badge badge--ok">À jour</span></div>
+      <div class="panel-body">
+        <div class="grid grid-3" style="gap:.7rem">
+          <div class="mini-card"><span data-icon="book"></span><strong>Reconnaître une boîte suspecte</strong><small>Fiche illustrée · 4 pages · mise à jour 09/2026</small></div>
+          <div class="mini-card"><span data-icon="message"></span><strong>Expliquer le SMS au patient</strong><small>Script de comptoir · 2 pages · en français et mooré</small></div>
+          <div class="mini-card"><span data-icon="shield"></span><strong>Que faire en cas de rappel</strong><small>Procédure interne · 3 pages · affichage obligatoire</small></div>
+        </div>
+        <div class="callout" style="margin-top:.8rem">
+          <span data-icon="help"></span>
+          <div><strong>Affiche patient</strong><p>Un modèle d'affiche A4 « Vérifiez le code avant de prendre » est disponible pour le comptoir. Il présente les 11 caractères et le numéro court.</p></div>
+        </div>
+      </div>
+      <div class="panel-foot"><span>Prochaine session : vendredi 14:30</span><button class="btn btn--ghost btn--sm" type="button" data-demo-action="Affiche téléchargée (démonstration)."><span data-icon="download"></span>Télécharger l'affiche</button></div>
+    </section>
+  </main>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

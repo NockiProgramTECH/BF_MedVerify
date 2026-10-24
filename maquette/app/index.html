@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vue d'ensemble — Pilotage BF-MedVerify</title>
+  <meta name="description" content="Tableau de bord de pilotage BF-MedVerify : vérifications, verdicts, alertes, couverture et santé de la passerelle SMS.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body class="app-page" data-layout="app" data-space="regulateur" data-page="dashboard" data-crumb="Vue d'ensemble">
+  <main id="main" class="app-content">
+
+    <div class="page-head">
+      <div>
+        <p class="eyebrow">Faso FDA · Direction des médicaments</p>
+        <h1 class="page-title">Vue d'ensemble</h1>
+        <p class="page-sub">Le pouls du dispositif au 24 octobre 2026. Volumes, verdicts, alertes ouvertes et état du canal SMS.</p>
+        <div class="page-meta">
+          <span class="status-line"><span class="status-dot"></span>Données à jour</span>
+          <span class="dot-sep"></span>
+          <span>Dernière synchronisation 10:48</span>
+          <span class="dot-sep"></span>
+          <span>13 régions · 384 officines</span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <div class="segmented" data-segmented>
+          <button type="button">24 h</button>
+          <button type="button" class="is-active">7 j</button>
+          <button type="button">30 j</button>
+          <button type="button">Trimestre</button>
+        </div>
+        <a class="btn btn--ghost" href="rapports.html"><span data-icon="download"></span>Exporter</a>
+        <a class="btn btn--primary" href="alertes.html"><span data-icon="bell"></span>3 alertes ouvertes</a>
+      </div>
+    </div>
+
+    <div class="demo-strip">
+      <span data-icon="spark"></span>
+      <p><strong>Maquette de pilotage.</strong> Toutes les valeurs, officines et alertes sont fictives. Cette page sert à valider la structure d'information avec la Faso FDA.</p>
+      <a href="../design-system.html#inventaire">Inventaire des pages</a>
+    </div>
+
+    <!-- KPI -->
+    <div class="kpi-grid">
+      <article class="kpi">
+        <div class="kpi-top">
+          <span class="kpi-label">Vérifications · 7 jours</span>
+          <span class="kpi-icon"><span data-icon="activity"></span></span>
+        </div>
+        <div class="kpi-value"><span data-count="87312">0</span></div>
+        <div class="kpi-foot">
+          <span class="kpi-delta"><span data-icon="trend-up"></span>+8,4 %</span>
+          <span>vs semaine précédente</span>
+        </div>
+        <div class="kpi-spark" data-spark="42,46,44,52,49,58,61" data-spark-color="#146b44"></div>
+      </article>
+      <article class="kpi">
+        <div class="kpi-top">
+          <span class="kpi-label">Taux d'authenticité</span>
+          <span class="kpi-icon"><span data-icon="check-circle"></span></span>
+        </div>
+        <div class="kpi-value"><span data-count="92.6" data-decimals="1">0</span><small>%</small></div>
+        <div class="kpi-foot">
+          <span class="kpi-delta"><span data-icon="trend-up"></span>+1,2 pt</span>
+          <span>80 871 réponses « VRAI »</span>
+        </div>
+        <div class="kpi-spark" data-spark="90,90.4,91,90.8,91.7,92.1,92.6" data-spark-color="#146b44"></div>
+      </article>
+      <article class="kpi kpi--gold">
+        <div class="kpi-top">
+          <span class="kpi-label">Codes déjà utilisés</span>
+          <span class="kpi-icon"><span data-icon="copy"></span></span>
+        </div>
+        <div class="kpi-value"><span data-count="3128">0</span></div>
+        <div class="kpi-foot">
+          <span class="kpi-delta"><span data-icon="arrow-down"></span>−3,1 %</span>
+          <span>3,6 % des vérifications</span>
+        </div>
+        <div class="kpi-spark" data-spark="62,58,60,54,52,50,48" data-spark-color="#b88a10"></div>
+      </article>
+      <article class="kpi kpi--red">
+        <div class="kpi-top">
+          <span class="kpi-label">Alertes critiques</span>
+          <span class="kpi-icon"><span data-icon="alert-triangle"></span></span>
+        </div>
+        <div class="kpi-value"><span data-count="3">0</span><small>ouvertes</small></div>
+        <div class="kpi-foot">
+          <span class="kpi-delta kpi-delta--down"><span data-icon="clock"></span>1 &gt; 24 h</span>
+          <span>2 lots suspendus</span>
+        </div>
+        <div class="kpi-spark" data-spark="4,6,5,7,4,5,3" data-spark-color="#bf2b32"></div>
+      </article>
+    </div>
+
+    <!-- Courbe + alertes -->
+    <div class="dash-grid">
+      <section class="panel span-8">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="activity"></span>Volume de vérifications</div>
+            <p class="panel-sub">7 derniers jours · tous canaux · comparaison avec la semaine précédente</p>
+          </div>
+          <div class="chart-legend">
+            <span><i></i>Cette semaine</span>
+            <span><i class="is-gold is-line"></i>Semaine précédente</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="chart-toolbar">
+            <div class="chart-kpi"><strong>87 312</strong><span>vérifications · +6 780</span></div>
+            <div class="segmented" data-segmented>
+              <button type="button" class="is-active">Volume</button>
+              <button type="button">Verdicts</button>
+              <button type="button">Temps de réponse</button>
+            </div>
+          </div>
+          <div class="chart-box" data-line-chart data-height="236"
+               data-labels="Sam 18,Dim 19,Lun 20,Mar 21,Mer 22,Jeu 23,Ven 24"
+               data-values="10640,9840,11960,12420,13180,14220,15052"
+               data-values-2="9820,10240,11060,11840,12010,12660,13320"
+               data-label="Vérifications des sept derniers jours"></div>
+        </div>
+        <div class="panel-foot">
+          <span>Pic quotidien : 15 052 vérifications le 24/10 à 11 h.</span>
+          <a class="panel-link" href="verifications.html">Ouvrir le journal <span data-icon="arrow-right"></span></a>
+        </div>
+      </section>
+
+      <section class="panel span-4">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="bell"></span>Alertes ouvertes</div>
+            <p class="panel-sub">3 signaux à qualifier</p>
+          </div>
+          <a class="panel-link" href="alertes.html">Tout voir</a>
+        </div>
+        <div class="panel-body panel-body--flush">
+          <div class="feed">
+            <a class="feed-item" href="alertes.html">
+              <span class="feed-ico feed-ico--red"><span data-icon="alert-triangle"></span></span>
+              <span class="feed-main">
+                <strong>Code copié probable · lot CF-8812</strong>
+                <small>7 téléphones différents sur un même code · Ceftriaxone 1 g</small>
+              </span>
+              <span class="feed-time">il y a 2 h</span>
+            </a>
+            <a class="feed-item" href="alertes.html">
+              <span class="feed-ico feed-ico--red"><span data-icon="alert-circle"></span></span>
+              <span class="feed-main">
+                <strong>18 codes inconnus en 24 h · Ouagadougou</strong>
+                <small>Concentration sur 3 officines du secteur 30</small>
+              </span>
+              <span class="feed-time">il y a 5 h</span>
+            </a>
+            <a class="feed-item" href="alertes.html">
+              <span class="feed-ico feed-ico--gold"><span data-icon="clock"></span></span>
+              <span class="feed-main">
+                <strong>Latence passerelle &gt; 45 s · Bobo</strong>
+                <small>Réseau de la SIM passerelle instable depuis 09:20</small>
+              </span>
+              <span class="feed-time">il y a 1 h</span>
+            </a>
+          </div>
+        </div>
+        <div class="panel-body" style="padding-top:.75rem">
+          <div class="callout callout--danger">
+            <span data-icon="alert-circle"></span>
+            <div>
+              <strong>1 alerte hors délai</strong>
+              <p>Le signal CF-8812 dépasse le délai de qualification de 24 h. Un rappel national est déjà en ligne ; la fiche doit être clôturée.</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel-foot">
+          <span>SLA de qualification : 24 h</span>
+          <span class="badge badge--danger"><span class="dot"></span>1 hors délai</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- Verdicts + carte -->
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-4">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="chart"></span>Répartition des verdicts</div>
+            <p class="panel-sub">87 312 réponses · 7 jours</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div style="max-width:210px;margin-inline:auto" data-donut-chart data-values="80871,3128,1621,1242,450"
+               data-colors="#146b44,#e6b41c,#bf2b32,#0e5535,#c9bfac" data-center="92,6 %" data-center-label="authentiques"
+               data-label="Répartition des verdicts de vérification"></div>
+          <div style="display:grid;gap:.42rem;margin-top:.9rem">
+            <div class="meter-row"><span>Authentique</span><strong>80 871</strong><span class="progress progress--thin"><span style="width:92.6%"></span></span></div>
+            <div class="meter-row"><span>Déjà utilisé</span><strong>3 128</strong><span class="progress progress--thin progress--gold"><span style="width:3.6%"></span></span></div>
+            <div class="meter-row"><span>Expiré</span><strong>1 621</strong><span class="progress progress--thin progress--red"><span style="width:1.9%"></span></span></div>
+            <div class="meter-row"><span>Rappelé</span><strong>1 242</strong><span class="progress progress--thin progress--red"><span style="width:1.4%"></span></span></div>
+            <div class="meter-row"><span>Inconnu</span><strong>450</strong><span class="progress progress--thin"><span style="width:.5%;background:#c9bfac"></span></span></div>
+          </div>
+        </div>
+        <div class="panel-foot">
+          <span>Le verdict « rappelé » prioritaire sur l'expiration.</span>
+        </div>
+      </section>
+
+      <section class="panel span-5">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="map-pin"></span>Couverture territoriale</div>
+            <p class="panel-sub">Vérifications par jour · 13 villes suivies</p>
+          </div>
+          <a class="panel-link" href="territoire.html">Carte complète</a>
+        </div>
+        <div class="panel-body" style="padding:.6rem .8rem">
+          <img src="../assets/img/carte-mini.svg" alt="Carte du Burkina Faso avec les volumes de vérifications par ville" style="width:100%;height:auto;border-radius:6px">
+        </div>
+        <div class="panel-foot">
+          <span>Ouagadougou concentre 36 % du volume national.</span>
+          <span class="badge badge--warn"><span class="dot"></span>4 zones blanches</span>
+        </div>
+      </section>
+
+      <section class="panel span-3">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="message"></span>Passerelle SMS</div>
+            <p class="panel-sub">httpSMS · SIM +226 70 00 00 00</p>
+          </div>
+          <span class="badge badge--ok"><span class="dot"></span>En ligne</span>
+        </div>
+        <div class="panel-body">
+          <div class="stat-row">
+            <div class="stat"><strong>98,4 %</strong><span>de SMS délivrés</span></div>
+            <div class="stat"><strong>8,2 s</strong><span>latence médiane</span></div>
+          </div>
+          <div style="margin-top:.8rem;display:grid;gap:.55rem">
+            <div class="meter-row"><span>File d'envoi</span><strong>3</strong><span class="progress progress--thin"><span style="width:6%"></span></span></div>
+            <div class="meter-row"><span>Crédit opérateur</span><strong>72 %</strong><span class="progress progress--thin"><span style="width:72%"></span></span></div>
+            <div class="meter-row"><span>Batterie du téléphone</span><strong>82 %</strong><span class="progress progress--thin progress--gold"><span style="width:82%"></span></span></div>
+          </div>
+          <div class="callout" style="margin-top:.8rem">
+            <span data-icon="clock"></span>
+            <div><strong>Webhook reçu il y a 12 s</strong><p>Dernier message traité : <span class="mono">BF3T8N5R2W5</span> → DEJA_UTILISE.</p></div>
+          </div>
+        </div>
+        <div class="panel-foot">
+          <a class="panel-link" href="sms.html">Superviser le canal <span data-icon="arrow-right"></span></a>
+          <span>5/min · anti-spam</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- Dernières vérifications + top lots -->
+    <div class="dash-grid" style="margin-top:.8rem">
+      <section class="panel span-7">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title"><span data-icon="radio"></span>Dernières vérifications</div>
+            <p class="panel-sub">Flux temps réel · numéros masqués</p>
+          </div>
+          <div class="chart-legend"><span><span class="pill-dot" data-live-dot></span>Direct</span></div>
+        </div>
+        <div class="panel-body panel-body--flush">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Heure</th>
+                  <th>Code</th>
+                  <th>Produit / lot</th>
+                  <th>Canal</th>
+                  <th>Verdict</th>
+                  <th class="num">Latence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono">10:48:12</td>
+                  <td><span class="cell-code">BF7K2M9Q4XZ</span></td>
+                  <td><span class="cell-main">Paracétamol 500 mg</span><span class="cell-sub">BF-2291</span></td>
+                  <td>SMS</td>
+                  <td><span class="badge badge--ok"><span class="dot"></span>Authentique</span></td>
+                  <td class="num">6,1 s</td>
+                </tr>
+                <tr>
+                  <td class="mono">10:47:54</td>
+                  <td><span class="cell-code">BF3T8N5R2W5</span></td>
+                  <td><span class="cell-main">Amoxicilline 500 mg</span><span class="cell-sub">AMX-1180</span></td>
+                  <td>SMS</td>
+                  <td><span class="badge badge--warn"><span class="dot"></span>Déjà utilisé</span></td>
+                  <td class="num">7,4 s</td>
+                </tr>
+                <tr>
+                  <td class="mono">10:46:38</td>
+                  <td><span class="cell-code">BFH4P7V2KDG</span></td>
+                  <td><span class="cell-main">Artéméther-Luméfantrine</span><span class="cell-sub">AL-0921</span></td>
+                  <td>Pharmacie</td>
+                  <td><span class="badge badge--danger"><span class="dot"></span>Expiré</span></td>
+                  <td class="num">2,3 s</td>
+                </tr>
+                <tr>
+                  <td class="mono">10:45:02</td>
+                  <td><span class="cell-code">BF9C6B3Z8M4</span></td>
+                  <td><span class="cell-main">Ceftriaxone 1 g</span><span class="cell-sub">CF-8812</span></td>
+                  <td>SMS</td>
+                  <td><span class="badge badge--danger"><span class="dot"></span>Rappelé</span></td>
+                  <td class="num">8,8 s</td>
+                </tr>
+                <tr>
+                  <td class="mono">10:44:41</td>
+                  <td><span class="cell-code">BF5J7Y2N4T8</span></td>
+                  <td><span class="cell-main">Non identifié</span><span class="cell-sub">—</span></td>
+                  <td>SMS</td>
+                  <td><span class="badge badge--danger"><span class="dot"></span>Inconnu</span></td>
+                  <td class="num">5,0 s</td>
+                </tr>
+                <tr>
+                  <td class="mono">10:43:19</td>
+                  <td><span class="cell-code">BF7K2M9Q4XZ</span></td>
+                  <td><span class="cell-main">Paracétamol 500 mg</span><span class="cell-sub">BF-2291</span></td>
+                  <td>API</td>
+                  <td><span class="badge badge--ok"><span class="dot"></span>Authentique</span></td>
+                  <td class="num">0,4 s</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel-foot">
+          <span>1 248 vérifications dans la dernière heure</span>
+          <a class="panel-link" href="verifications.html">Journal complet <span data-icon="arrow-right"></span></a>
+        </div>
+      </section>
+
+      <div class="span-5" style="display:grid;gap:.8rem">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title"><span data-icon="pill"></span>Lots les plus vérifiés</div>
+              <p class="panel-sub">Sur 7 jours</p>
+            </div>
+          </div>
+          <div class="panel-body" style="display:grid;gap:.65rem">
+            <div class="meter-row"><span>Paracétamol 500 mg · BF-2291</span><strong>18 420</strong><span class="progress progress--thin"><span style="width:96%"></span></span></div>
+            <div class="meter-row"><span>Amoxicilline 500 mg · AMX-1180</span><strong>11 960</strong><span class="progress progress--thin"><span style="width:62%"></span></span></div>
+            <div class="meter-row"><span>Artéméther-Luméfantrine · AL-0921</span><strong>9 340</strong><span class="progress progress--thin"><span style="width:48%"></span></span></div>
+            <div class="meter-row"><span>Ceftriaxone 1 g · CF-8812</span><strong>4 210</strong><span class="progress progress--thin progress--red"><span style="width:22%"></span></span></div>
+            <div class="meter-row"><span>Ibuprofène 400 mg · IB-4410</span><strong>3 870</strong><span class="progress progress--thin"><span style="width:20%"></span></span></div>
+          </div>
+          <div class="panel-foot"><a class="panel-link" href="medicaments.html">Référentiel des lots <span data-icon="arrow-right"></span></a></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title"><span data-icon="store"></span>Officines les plus actives</div>
+              <p class="panel-sub">Vérifications aujourd'hui</p>
+            </div>
+          </div>
+          <div class="panel-body panel-body--flush">
+            <div class="feed">
+              <div class="feed-item">
+                <span class="feed-ico"><span data-icon="store"></span></span>
+                <span class="feed-main"><strong>Pharmacie du Marché</strong><small>Ouagadougou · secteur 30</small></span>
+                <span class="feed-time">412</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico"><span data-icon="store"></span></span>
+                <span class="feed-main"><strong>Officine Ouaga 2000</strong><small>Ouagadougou · secteur 52</small></span>
+                <span class="feed-time">358</span>
+              </div>
+              <div class="feed-item">
+                <span class="feed-ico"><span data-icon="store"></span></span>
+                <span class="feed-main"><strong>Pharmacie de la Gare</strong><small>Bobo-Dioulasso · centre</small></span>
+                <span class="feed-time">296</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-foot"><a class="panel-link" href="pharmacies.html">Réseau des officines <span data-icon="arrow-right"></span></a></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Note de méthode -->
+    <div class="callout" style="margin-top:.8rem">
+      <span data-icon="help"></span>
+      <div>
+        <strong>Comment lire ces indicateurs</strong>
+        <p>Le taux d'authenticité ne mesure pas la qualité des médicaments : il mesure la part des codes qui correspondent à un lot actif, non expiré et non déjà utilisé. Un taux élevé peut coexister avec des lots contrefaits non déclarés.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>
